@@ -1,0 +1,976 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.siemens.icmol.imp</groupId>
+    <artifactId>imp</artifactId>
+    <version>0.30-SNAPSHOT</version>
+  </parent>
+  <artifactId>imp-integrationtest</artifactId>
+  <name>IMP Integration Tests</name>
+
+
+  <properties>
+    <jacoco.result>jacoco-integration.exec</jacoco.result>
+    <adminPort>4848</adminPort>
+  </properties>
+
+  <dependencies>
+    <!-- IMP modules -->
+    <dependency>
+      <groupId>com.siemens.icmol.imp</groupId>
+      <artifactId>imp-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.siemens.icmol.imp</groupId>
+      <artifactId>imp-endpoint</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>com.siemens.icmol.imp</groupId>
+      <artifactId>imp-process</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.siemens.icmol.imp</groupId>
+      <artifactId>imp-domain</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.siemens.icmol.imp</groupId>
+      <artifactId>imp-integration</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.subethamail</groupId>
+      <artifactId>subethasmtp-wiser</artifactId>
+      <scope>test</scope>
+      <type>jar</type>
+    </dependency>
+    <!-- Resteasy -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jaxrs</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jaxb-provider</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jackson-provider</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+      <artifactId>derby</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- REST Assured -->
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+
+          <!-- <redirectTestOutputToFile>true</redirectTestOutputToFile> -->
+          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+          <argLine>${jacoco.agent.argLine}</argLine>
+        </configuration>
+
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <propertyName>jacoco.agent.argLine</propertyName>
+          <!-- default: argLine -->
+
+          <destFile>${project.build.directory}/jacoco-integration.exec</destFile>
+          <!-- agent -->
+          <dataFile>${project.build.directory}/jacoco-integration.exec</dataFile>
+          <!-- report -->
+        </configuration>
+
+      </plugin>
+
+      <!-- put this last so that all other plugins will be executed before -->
+      <plugin>
+        <groupId>org.glassfish.maven.plugin</groupId>
+        <artifactId>maven-glassfish-plugin</artifactId>
+        <configuration>
+          <domain>
+            <name>imp-integ</name>
+            <!-- TODO ports -->
+            <httpPort>8081</httpPort>
+            <adminPort>4848</adminPort>
+            <jvmOptions>
+              <option>-DACTIVITI_INTEG=true</option>
+              <option>-Djava.security.auth.login.config=${glassfish.domain.dir}/login.conf</option>
+              <!-- cannot use ${project.build.directory} because path separators get corrupted -->
+              <option>
+                -javaagent:${com.sun.aas.installRoot}/lib/jacocoagent.jar=destfile=${com.sun.aas.instanceRoot}/${jacoco.result},output=file,address=*,includes=com.siemens.icmol.imp.*
+              </option>
+            </jvmOptions>
+            <properties>
+              <property>
+                <name>server-config.security-service.activate-default-principal-to-role-mapping</name>
+                <value>true</value>
+              </property>
+            </properties>
+            <auth>
+              <realm>
+                <name>imp-realm</name>
+                <className>com.siemens.icmol.imp.security.ImpRealm</className>
+                <properties>
+                  <property>
+                    <name>jaas-context</name>
+                    <value>imp-realm</value>
+                  </property>
+                  <property>
+                    <name>encoding</name>
+                    <value>Hex</value>
+                  </property>
+                  <property>
+                    <name>assign-groups</name>
+                    <value>Admin,Partner</value>
+                  </property>
+                  <property>
+                    <name>datasource-jndi</name>
+                    <value>jdbc/imp</value>
+                  </property>
+                  <property>
+                    <name>charset</name>
+                    <value>UTF-8</value>
+                  </property>
+                  <property>
+                    <name>user-validation-query</name>
+                    <value>SELECT PASSWORD, FAILEDLOGINATTEMPTS, LASTLOGINTIME from USER where USERNAME = ?</value>
+                  </property>
+                  <property>
+                    <name>user-group-query</name>
+                    <value>SELECT GRP from USER where USERNAME = ?</value>
+                  </property>
+                  <property>
+                    <name>failed-login-limit</name>
+                    <value>3</value>
+                  </property>
+                  <property>
+                    <name>update-failed-login-attempts</name>
+                    <value>UPDATE USER set FAILEDLOGINATTEMPTS = FAILEDLOGINATTEMPTS + 1, LASTLOGINTIME=now() where USERNAME = ?</value>
+                  </property>
+                  <property>
+                    <name>user-status-query</name>
+                    <value>SELECT p.STATUS from USER u, PARTNER p where u.USERNAME = ? and p.ID = u.PARTNER_ID and p.STATUS=1</value>
+                  </property>
+                  <property>
+                    <name>user-login-update-query</name>
+                    <value>UPDATE USER set FAILEDLOGINATTEMPTS = 0 ,LASTLOGINTIME=now() where USERNAME=?</value>
+                  </property>
+                  <property>
+                    <name>db-password</name>
+                    <value>IMP</value>
+                  </property>
+                  <property>
+                    <name>digest-algorithm</name>
+                    <value>SHA-256</value>
+                  </property>
+                  <property>
+                    <name>db-user</name>
+                    <value>IMP</value>
+                  </property>
+                </properties>
+              </realm>
+              <messageSecurityProvider>
+                <name>ImpSam</name>
+                <layer>HttpServlet</layer>
+                <type>server</type>
+                <className>com.siemens.icmol.imp.security.ImpSam</className>
+                <properties>
+                  <property>
+                    <name>realm-name</name>
+                    <value>imp-realm</value>
+                  </property>
+                  <property>
+                    <name>group-name</name>
+                    <value>Partner,Admin</value>
+                  </property>
+                </properties>
+              </messageSecurityProvider>
+            </auth>
+
+            <resources>
+              <jdbcDataSource>
+                <name>jdbc/imp</name>
+                <type>xaDataSource</type>
+                <poolName>MySqlPool</poolName>
+                <className>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</className>
+                <description>IMP Pool</description>
+                <allowNonComponentCallers>false</allowNonComponentCallers>
+                <validateConnections>true</validateConnections>
+                <validationMethod>metaData</validationMethod>
+                <properties>
+                  <property>
+                    <name>portNumber</name>
+                    <value>3306</value>
+                  </property>
+                  <property>
+                    <name>user</name>
+                    <value>IMP</value>
+                  </property>
+                  <property>
+                    <name>password</name>
+                    <value>IMP</value>
+                  </property>
+                  <property>
+                    <name>serverName</name>
+                    <value>localhost</value>
+                  </property>
+                  <property>
+                    <name>databaseName</name>
+                    <value>IMP_INTEG</value>
+                  </property>
+                </properties>
+              </jdbcDataSource>
+
+              <jdbcDataSource>
+                <name>jdbc/activiti</name>
+                <type>connectionPoolDataSource</type>
+                <poolName>ActivitiPool</poolName>
+                <className>com.mysql.jdbc.jdbc2.optional.MysqlDataSource</className>
+                <description>Activiti Pool</description>
+                <allowNonComponentCallers>true</allowNonComponentCallers>
+                <validateConnections>true</validateConnections>
+                <validationMethod>metaData</validationMethod>
+                <properties>
+                  <property>
+                    <name>portNumber</name>
+                    <value>3306</value>
+                  </property>
+                  <property>
+                    <name>user</name>
+                    <value>activiti</value>
+                  </property>
+                  <property>
+                    <name>password</name>
+                    <value>activiti</value>
+                  </property>
+                  <property>
+                    <name>serverName</name>
+                    <value>localhost</value>
+                  </property>
+                  <property>
+                    <name>databaseName</name>
+                    <value>activiti</value>
+                  </property>
+                </properties>
+              </jdbcDataSource>
+            </resources>
+          </domain>
+          <components>
+            <!-- TODO check if there is a better way to do this -->
+            <component>
+              <name>imp-web</name>
+              <artifact>${basedir}/../imp-web/target/imp-web-${project.version}.ear</artifact>
+            </component>
+            <component>
+              <name>camunda-web</name>
+              <artifact>${basedir}/../tools/camunda-webapp-glassfish-standalone-7.1.0-Final.war</artifact>
+            </component>
+          </components>
+        </configuration>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build 
+          itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <versionRange>[0.6.2.201302030002,)</versionRange>
+                    <goals>
+                      <goal>prepare-agent</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+
+  <profiles>
+    <!-- profile for starting / stopping GF -->
+    <profile>
+      <id>integ</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/AllIntegTests.*</include>
+              </includes>
+
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+
+              <includes>
+                <include>**/AllIntegTests.*</include>
+              </includes>
+
+            </configuration>
+            <executions>
+              <execution>
+                <id>agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>eviware</groupId>
+            <artifactId>maven-soapui-plugin</artifactId>
+            <version>4.5.1</version>
+            <configuration>
+              <projectFile>${basedir}/../testing/mocks/imp-web-soapui-project.xml</projectFile>
+              <projectProperties>
+                <value>pause.min=100</value>
+                <value>pause.max=500</value>
+              </projectProperties>
+              <outputFolder>${basedir}/target/soapui</outputFolder>
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>point-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>POINT MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>handyticket-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>HandyTicket MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>imrRoute-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>PersonalizedRouterServiceSoapBinding MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>parkopedia-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>Parkopedia MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>wms-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>WMS MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>wms-trafficinfo-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>WMS_TRAFFIC_INFO MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>routing-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>Routing MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>sharing-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>Sharing MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>bettertaxi-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>BetterTaxi MockService</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+              <execution>
+                <id>stratos-mock</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>mock</goal>
+                </goals>
+                <configuration>
+                  <mockService>Stratos Mockservice</mockService>
+                  <noBlock>true</noBlock>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>com.github.goldin</groupId>
+            <artifactId>copy-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-domain-config</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <resource>
+                    <targetPath>${glassfish.domain.dir}</targetPath>
+                    <directory>${basedir}/../config/glassfish</directory>
+                  </resource>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-config-files</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <targetPath>${glassfish.domain.dir}</targetPath>
+                      <file>${basedir}/../config/dev/imp-as.properties</file>
+                    </resource>
+                    <resource>
+                      <targetPath>${glassfish.domain.dir}</targetPath>
+                      <file>${basedir}/../config/dev/imp-integration.properties</file>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-jacocoagent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <targetPath>${glassfish.home}/glassfish/lib</targetPath>
+                      <file>${basedir}/../tools/jacocoagent.jar</file>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>copy-server-log</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <resource>
+                    <targetPath>${project.build.directory}/logs</targetPath>
+                    <directory>${glassfish.domain.dir}/imp-integ</directory>
+                    <includes>
+                      <include>logs/server.log</include>
+                      <include>config/domain.xml</include>
+                    </includes>
+                  </resource>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-mysql-driver-and-camunda-jars</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>mysql</groupId>
+                      <artifactId>mysql-connector-java</artifactId>
+                      <version>5.1.21</version>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <!-- Start Copy camunda engine dependencies -->
+                    <artifactItem>
+                      <groupId>org.mybatis</groupId>
+                      <artifactId>mybatis</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>joda-time</groupId>
+                      <artifactId>joda-time</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.camunda.bpm</groupId>
+                      <artifactId>camunda-engine</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.camunda.bpm.model</groupId>
+                      <artifactId>camunda-bpmn-model</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.camunda.bpm.model</groupId>
+                      <artifactId>camunda-xml-model</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>com.fasterxml.uuid</groupId>
+                      <artifactId>java-uuid-generator</artifactId>
+                      <version>3.1.0</version>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.apache.commons</groupId>
+                      <artifactId>commons-email</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>commons-logging</groupId>
+                      <artifactId>commons-logging</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.springframework</groupId>
+                      <artifactId>spring-beans</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>org.springframework</groupId>
+                      <artifactId>spring-core</artifactId>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <!-- End Copy camunda engine dependencies -->
+                  </artifactItems>
+                </configuration>
+              </execution>
+              <execution>
+                <id>copy-imp-realm</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <stripClassifier>true</stripClassifier>
+                  <stripVersion>true</stripVersion>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>com.siemens.icmol.imp</groupId>
+                      <artifactId>imp-realm</artifactId>
+                      <version>${project.version}</version>
+                      <outputDirectory>${glassfish.home}/glassfish/lib</outputDirectory>
+                    </artifactItem>
+                    <artifactItem>
+                      <groupId>com.siemens.icmol.imp</groupId>
+                      <artifactId>imp-rules</artifactId>
+                      <version>${project.version}</version>
+                      <outputDirectory>${glassfish.home}/glassfish/domains</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>sql-maven-plugin</artifactId>
+            <dependencies>
+              <!-- specify the dependent jdbc driver here -->
+              <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.java.version}</version>
+              </dependency>
+            </dependencies>
+
+            <configuration>
+              <!-- TODO read via variables -->
+              <driver>org.gjt.mm.mysql.Driver</driver>
+              <url>jdbc:mysql://localhost:3306</url>
+              <username>IMP</username>
+              <password>IMP</password>
+              <!-- You can comment out username/password configurations and have maven to look them up in your settings.xml 
+                using ${settingsKey} -->
+              <!-- The value of settingsKey should be a server id in ~/.m2/settings.xml -->
+              <settingsKey>mysql-db-dev</settingsKey>
+              <!--all executions are ignored if -Dmaven.test.skip=true -->
+              <skip>${maven.test.skip}</skip>
+            </configuration>
+
+            <executions>
+              <execution>
+                <id>create-drop-tables</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+                <configuration>
+                  <autocommit>true</autocommit>
+                  <printResultSet>true</printResultSet>
+                  <orderFile>ascending</orderFile>
+                  <fileset>
+                    <basedir>${basedir}/src/test/resources/sql</basedir>
+                    <includes>
+                      <include>drop-and-create-tables.sql</include>
+                    </includes>
+                  </fileset>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>com.googlecode</groupId>
+            <artifactId>maven-mongodb-plugin</artifactId>
+
+            <executions>
+              <execution>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>update</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+
+
+          <plugin>
+            <groupId>org.glassfish.maven.plugin</groupId>
+            <artifactId>maven-glassfish-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>create-imp-domain-and-deploy</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>create-domain</goal>
+                  <goal>deploy</goal>
+                  <goal>stop-domain</goal>
+                  <goal>start-domain</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>delete-imp-domain</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <!-- TODO open for discussion what should be done here -->
+                  <!-- <goal>undeploy</goal> -->
+                  <goal>stop-domain</goal>
+                  <!-- <goal>delete-domain</goal> -->
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>update-glassfish-threadpool-size</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>--host=localhost</argument>
+                    <argument>--port=${adminPort}</argument>
+                    <argument>--user=admin</argument>
+                    <argument>--passwordfile=${glassfish.passwordFile}</argument>
+                    <argument>set</argument>
+                    <argument>server.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=256</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>update-glassfish-threadpool-queue</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>--host=localhost</argument>
+                    <argument>--port=${adminPort}</argument>
+                    <argument>--user=admin</argument>
+                    <argument>--passwordfile=${glassfish.passwordFile}</argument>
+                    <argument>set</argument>
+                    <argument>server.thread-pools.thread-pool.http-thread-pool.max-queue-size=8192</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>update-glassfish-maxconnections</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <arguments>
+                    <argument>--host=localhost</argument>
+                    <argument>--port=${adminPort}</argument>
+                    <argument>--user=admin</argument>
+                    <argument>--passwordfile=${glassfish.passwordFile}</argument>
+                    <argument>set</argument>
+                    <argument>configs.config.server-config.network-config.protocols.protocol.http-listener-1.http.max-connections=500</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <executable>${glassfish.home}/glassfish/bin/${asadmin.cmd}</executable>
+            </configuration>
+          </plugin>
+
+          <!-- test data is written when jvm is shut down -> after "stop-domain" -->
+          <!-- has to be done via ant plugin since copy plugin gets executed before glassfish-plugin -->
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>post-integration-test</phase>
+                <configuration>
+                  <tasks>
+                    <copy todir="${project.build.directory}">
+                      <fileset dir="${glassfish.domain.dir}/imp-integ" includes="${jacoco.result}" />
+                    </copy>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+
+    <profile>
+      <id>smoketest</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/AllSmokeTests.*</include>
+              </includes>
+
+            </configuration>
+
+            <executions>
+              <execution>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <configuration>
+
+              <includes>
+                <include>**/AllSmokeTests.*</include>
+              </includes>
+
+            </configuration>
+            <executions>
+              <execution>
+                <id>agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+
+
+          <plugin>
+            <groupId>com.github.goldin</groupId>
+            <artifactId>copy-maven-plugin</artifactId>
+            <executions>
+
+              <execution>
+                <id>copy-jacocoagent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <resources>
+                    <resource>
+                      <targetPath>${glassfish.home}/glassfish/lib</targetPath>
+                      <file>${basedir}/../tools/jacocoagent.jar</file>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+
+
+            </executions>
+          </plugin>
+
+
+
+
+          <!-- test data is written when jvm is shut down -> after "stop-domain" -->
+          <!-- has to be done via ant plugin since copy plugin gets executed before glassfish-plugin -->
+          <!-- <plugin> <artifactId>maven-antrun-plugin</artifactId> <executions> <execution> <phase>post-integration-test</phase> 
+            <configuration> <tasks> <copy todir="${project.build.directory}"> <fileset dir="${glassfish.domain.dir}/imp-integ" includes="${jacoco.result}" 
+            /> </copy> </tasks> </configuration> <goals> <goal>run</goal> </goals> </execution> </executions> </plugin> -->
+
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
