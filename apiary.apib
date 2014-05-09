@@ -2,46 +2,227 @@ FORMAT: 1A
 HOST: http://www.google.com
 
 # IMP North. Implemented & Dredd testable
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+This is a test API which can be automatically tested with the Dredd Tool, imp-integ domain and mock service provider on CI machine.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Car Sharing
+This is a group of car sharing rest resources
 
-## Notes Collection [/notes]
-### List all Notes [GET]
-+ Response 200 (application/json)
+## Car Sharing Locations Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}] 
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+This collection contains list of available car sharing locations, both free-floating and/or station-based specified by the query parameters, 
+with basic information and a URI to acquire more details.
+In case of station-based cars, only the URI of the Car Sharing station is returned; 
+in case of free-floating cars, the URI to the car itself.
 
-### Create a Note [POST]
-+ Request (application/json)
+The data structure contains the following attributes:
 
-        { "title": "Buy cheese and bread for breakfast." }
+attribute | json data type | comments
+--- | --- | ---
+actions | Array | 
+id | Number | 
+description | String | License ID or approximate location
+type | String | 
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | 
+operator | String | 
 
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
+### Getting all car sharing locations [GET]
 
 + Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+    
+        
+        
 + Response 200 (application/json)
 
-    + Header
+        {
+            "metaData": [
+                {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
+                  "messages": []
+                }
+              ],
+              "resources": [
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/889/Process?action=book"
+                    }
+                  ],
+                  "id": 889,
+                  "description": "Buchholzer Straße",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/889",
+                  "location": {
+                    "latitude": 52.5450682735031,
+                    "longitude": 13.414923548698425,
+                    "system": "WGS_84"
+                  },
+                  "provider": "FlinksterDB",
+                  "operator": "FlinksterDB"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/890/Process?action=book"
+                    }
+                  ],
+                  "id": 890,
+                  "description": "U-Bahnhof Warschauer Straße",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/890",
+                  "location": {
+                    "latitude": 52.505210141223934,
+                    "longitude": 13.450025618076324,
+                    "system": "WGS_84"
+                  },
+                  "provider": "FlinksterDB",
+                  "operator": "FlinksterDB"
+                }
+            ]
+        }        
 
-            X-My-Header: The Value
+
+
+## Free-floating Cars Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
+
+### Getting free-floating Cars [GET] 
+Get list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
+The optional filter `f_cars` can be used to get cars with a specific `fuelType`
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` radius value. Has example value.
+    + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
+    
+        
+        
++ Response 200 (application/json)
+
+        {
+          "metaData": [
+            {
+              "serviceAlias": "flinkster",
+              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "car2Go",
+              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "messages": []
+            }
+          ],
+          "resources": [
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/CarSharing/Cars/900/Process?action=book"
+                }
+              ],
+              "id": 900,
+              "description": "B-GO2210",
+              "type": "Cars",
+              "uri": "Resources/CarSharing/Cars/900",
+              "location": {
+                "latitude": 52.52739,
+                "longitude": 13.38293,
+                "system": "WGS_84"
+              },
+              "provider": "Car2Go_Berlin",
+              "operator": "Car2Go_Berlin",
+              "model": "smart fortwo",
+              "address": null,
+              "licenseId": "B-GO2210",
+              "category": null,
+              "fuelType": "ELECTRICITY",
+              "fuelLevel": null,
+              "imageLink": null
+            }
+          ]
+        }
+        
+## Car [/imp-endpoint/api/V1/Resources/CarSharing/Cars/{carId}]
+
+The car resource has the following attributes: 
+
+attribute | json data type | comments
+--- | --- | ---
+actions | Array | 
+id | Number | 
+description | String | License ID or approximate location
+type | String | 
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | 
+operator | String | 
+address | String | Street, city, etc.
+licenseId | String | License ID
+category | String | ENUM{"Fullsize", "Compact", "Smallsize", ... }
+fuelType | String | electric vehicle ("ELECTRICITY") or petrol car ("PETROL")
+imageLink | Link | link to the car image
+... | ... | ...
+
+
+The states *id* and *created_at* are assigned by the Gist Fox API at the moment of creation. 
+
++ Parameters
+    + carId (string, `900`) ... String `carId` as retrieved through *[/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}]* .
+
++ Model (application/hal+json)
+    HAL+JSON representation of Gist Resource. In addition to representing its state in the JSON form it offers affordances in the form of the HTTP Link header and HAL links.
 
     + Body
+    
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/CarSharing/Cars/963/Process?action=book"
+                }
+              ],
+              "id": 963,
+              "description": "B-GO2210",
+              "type": "Cars",
+              "uri": "Resources/CarSharing/Cars/963",
+              "location": {
+                "latitude": 52.52739,
+                "longitude": 13.38293,
+                "system": "WGS_84"
+              },
+              "provider": "Car2Go_Berlin",
+              "operator": "Car2Go_Berlin",
+              "model": "smart fortwo",
+              "address": null,
+              "licenseId": "B-GO2210",
+              "category": null,
+              "fuelType": "ELECTRICITY",
+              "fuelLevel": null,
+              "imageLink": null
+            }
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+ 
 
-### Remove a Note [DELETE]
-+ Response 204
+### Getting a specific car [GET] 
+Get a specific car
+       
+        
++ Response 200 (application/json)
+
+    [Car][]        
