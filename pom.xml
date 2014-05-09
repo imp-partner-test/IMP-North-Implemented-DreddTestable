@@ -971,6 +971,24 @@
         </plugins>
       </build>
     </profile>
+    
+    <profile>
+      <id>apiary</id>
+      <build>
+        <plugins>
+          <plugin>
+              <groupId>eviware</groupId>
+              <artifactId>maven-soapui-plugin</artifactId>
+              <version>4.5.1</version>
+              <configuration>
+                <projectFile>/data/jenkins/jobs/IMP_Integration/workspace/testing/mocks/imp-web-soapui-project.xml</projectFile>
+                <outputFolder>${basedir}/target/soapui</outputFolder>
+              </configuration>
+          </plugin>
+        </plugins>
+      </build> 
+    <profile>
+    
   </profiles>
 
 </project>
