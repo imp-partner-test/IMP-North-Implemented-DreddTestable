@@ -96,90 +96,62 @@ operator | String |
 
 
 
-# Group Some Other Group
-
-## Bla Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Bla] 
-
-This collection contains list of available car sharing locations, both free-floating and/or station-based specified by the query parameters, 
-with basic information and a URI to acquire more details.
-In case of station-based cars, only the URI of the Car Sharing station is returned; 
-in case of free-floating cars, the URI to the car itself.
-
-The data structure contains the following attributes:
-
-attribute | json data type | comments
---- | --- | ---
-actions | Array | 
-id | Number | 
-description | String | License ID or approximate location
-type | String | 
-uri | URI | URI
-location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
-provider | String | 
-operator | String | 
-
-### Getting all car sharing locations [GET]
+### Getting free-floating Cars [GET] 
 @testable
+Get list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
+The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` radius value. Has example value.
+    + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
+    
+        
         
 + Response 200 (application/json)
 
         {
-            "metaData": [
+          "metaData": [
+            {
+              "serviceAlias": "flinkster",
+              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "car2Go",
+              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "messages": []
+            }
+          ],
+          "resources": [
+            {
+              "actions": [
                 {
-                  "serviceAlias": "flinkster",
-                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
-                  "messages": []
-                },
-                {
-                  "serviceAlias": "car2Go",
-                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
-                  "messages": []
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/CarSharing/Cars/900/Process?action=book"
                 }
               ],
-              "resources": [
-                {
-                  "actions": [
-                    {
-                      "name": "book",
-                      "method": "POST",
-                      "uri": "Resources/CarSharing/Stations/889/Process?action=book"
-                    }
-                  ],
-                  "id": 889,
-                  "description": "Buchholzer Straﬂe",
-                  "type": "Stations",
-                  "uri": "Resources/CarSharing/Stations/889",
-                  "location": {
-                    "latitude": 52.5450682735031,
-                    "longitude": 13.414923548698425,
-                    "system": "WGS_84"
-                  },
-                  "provider": "FlinksterDB",
-                  "operator": "FlinksterDB"
-                },
-                {
-                  "actions": [
-                    {
-                      "name": "book",
-                      "method": "POST",
-                      "uri": "Resources/CarSharing/Stations/890/Process?action=book"
-                    }
-                  ],
-                  "id": 890,
-                  "description": "U-Bahnhof Warschauer Straﬂe",
-                  "type": "Stations",
-                  "uri": "Resources/CarSharing/Stations/890",
-                  "location": {
-                    "latitude": 52.505210141223934,
-                    "longitude": 13.450025618076324,
-                    "system": "WGS_84"
-                  },
-                  "provider": "FlinksterDB",
-                  "operator": "FlinksterDB"
-                }
-            ]
-        }        
-
-
-
+              "id": 900,
+              "description": "B-GO2210",
+              "type": "Cars",
+              "uri": "Resources/CarSharing/Cars/900",
+              "location": {
+                "latitude": 52.52739,
+                "longitude": 13.38293,
+                "system": "WGS_84"
+              },
+              "provider": "Car2Go_Berlin",
+              "operator": "Car2Go_Berlin",
+              "model": "smart fortwo",
+              "address": null,
+              "licenseId": "B-GO2210",
+              "category": null,
+              "fuelType": "ELECTRICITY",
+              "fuelLevel": null,
+              "imageLink": null
+            }
+          ]
+        }
+        
