@@ -1,11 +1,9 @@
 FORMAT: 1A
-HOST: http://www.google.com
+HOST: https://as.production.imp.mobilitaetsdienste.de:8443/imp-endpoint
 
 # IMP North. Implemented & Dredd testable
-This is a test API which can be automatically tested with the Dredd Tool, imp-integ domain and mock service provider on CI machine.
 
 # Group Car Sharing
-This is a group of car sharing rest resources
 
 ## Car Sharing Locations Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}] 
 
@@ -62,7 +60,7 @@ operator | String |
                     }
                   ],
                   "id": 889,
-                  "description": "Buchholzer Stra√üe",
+                  "description": "Buchholzer Straﬂe",
                   "type": "Stations",
                   "uri": "Resources/CarSharing/Stations/889",
                   "location": {
@@ -82,7 +80,7 @@ operator | String |
                     }
                   ],
                   "id": 890,
-                  "description": "U-Bahnhof Warschauer Stra√üe",
+                  "description": "U-Bahnhof Warschauer Straﬂe",
                   "type": "Stations",
                   "uri": "Resources/CarSharing/Stations/890",
                   "location": {
@@ -98,69 +96,7 @@ operator | String |
 
 
 
-## Free-floating Cars Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
-
-### Getting free-floating Cars [GET] 
-Get list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
-
-The optional filter `f_cars` can be used to get cars with a specific `fuelType`
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` radius value. Has example value.
-    + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
-    
-        
-        
-+ Response 200 (application/json)
-
-        {
-          "metaData": [
-            {
-              "serviceAlias": "flinkster",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
-              "messages": []
-            },
-            {
-              "serviceAlias": "car2Go",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
-              "messages": []
-            }
-          ],
-          "resources": [
-            {
-              "actions": [
-                {
-                  "name": "book",
-                  "method": "POST",
-                  "uri": "Resources/CarSharing/Cars/900/Process?action=book"
-                }
-              ],
-              "id": 900,
-              "description": "B-GO2210",
-              "type": "Cars",
-              "uri": "Resources/CarSharing/Cars/900",
-              "location": {
-                "latitude": 52.52739,
-                "longitude": 13.38293,
-                "system": "WGS_84"
-              },
-              "provider": "Car2Go_Berlin",
-              "operator": "Car2Go_Berlin",
-              "model": "smart fortwo",
-              "address": null,
-              "licenseId": "B-GO2210",
-              "category": null,
-              "fuelType": "ELECTRICITY",
-              "fuelLevel": null,
-              "imageLink": null
-            }
-          ]
-        }
-        
 # Group Some Other Group
-This is a group of car sharing rest resources
 
 ## Bla Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Bla] 
 
@@ -211,7 +147,7 @@ operator | String |
                     }
                   ],
                   "id": 889,
-                  "description": "Buchholzer Stra√üe",
+                  "description": "Buchholzer Straﬂe",
                   "type": "Stations",
                   "uri": "Resources/CarSharing/Stations/889",
                   "location": {
@@ -231,7 +167,7 @@ operator | String |
                     }
                   ],
                   "id": 890,
-                  "description": "U-Bahnhof Warschauer Stra√üe",
+                  "description": "U-Bahnhof Warschauer Straﬂe",
                   "type": "Stations",
                   "uri": "Resources/CarSharing/Stations/890",
                   "location": {
@@ -247,5 +183,3 @@ operator | String |
 
 
 
-
-# Group Dummy. Please do not delete.
