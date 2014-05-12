@@ -28,6 +28,7 @@ provider | String |
 operator | String | 
 
 ### Getting all car sharing locations [GET]
+@testable
 
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
@@ -100,8 +101,8 @@ operator | String |
 ## Free-floating Cars Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 ### Getting free-floating Cars [GET] 
-@testable
 Get list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
+
 The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
 + Parameters
