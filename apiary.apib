@@ -100,6 +100,7 @@ operator | String |
 ## Free-floating Cars Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 ### Getting free-floating Cars [GET] 
+@testable
 Get list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
 The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
@@ -157,3 +158,93 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
           ]
         }
         
+# Group Some Other Group
+This is a group of car sharing rest resources
+
+## Bla Collection. Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Bla] 
+
+This collection contains list of available car sharing locations, both free-floating and/or station-based specified by the query parameters, 
+with basic information and a URI to acquire more details.
+In case of station-based cars, only the URI of the Car Sharing station is returned; 
+in case of free-floating cars, the URI to the car itself.
+
+The data structure contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+actions | Array | 
+id | Number | 
+description | String | License ID or approximate location
+type | String | 
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | 
+operator | String | 
+
+### Getting all car sharing locations [GET]
+@testable
+
+        
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-05-05T13:38:25+0200",
+                  "messages": []
+                }
+              ],
+              "resources": [
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/889/Process?action=book"
+                    }
+                  ],
+                  "id": 889,
+                  "description": "Buchholzer Straße",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/889",
+                  "location": {
+                    "latitude": 52.5450682735031,
+                    "longitude": 13.414923548698425,
+                    "system": "WGS_84"
+                  },
+                  "provider": "FlinksterDB",
+                  "operator": "FlinksterDB"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/890/Process?action=book"
+                    }
+                  ],
+                  "id": 890,
+                  "description": "U-Bahnhof Warschauer Straße",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/890",
+                  "location": {
+                    "latitude": 52.505210141223934,
+                    "longitude": 13.450025618076324,
+                    "system": "WGS_84"
+                  },
+                  "provider": "FlinksterDB",
+                  "operator": "FlinksterDB"
+                }
+            ]
+        }        
+
+
+
+
+# Group Dummy. Please do not delete.
