@@ -121,12 +121,22 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
           "metaData": [
             {
               "serviceAlias": "flinkster",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "lastUpdateTime": "2014-06-25T09:38:14+0200",
               "messages": []
             },
             {
               "serviceAlias": "car2Go",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "lastUpdateTime": "2014-06-25T09:38:00+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "driveNow",
+              "lastUpdateTime": "2014-06-25T09:38:06+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "citeeCar",
+              "lastUpdateTime": "2014-06-25T09:38:17+0200",
               "messages": []
             }
           ],
@@ -136,23 +146,80 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
                 {
                   "name": "book",
                   "method": "POST",
-                  "uri": "Resources/CarSharing/Cars/900/Process?action=book"
+                  "uri": "Resources/CarSharing/Cars/7533/Process?action=book"
                 }
               ],
-              "id": 900,
+              "id": 7533,
               "description": "B-GO2210",
-              "type": "Cars",
-              "uri": "Resources/CarSharing/Cars/900",
+              "type": "CarSharingCar",
+              "uri": "Resources/CarSharing/Cars/7533",
               "location": {
                 "latitude": 52.52739,
                 "longitude": 13.38293,
                 "system": "WGS_84"
               },
-              "provider": "Car2Go_Berlin",
+              "provider": "car2Go",
+              "availability": null,
               "operator": "Car2Go_Berlin",
               "model": "smart fortwo",
               "address": null,
               "licenseId": "B-GO2210",
+              "category": null,
+              "fuelType": "ELECTRICITY",
+              "fuelLevel": null,
+              "imageLink": null
+            },
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/CarSharing/Cars/7534/Process?action=book"
+                }
+              ],
+              "id": 7534,
+              "description": "Roman",
+              "type": "CarSharingCar",
+              "uri": "Resources/CarSharing/Cars/7534",
+              "location": {
+                "latitude": 52.526109,
+                "longitude": 13.379043,
+                "system": "WGS_84"
+              },
+              "provider": "driveNow",
+              "availability": 100,
+              "operator": "DriveNow",
+              "model": "BMW ActiveE ",
+              "address": null,
+              "licenseId": "M-EV1149",
+              "category": null,
+              "fuelType": "ELECTRICITY",
+              "fuelLevel": null,
+              "imageLink": null
+            },
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/CarSharing/Cars/7535/Process?action=book"
+                }
+              ],
+              "id": 7535,
+              "description": "Elly",
+              "type": "CarSharingCar",
+              "uri": "Resources/CarSharing/Cars/7535",
+              "location": {
+                "latitude": 52.513221,
+                "longitude": 13.396459,
+                "system": "WGS_84"
+              },
+              "provider": "driveNow",
+              "availability": 100,
+              "operator": "DriveNow",
+              "model": "BMW ActiveE ",
+              "address": null,
+              "licenseId": "M-EV4113",
               "category": null,
               "fuelType": "ELECTRICITY",
               "fuelLevel": null,
