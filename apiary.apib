@@ -110,7 +110,7 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
     + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `7000`) ... String `radius` radius value. Has example value.
+    + radius (string, `3000`) ... String `radius` radius value. Has example value.
     + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
     
         
@@ -119,55 +119,79 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
         {
           "metaData": [
-            {
-              "serviceAlias": "flinkster",
-              "lastUpdateTime": "2014-06-25T09:38:14+0200",
-              "messages": []
-            },
-            {
-              "serviceAlias": "car2Go",
-              "lastUpdateTime": "2014-06-25T09:38:00+0200",
-              "messages": []
-            },
-            {
-              "serviceAlias": "driveNow",
-              "lastUpdateTime": "2014-06-25T09:38:06+0200",
-              "messages": []
-            },
-            {
-              "serviceAlias": "citeeCar",
-              "lastUpdateTime": "2014-06-25T09:38:17+0200",
-              "messages": []
-            }
+              {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-07-02T14:56:08+0200",
+                  "messages": []
+              },
+              {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-07-02T15:16:40+0200",
+                  "messages": []
+              },
+              {
+                  "serviceAlias": "citeeCar",
+                  "lastUpdateTime": "2014-07-02T14:41:34+0200",
+                  "messages": []
+              }
           ],
           "resources": [
-            {
-              "actions": [
-                {
-                  "name": "book",
-                  "method": "POST",
-                  "uri": "Resources/CarSharing/Cars/7533/Process?action=book"
-                }
-              ],
-              "id": 7533,
-              "description": "B-GO2210",
-              "type": "CarSharingCar",
-              "uri": "Resources/CarSharing/Cars/7533",
-              "location": {
-                "latitude": 52.52739,
-                "longitude": 13.38293,
-                "system": "WGS_84"
+              {
+                  "actions": [
+                      {
+                          "name": "book",
+                          "method": "POST",
+                          "uri": "Resources/CarSharing/Cars/55113/Process?action=book"
+                      }
+                  ],
+                  "id": 55113,
+                  "description": "B-GO4002",
+                  "type": "CarSharingCar",
+                  "uri": "Resources/CarSharing/Cars/55113",
+                  "location": {
+                      "latitude": 52.50698,
+                      "longitude": 13.37455,
+                      "system": "WGS_84"
+                  },
+                  "provider": "car2Go",
+                  "availability": 100,
+                  "operator": "Car2Go_Berlin",
+                  "model": "smart fortwo",
+                  "address": null,
+                  "licenseId": "B-GO4002",
+                  "category": null,
+                  "fuelType": "ELECTRICITY",
+                  "fuelLevel": null,
+                  "imageLink": null
               },
-              "provider": "car2Go",
-              "operator": "Car2Go_Berlin",
-              "model": "smart fortwo",
-              "address": null,
-              "licenseId": "B-GO2210",
-              "category": null,
-              "fuelType": "ELECTRICITY",
-              "fuelLevel": null,
-              "imageLink": null
-            }
+              {
+                  "actions": [
+                      {
+                          "name": "book",
+                          "method": "POST",
+                          "uri": "Resources/CarSharing/Cars/53962/Process?action=book"
+                      }
+                  ],
+                  "id": 53962,
+                  "description": "B-GO4015",
+                  "type": "CarSharingCar",
+                  "uri": "Resources/CarSharing/Cars/53962",
+                  "location": {
+                      "latitude": 52.51921,
+                      "longitude": 13.41275,
+                      "system": "WGS_84"
+                  },
+                  "provider": "car2Go",
+                  "availability": 100,
+                  "operator": "Car2Go_Berlin",
+                  "model": "smart fortwo",
+                  "address": null,
+                  "licenseId": "B-GO4015",
+                  "category": null,
+                  "fuelType": "ELECTRICITY",
+                  "fuelLevel": null,
+                  "imageLink": null
+              }
           ]
-        }
+      }
         
