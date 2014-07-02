@@ -110,7 +110,7 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
     + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `7000`) ... String `radius` radius value. Has example value.
+    + radius (string, `3000`) ... String `radius` radius value. Has example value.
     + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
     
         
@@ -121,12 +121,22 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
           "metaData": [
             {
               "serviceAlias": "flinkster",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "lastUpdateTime": "2014-06-25T09:38:14+0200",
               "messages": []
             },
             {
               "serviceAlias": "car2Go",
-              "lastUpdateTime": "2014-05-05T14:39:20+0200",
+              "lastUpdateTime": "2014-06-25T09:38:00+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "driveNow",
+              "lastUpdateTime": "2014-06-25T09:38:06+0200",
+              "messages": []
+            },
+            {
+              "serviceAlias": "citeeCar",
+              "lastUpdateTime": "2014-06-25T09:38:17+0200",
               "messages": []
             }
           ],
@@ -136,19 +146,19 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
                 {
                   "name": "book",
                   "method": "POST",
-                  "uri": "Resources/CarSharing/Cars/900/Process?action=book"
+                  "uri": "Resources/CarSharing/Cars/7533/Process?action=book"
                 }
               ],
-              "id": 900,
+              "id": 7533,
               "description": "B-GO2210",
-              "type": "Cars",
-              "uri": "Resources/CarSharing/Cars/900",
+              "type": "CarSharingCar",
+              "uri": "Resources/CarSharing/Cars/7533",
               "location": {
                 "latitude": 52.52739,
                 "longitude": 13.38293,
                 "system": "WGS_84"
               },
-              "provider": "Car2Go_Berlin",
+              "provider": "car2Go",
               "operator": "Car2Go_Berlin",
               "model": "smart fortwo",
               "address": null,
