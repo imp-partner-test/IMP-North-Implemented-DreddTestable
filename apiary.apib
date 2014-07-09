@@ -47,10 +47,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
 
 + Response 200 (application/json)
-
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT  
     
     + Body
     
@@ -174,10 +170,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
         
         
 + Response 200 (application/json)
-
-    + Headers
-    
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT  
 
     + Body
     
@@ -312,10 +304,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
         
 + Response 200 (application/json)
-
-    + Headers
-    
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
             
     + Body
     
@@ -417,7 +405,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 # Group EV Charging Station
 This is a group of all EV Charging related rest resources    
     
-## List of Cars at a specific Station with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
+## List of EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
 This collection contains a list of all electric vehicle (EV) charging stations specified by query parameters (and body), 
 together with geo location, name, and a URI to acquire more details.
 
@@ -459,93 +447,63 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
         
 + Response 200 (application/json)
-
-    + Headers
-
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT  
     
     + Body  
     
             {
-            "metaData": [
-                {
-                    "serviceAlias": "vattenfall",
-                    "lastUpdateTime": "2014-07-09T14:06:39+0200",
-                    "messages": []
-                },
-                {
-                    "serviceAlias": "hubject",
-                    "lastUpdateTime": "2014-07-09T13:07:07+0200",
-                    "messages": []
-                }
-            ],
-            "resources": [
-                {
-                    "actions": [],
-                    "id": 238909,
-                    "description": "Conti",
-                    "type": "EVChargingStation",
-                    "uri": "Resources/EVCharging/Stations/238909",
-                    "location": {
-                        "latitude": 52.51474,
-                        "longitude": 13.38639,
-                        "system": "WGS_84"
+                "metaData": [
+                    {
+                        "serviceAlias": "vattenfall",
+                        "lastUpdateTime": "2014-07-09T14:06:39+0200",
+                        "messages": []
                     },
-                    "provider": "vattenfall",
-                    "availability": 0,
-                    "operator": "Vattenfall",
-                    "modFlag": "Relocated",
-                    "address": {
-                        "citycode": "10117",
-                        "city": "Berlin",
-                        "street": "Glinkastr.",
-                        "houseno": "38",
-                        "district": null,
-                        "region": null,
-                        "country": null
-                    },
-                    "plugTypes": [
-                        "Type2Outlet",
-                        "TypeFSchuko"
-                    ],
-                    "power": {
-                        "unit": "KiloWatt",
-                        "value": 11040
+                    {
+                        "serviceAlias": "hubject",
+                        "lastUpdateTime": "2014-07-09T13:07:07+0200",
+                        "messages": []
                     }
-                },
-                {
-                    "actions": [],
-                    "id": 238936,
-                    "description": "Charging Station RWE Effizienz",
-                    "type": "EVChargingStation",
-                    "uri": "Resources/EVCharging/Stations/238936",
-                    "location": {
-                        "latitude": 52.519231,
-                        "longitude": 13.390489,
-                        "system": "WGS_84"
-                    },
-                    "provider": "hubject",
-                    "availability": 0,
-                    "operator": "Hubject",
-                    "modFlag": "Modified",
-                    "address": {
-                        "citycode": "10117",
-                        "city": "Berlin",
-                        "street": "Planckstr.",
-                        "houseno": "4",
-                        "district": null,
-                        "region": "11",
-                        "country": "DE"
-                    },
-                    "plugTypes": [
-                        "Type2Outlet"
-                    ],
-                    "power": null
-                }
-            ]
+                ],
+                "resources": [
+                    {
+                        "actions": [],
+                        "id": 238909,
+                        "description": "Conti",
+                        "type": "EVChargingStation",
+                        "uri": "Resources/EVCharging/Stations/238909",
+                        "location": {
+                            "latitude": 52.51474,
+                            "longitude": 13.38639,
+                            "system": "WGS_84"
+                        },
+                        "provider": "vattenfall",
+                        "availability": 0,
+                        "operator": "Vattenfall",
+                        "modFlag": "Relocated",
+                        "address": {
+                            "citycode": "10117",
+                            "city": "Berlin",
+                            "street": "Glinkastr.",
+                            "houseno": "38",
+                            "district": null,
+                            "region": null,
+                            "country": null
+                        },
+                        "plugTypes": [
+                            "Type2Outlet",
+                            "TypeFSchuko"
+                        ],
+                        "power": {
+                            "unit": "KiloWatt",
+                            "value": 11040
+                        }
+                    }
+                ]
             }
-            
+  
+        
+  
 # Group Traffic Info Level-of-Service. WMS
+This is a group of all traffic info (WMS) related rest resources
 
 ## WMS PNG file for road traffic (Level of Service). [/imp-endpoint/api/V1/Info/TrafficInfo]
 
