@@ -13,7 +13,13 @@ This collection contains list of available car sharing locations specified by th
 with basic information and a URI to acquire more details.
 In case of station-based cars, only the URI of the Car Sharing station is returned; in case of free-floating cars, the URI to the car itself.
 
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
 response attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources
 --- | --- | ---
 actions | Array | 
 id | Number | 
@@ -24,10 +30,10 @@ location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "
 provider | String | 
 availability | Double | Availability in percentage
 operator | String | 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
 
 ### Getting all car sharing locations [GET]
 @testable
-
 
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
@@ -37,21 +43,32 @@ operator | String |
 
 + Response 200 (application/json)
 
-        {
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT  
+    
+    + Body
+    
+            {
             "metaData": [
                 {
-                    "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-07-08T10:56:08+0200",
+                    "serviceAlias": "driveNow",
+                    "lastUpdateTime": "2014-07-09T12:36:24+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-07-08T10:51:25+0200",
+                    "lastUpdateTime": "2014-07-09T12:36:38+0200",
+                    "messages": []
+                },
+                {
+                    "serviceAlias": "flinkster",
+                    "lastUpdateTime": "2014-07-09T12:36:46+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "citeeCar",
-                    "lastUpdateTime": "2014-07-08T10:56:11+0200",
+                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
                     "messages": []
                 }
             ],
@@ -61,75 +78,61 @@ operator | String |
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/CarSharing/Stations/203870/Process?action=book"
+                            "uri": "Resources/CarSharing/Cars/235787/Process?action=book"
                         }
                     ],
-                    "id": 203870,
-                    "description": "Caroline-Michaelis-Straße",
-                    "type": "Stations",
-                    "uri": "Resources/CarSharing/Stations/203870",
-                    "location": {
-                        "latitude": 52.533559809882156,
-                        "longitude": 13.382519781589508,
-                        "system": "WGS_84"
-                    },
-                    "provider": "flinkster",
-                    "availability": 100,
-                    "operator": "FlinksterDB"
-                },
-                {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/CarSharing/Stations/203873/Process?action=book"
-                        }
-                    ],
-                    "id": 203873,
-                    "description": "Klosterstraße",
-                    "type": "Stations",
-                    "uri": "Resources/CarSharing/Stations/203873",
-                    "location": {
-                        "latitude": 52.517675064586484,
-                        "longitude": 13.412365379013067,
-                        "system": "WGS_84"
-                    },
-                    "provider": "flinkster",
-                    "availability": 100,
-                    "operator": "FlinksterDB"
-                },
-                {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/CarSharing/Cars/203868/Process?action=book"
-                        }
-                    ],
-                    "id": 203868,
-                    "description": "B-GO4012",
+                    "id": 235787,
+                    "description": "Philbert",
                     "type": "Cars",
-                    "uri": "Resources/CarSharing/Cars/203868",
+                    "uri": "Resources/CarSharing/Cars/235787",
                     "location": {
-                        "latitude": 52.52244,
-                        "longitude": 13.40559,
+                        "latitude": 52.520018,
+                        "longitude": 13.390876,
                         "system": "WGS_84"
                     },
-                    "provider": "car2Go",
+                    "provider": "driveNow",
                     "availability": 100,
-                    "operator": "Car2Go_Berlin"
+                    "operator": "DriveNow",
+                    "modFlag": "Relocated"
+                },
+                {
+                    "actions": [
+                        {
+                            "name": "book",
+                            "method": "POST",
+                            "uri": "Resources/CarSharing/Cars/235788/Process?action=book"
+                        }
+                    ],
+                    "id": 235788,
+                    "description": "Chico",
+                    "type": "Cars",
+                    "uri": "Resources/CarSharing/Cars/235788",
+                    "location": {
+                        "latitude": 52.513842,
+                        "longitude": 13.385001,
+                        "system": "WGS_84"
+                    },
+                    "provider": "driveNow",
+                    "availability": 100,
+                    "operator": "DriveNow",
+                    "modFlag": "Deleted"
                 }
-            ]
-        }        
+                ]
+            }        
 
 
 ## List of free-floating Cars with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 This collection contains a list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
 The optional filter `f_cars` can be used to get cars with a specific `fuelType`
-Request Headers: If-Modified-Since - [Optional] Request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT (TODO)
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
 response attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources
 --- | --- | ---
 actions | Array | 
 id | Number | car id
@@ -147,6 +150,7 @@ category | String | ENUM{"Fullsize", "Compact", "Smallsize", ... }
 fuelType | String | electric vehicle ("ELECTRICITY") or petrol car ("PETROL")
 fuelLevel | Double | Fuel level in percentage
 imageLink | Link | link to the car image
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
 
 ### Getting free-floating Cars [GET] 
 @testable
@@ -161,21 +165,32 @@ imageLink | Link | link to the car image
         
 + Response 200 (application/json)
 
-        {
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT  
+
+    + Body
+    
+            {
             "metaData": [
                 {
-                    "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-07-08T11:11:21+0200",
+                    "serviceAlias": "driveNow",
+                    "lastUpdateTime": "2014-07-09T12:36:24+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-07-08T11:11:36+0200",
+                    "lastUpdateTime": "2014-07-09T12:41:23+0200",
+                    "messages": []
+                },
+                {
+                    "serviceAlias": "flinkster",
+                    "lastUpdateTime": "2014-07-09T12:41:25+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "citeeCar",
-                    "lastUpdateTime": "2014-07-08T10:56:11+0200",
+                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
                     "messages": []
                 }
             ],
@@ -185,26 +200,27 @@ imageLink | Link | link to the car image
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/CarSharing/Cars/203868/Process?action=book"
+                            "uri": "Resources/CarSharing/Cars/235787/Process?action=book"
                         }
                     ],
-                    "id": 203868,
-                    "description": "B-GO4012",
+                    "id": 235787,
+                    "description": "Philbert",
                     "type": "CarSharingCar",
-                    "uri": "Resources/CarSharing/Cars/203868",
+                    "uri": "Resources/CarSharing/Cars/235787",
                     "location": {
-                        "latitude": 52.52244,
-                        "longitude": 13.40559,
+                        "latitude": 52.520018,
+                        "longitude": 13.390876,
                         "system": "WGS_84"
                     },
-                    "provider": "car2Go",
+                    "provider": "driveNow",
                     "availability": 100,
-                    "operator": "Car2Go_Berlin",
-                    "model": "smart fortwo",
+                    "operator": "DriveNow",
+                    "modFlag": "Relocated",
+                    "model": "MINI Cabrio",
                     "address": null,
-                    "licenseId": "B-GO4012",
+                    "licenseId": "M-DX7999",
                     "category": null,
-                    "fuelType": "ELECTRICITY",
+                    "fuelType": "PETROL",
                     "fuelLevel": null,
                     "imageLink": null
                 },
@@ -213,38 +229,40 @@ imageLink | Link | link to the car image
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/CarSharing/Cars/203869/Process?action=book"
+                            "uri": "Resources/CarSharing/Cars/235788/Process?action=book"
                         }
                     ],
-                    "id": 203869,
-                    "description": "B-GO4010",
+                    "id": 235788,
+                    "description": "Chico",
                     "type": "CarSharingCar",
-                    "uri": "Resources/CarSharing/Cars/203869",
+                    "uri": "Resources/CarSharing/Cars/235788",
                     "location": {
-                        "latitude": 52.51613,
-                        "longitude": 13.41643,
+                        "latitude": 52.513842,
+                        "longitude": 13.385001,
                         "system": "WGS_84"
                     },
-                    "provider": "car2Go",
+                    "provider": "driveNow",
                     "availability": 100,
-                    "operator": "Car2Go_Berlin",
-                    "model": "smart fortwo",
+                    "operator": "DriveNow",
+                    "modFlag": "Deleted",
+                    "model": "BMW X1",
                     "address": null,
-                    "licenseId": "B-GO4010",
+                    "licenseId": "M-DX7124",
                     "category": null,
-                    "fuelType": "ELECTRICITY",
+                    "fuelType": "DIESEL",
                     "fuelLevel": null,
                     "imageLink": null
                 }
-            ]
-        }
+                ]
+            }
         
-## List of Stations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
+## List of Stations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}&operatorId={operatorId}]
 
 This collection contains a list of car sharing stations in a specific area (Note: for station-based car sharing) specified by the query parameters,
 together with basic information and URI to acquire more details.
 The optional filter `f_cars` can be used to get cars with a specific `fuelType`
-Request Headers: If-Modified-Since - [Optional] Request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT (TODO)
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
 response attribute | json data type | comments
 --- | --- | ---
@@ -275,24 +293,36 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
     + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
     + radius (string, `3000`) ... String `radius` radius value. Has example value.
     + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
+    + operatorId (optional, string, `FlinksterDB`) ... String `operatorId` operator id data. Has example value.
         
 + Response 200 (application/json)
 
-        {
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+            
+    + Body
+    
+            {
             "metaData": [
                 {
                     "serviceAlias": "driveNow",
-                    "lastUpdateTime": "2014-04-28T12:15:19+0200",
+                    "lastUpdateTime": "2014-07-09T12:56:21+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-04-28T12:15:25+0200",
+                    "lastUpdateTime": "2014-07-09T13:01:24+0200",
                     "messages": []
                 },
                 {
                     "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-04-28T12:15:25+0200",
+                    "lastUpdateTime": "2014-07-09T12:41:25+0200",
+                    "messages": []
+                },
+                {
+                    "serviceAlias": "citeeCar",
+                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
                     "messages": []
                 }
             ],
@@ -302,21 +332,22 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/CarSharing/Stations/55221/Process?action=book"
+                            "uri": "Resources/CarSharing/Stations/236082/Process?action=book"
                         }
                     ],
-                    "id": 55221,
+                    "id": 236082,
                     "description": "Handwerkervereinshaus / Sophienstraße",
                     "type": "CarSharingStation",
-                    "uri": "Resources/CarSharing/Stations/55221",
+                    "uri": "Resources/CarSharing/Stations/236082",
                     "location": {
                         "latitude": 52.52561167074207,
                         "longitude": 13.401126265525818,
                         "system": "WGS_84"
                     },
-                    "provider": "FlinksterDB",
-                    "availability" : 100,
+                    "provider": "flinkster",
+                    "availability": 100,
                     "operator": "FlinksterDB",
+                    "modFlag": "Modified",
                     "phoneNo": null,
                     "operatorURI": null,
                     "operatorName": "FlinksterDB",
@@ -335,34 +366,35 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/CarSharing/Stations/55415/Process?action=book"
+                            "uri": "Resources/CarSharing/Stations/236084/Process?action=book"
                         }
                     ],
-                    "id": 55415,
-                    "description": "Schumannstraße",
+                    "id": 236084,
+                    "description": "Caroline-Michaelis-Straße",
                     "type": "CarSharingStation",
-                    "uri": "Resources/CarSharing/Stations/55415",
+                    "uri": "Resources/CarSharing/Stations/236084",
                     "location": {
-                        "latitude": 52.523728447748866,
-                        "longitude": 13.380703926086426,
+                        "latitude": 52.533559809882156,
+                        "longitude": 13.382519781589508,
                         "system": "WGS_84"
                     },
-                    "provider": "FlinksterDB",
-                    "availability" : 100,
+                    "provider": "flinkster",
+                    "availability": 100,
                     "operator": "FlinksterDB",
+                    "modFlag": "Modified",
                     "phoneNo": null,
                     "operatorURI": null,
                     "operatorName": "FlinksterDB",
                     "address": {
-                        "citycode": "10117",
+                        "citycode": "10115",
                         "city": "Berlin",
-                        "street": "Schumannstraße",
-                        "houseno": null,
+                        "street": "Caroline-Michaelis-Straße",
+                        "houseno": "5-11",
                         "district": "Mitte",
                         "region": null,
                         "country": null
                     }
                 }
-            ]
-        }  
+                ]
+            }  
         
