@@ -520,6 +520,32 @@ Response is a PNG content which dispays the current traffic situation. Please no
             accept: image/png 
 
 + Response 200 (image/png)
+# Group WMS
+This is a group of all WMS related rest resources
+
+## WMS PNG file for road traffic. Level of Service [/imp-endpoint/api/V1/Resources?left_lower_lat={lllat}&left_lower_lng={lllng}&right_upper_lng={rulng}&right_upper_lat={rulat}&width={w}&heigth={h}&serviceNames={categories}]
+Get WMS PNG file for several service categories
+
+### Getting a WMS PNG file [GET] 
+@testable
+Please note: The accept-header of this request must be set to "image/png"
+
++ Parameters
+    + categories (string, `vmzParking_list,vmzStations_list`) ... service names, comma-separated list of service categories (currently offered as WMS layers by VMZ), e.g. PublicTransport, Parking
+    + lllat (string, `52.482780222078205`) ... 
+    + lllng (string, `13.3154296875`) ...     
+    + rulng (string, `13.359375`) ... 
+    + rulat (string, `52.50953477032729`) ... 
+    + h (optional, string, `250`) ... height of map output in pixels (semantics according to WMS GetMap request). the default value is height=250
+    + w (optional, string, `250`) ... width of map output in pixels (semantics according to WMS GetMap request). the default value is width=250
+
++ Request
+
+    + Headers
+        
+            accept: image/png 
+
++ Response 200 (image/png)
 # Group Parking Garages
 This is a group of all parking garages related rest resources
     
