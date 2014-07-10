@@ -4,6 +4,92 @@ HOST: https://as.production.imp.mobilitaetsdienste.de:8443/imp-endpoint
 # IMP North. Implemented & Dredd testable
 This is a test API which can be automatically tested with the Dredd Tool.
 
+# Group Handy Ticket
+This is a group of all handy ticketing related rest resources
+    
+## Available Tickets [/imp-endpoint/api/V1/Resources/Ticketing/Tickets]    
+This collection contains a list of available products (tickets) for specified origin and destination. Both are public transport stations and are identified by `{pointId}`. 
+PointId can be retrieved using `GET /api/V1/Resources/PublicTransport/Stations`
+
+The data structure of the request:
+
+attribute | json data type | comments
+--- | --- | ---
+origin | Object | Point id and address string
+destination | Object | Point id and address string
+viaPoints | Object | List of geo locations the route should pass
+numberOfTickets | Object | Number of tickets
+ticketingCategory | String | Specified zone. Possible values: B0, B1, B2, B3
+
+
+The data structure of the response contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+actions | Array | List of available actions on this resource (buy/confirm)
+id | Number | Resource id
+description | String | 
+type | String | 
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | 
+operator | String | Name of Ticket Operator
+tariffText | String | Contains Zone and Validity inforation
+tariffInformation | String | Conditions applied for ticket
+price | double | Price of ticket
+currency | String | Currency
+
+Parts of the data structure might be omitted if the information is not available. 
+    
+### Getting bikes [GET]
+@testable
+    
++ Request
+
+    + Body
+    
+            { 
+             "origin": { 
+             "id": "130", 
+             "address": "Dresden Hauptbahnhof"
+             },
+             "destination": { 
+             "id": "130", 
+             "address": "Dresden Postplatz" 
+             },
+             "numberOfTickets": "1",
+             "ticketingCategory": "B0",
+             "viaPoints": []
+            }
+        
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                [
+                    {
+                        "actions": [
+                            {
+                                "name": "buy",
+                                "method": "POST",
+                                "uri": "Resources/Ticketing/Tickets/{resourceId}/Process?action=buy"
+                            }
+                        ],
+                        "id": {resourceId},
+                        "description": null,
+                        "type": null,
+                        "uri": "Resources/Ticketing/Tickets/157",
+                        "location": null,
+                        "provider": null,
+                        "operator": "handyticket",
+                        "tariffText": "DVB VVO-Einzelfahrt normal Preisstufe 1 für Zone Dresden gültig 18.11.13 12:21 Uhr bis 13:21 Uhr.",
+                        "tariffInformation": "Gilt in der angegebenen Tarifzone; max. 1 Std.",
+                        "price": 2.2,
+                        "currency": "EUR"
+                    }
+                ]
+            }
 # Group Traffic Info Level-of-Service. WMS
 This is a group of all traffic info (WMS) related rest resources
 
