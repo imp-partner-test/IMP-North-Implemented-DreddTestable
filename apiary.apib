@@ -15,7 +15,7 @@ In case of station-based cars, only the URI of the Car Sharing station is return
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-response attribute | json data type | comments
+attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
@@ -129,7 +129,7 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-response attribute | json data type | comments
+attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
@@ -266,7 +266,7 @@ The optional filter `f_cars` can be used to get cars with a specific `fuelType`
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-response attribute | json data type | comments
+attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
@@ -412,7 +412,7 @@ together with geo location, name, and a URI to acquire more details.
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time.
 Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-response attribute | json data type | comments
+attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
@@ -448,60 +448,56 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
         
 + Response 200 (application/json)
     
-    + Body  
-    
+        {
+        "metaData": [
             {
-                "metaData": [
-                    {
-                        "serviceAlias": "vattenfall",
-                        "lastUpdateTime": "2014-07-09T14:06:39+0200",
-                        "messages": []
-                    },
-                    {
-                        "serviceAlias": "hubject",
-                        "lastUpdateTime": "2014-07-09T13:07:07+0200",
-                        "messages": []
-                    }
-                ],
-                "resources": [
-                    {
-                        "actions": [],
-                        "id": 238909,
-                        "description": "Conti",
-                        "type": "EVChargingStation",
-                        "uri": "Resources/EVCharging/Stations/238909",
-                        "location": {
-                            "latitude": 52.51474,
-                            "longitude": 13.38639,
-                            "system": "WGS_84"
-                        },
-                        "provider": "vattenfall",
-                        "availability": 0,
-                        "operator": "Vattenfall",
-                        "modFlag": "Relocated",
-                        "address": {
-                            "citycode": "10117",
-                            "city": "Berlin",
-                            "street": "Glinkastr.",
-                            "houseno": "38",
-                            "district": null,
-                            "region": null,
-                            "country": null
-                        },
-                        "plugTypes": [
-                            "Type2Outlet",
-                            "TypeFSchuko"
-                        ],
-                        "power": {
-                            "unit": "KiloWatt",
-                            "value": 11040
-                        }
-                    }
-                ]
+                "serviceAlias": "vattenfall",
+                "lastUpdateTime": "2014-07-09T14:06:39+0200",
+                "messages": []
+            },
+            {
+                "serviceAlias": "hubject",
+                "lastUpdateTime": "2014-07-09T13:07:07+0200",
+                "messages": []
             }
-  
-        
-  
+        ],
+        "resources": [
+            {
+                "actions": [],
+                "id": 238909,
+                "description": "Conti",
+                "type": "EVChargingStation",
+                "uri": "Resources/EVCharging/Stations/238909",
+                "location": {
+                    "latitude": 52.51474,
+                    "longitude": 13.38639,
+                    "system": "WGS_84"
+                },
+                "provider": "vattenfall",
+                "availability": 0,
+                "operator": "Vattenfall",
+                "modFlag": "Relocated",
+                "address": {
+                    "citycode": "10117",
+                    "city": "Berlin",
+                    "street": "Glinkastr.",
+                    "houseno": "38",
+                    "district": null,
+                    "region": null,
+                    "country": null
+                },
+                "plugTypes": [
+                    "Type2Outlet",
+                    "TypeFSchuko"
+                ],
+                "power": {
+                    "unit": "KiloWatt",
+                    "value": 11040
+                }
+            }
+        ]
+        }
+
 # Group Traffic Info Level-of-Service. WMS
 This is a group of all traffic info (WMS) related rest resources
 
