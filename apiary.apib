@@ -496,14 +496,14 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 # Group Traffic Info Level-of-Service. WMS
 This is a group of all traffic info (WMS) related rest resources
 
-## WMS PNG file for road traffic (Level of Service). [/imp-endpoint/api/V1/Info/TrafficInfo]
+## WMS PNG file for road traffic. Level of Service [/imp-endpoint/api/V1/Info/TrafficInfo]
+width. width={w}: width of map output in pixels (semantics according to WMS GetMap request). The default value is width=250
 
-width. `width={w}`: width of map output in pixels (semantics according to WMS GetMap request). The default value is width=250
-height `height={h}`: height of map output in pixels (semantics according to WMS GetMap request). The default value is height=250
-  
+height height={h}: height of map output in pixels (semantics according to WMS GetMap request). The default value is height=250
+
 Behavior: additional parameters have to be passed to WMS server such as format=image/png.
-
 Response is a PNG content which dispays the current traffic situation. Please note: The accept-header of this request must be set to "image/png".
+
 
 ### Getting a specific charging station [GET] 
 @testable
@@ -511,6 +511,7 @@ Response is a PNG content which dispays the current traffic situation. Please no
 + Request
 
     + Headers
+    
             accept: image/png
     
         
@@ -521,9 +522,9 @@ Response is a PNG content which dispays the current traffic situation. Please no
                 
     + Body
 
-        {  
-            "... this should be a PNG ..."
-        } 
+            {  
+                "... this should be a PNG ..."
+            } 
 # Group Parking Garages
 This is a group of all parking garages related rest resources
     
