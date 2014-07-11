@@ -9,6 +9,7 @@ This is a test API which can be automatically tested with the Dredd Tool.
 # Group Public Transportation
 This is a group of all pablic transportation related rest resources. TODO!!!!!!!!!!!
 
+
 ## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
@@ -29,6 +30,7 @@ provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+
 
 ### Getting all stations [GET]
 @testable
@@ -93,6 +95,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 # Group Car Sharing
 This is a group of all car sharing related rest resources
 
+
 ## List of Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains list of available car sharing locations specified by the query parameters (both free-floating cars and/or car stations) 
@@ -117,6 +120,7 @@ provider | String |
 availability | Double | Availability in percentage
 operator | String | 
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
+
 
 ### Getting all car sharing locations [GET]
 @testable
@@ -206,6 +210,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 }
                 ]
             }        
+
 ## List of free-floating Cars with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 This collection contains a list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
@@ -236,6 +241,7 @@ fuelType | String | electric vehicle ("ELECTRICITY") or petrol car ("PETROL")
 fuelLevel | Double | Fuel level in percentage
 imageLink | Link | link to the car image
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
+
 
 ### Getting free-floating Cars [GET] 
 @testable
@@ -342,6 +348,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 ]
             }
         
+
 ## List of Stations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}&operatorId={operatorId}]
 
 This collection contains a list of car sharing stations in a specific area (Note: for station-based car sharing) specified by the query parameters,
@@ -369,6 +376,7 @@ operatorURI | String |
 operatorName | String | 
 address | Object | {"cityCode": String, "city": String, "street": String, "houseNo": String, "district": String, "region": String, "country": String}
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+
 
 ### Getting car sharing station list [GET] 
 @testable
@@ -488,6 +496,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 # Group EV Charging Station
 This is a group of all EV Charging related rest resources    
     
+
 ## List of EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
 This collection contains a list of all electric vehicle (EV) charging stations specified by query parameters (and body), 
 together with geo location, name, and a URI to acquire more details.
@@ -514,6 +523,7 @@ address | Object |
 plugTypes | Enum value | Type of the plug.
 power | Number |  
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request  
+
 
 ### Getting EV charging stations [GET]
 @testable
@@ -579,6 +589,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 # Group Parking Garages
 This is a group of all parking garages related rest resources
     
+
 ## Parking Garages with Basic Info [/imp-endpoint/api/V1/Resources/Parking/Garages?lat={lat}&lng={lng}&radius={radius}]    
 This collection contains a list of all parking garages specified by query parameters (and body), 
 together with an URI to acquire more details. 
@@ -609,6 +620,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 Parts of the data structure might be omitted if the information is not available. 
     
+
 ### Getting parking garages [GET]
 @testable
 
@@ -694,6 +706,7 @@ Parts of the data structure might be omitted if the information is not available
 # Group Bike Sharing
 This is a group of all bike sharing related rest resources
     
+
 ## Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/Stations?lat={lat}&lng={lng}&radius={radius}]    
 This collection contains a list of all bike sharing stations specified by query parameters
 (for station-based bike sharing)
@@ -729,6 +742,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 Parts of the data structure might be omitted if the information is not available. 
     
+
 ### Getting bikes [GET]
 @testable
 
