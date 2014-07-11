@@ -4,6 +4,7 @@ HOST: https://as.production.imp.mobilitaetsdienste.de:8443/imp-endpoint
 # IMP North. Implemented & Dredd testable
 This is a test API which can be automatically tested with the Dredd Tool.
 
+
 # Group Public Transportation
 This is a group of all pablic transportation related rest resources. TODO!!!!!!!!!!!
 
@@ -27,7 +28,6 @@ provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
-
 
 ### Getting all stations [GET]
 @testable
@@ -88,7 +88,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                     }
                 ]
             }
-
 # Group Car Sharing
 This is a group of all car sharing related rest resources
 
@@ -205,8 +204,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 }
                 ]
             }        
-
-
 ## List of free-floating Cars with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 This collection contains a list of available free-floating cars in a specific area (NOTE: for free-floating car sharing only!).
@@ -371,7 +368,6 @@ operatorName | String |
 address | Object | {"cityCode": String, "city": String, "street": String, "houseNo": String, "district": String, "region": String, "country": String}
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
 
-
 ### Getting car sharing station list [GET] 
 @testable
 
@@ -486,7 +482,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 }
                 ]
             }  
-        
 # Group EV Charging Station
 This is a group of all EV Charging related rest resources    
     
@@ -577,7 +572,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 }
             ]
         }
-
 # Group Parking Garages
 This is a group of all parking garages related rest resources
     
@@ -692,7 +686,6 @@ Parts of the data structure might be omitted if the information is not available
                 }
             ]
         }
- 
 # Group Bike Sharing
 This is a group of all bike sharing related rest resources
     
