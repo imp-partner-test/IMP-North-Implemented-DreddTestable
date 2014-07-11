@@ -4,6 +4,32 @@ HOST: https://as.production.imp.mobilitaetsdienste.de:8443/imp-endpoint
 # IMP North. Implemented & Dredd testable
 This is a test API which can be automatically tested with the Dredd Tool.
 
+# Group WMS
+This is a group of all rest resources delivered as WMS
+
+## WMS PNG file for road traffic. Level of Service [/imp-endpoint/api/V1/Resources?left_lower_lat={lllat}&left_lower_lng={lllng}&right_upper_lng={rulng}&right_upper_lat={rulat}&width={w}&heigth={h}&serviceNames={categories}]
+Get WMS PNG file for several service categories (e.g. PublicTransport, Parking)
+
+### Getting a WMS PNG file [GET] 
+@testable
+Please note: The accept-header of this request must be set to "image/png"
+
++ Parameters
+    + lllat (string, `52.482780222078205`) ... 
+    + lllng (string, `13.3154296875`) ...     
+    + rulng (string, `13.359375`) ... 
+    + rulat (string, `52.50953477032729`) ... 
+    + categories (string, `Parking,PublicTransport`) ... service names, comma-separated list of service categories (currently offered as WMS layers by VMZ), e.g. PublicTransport, Parking
+    + h (optional, string, `250`) ... height of map output in pixels (semantics according to WMS GetMap request). the default value is height=250
+    + w (optional, string, `250`) ... width of map output in pixels (semantics according to WMS GetMap request). the default value is width=250
+
++ Request
+
+    + Headers
+        
+            accept: image/png 
+
++ Response 200 (image/png)
 # Group Car Sharing
 This is a group of all car sharing related rest resources
 
