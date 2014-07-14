@@ -106,83 +106,19 @@ This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a speci
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-attribute | json data type | comments
---- | --- | ---
-metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
---- | --- | ---
-resources | Array | Array of resources within the search area
---- | --- | ---
-description | String | Approximate location
-type | String | (="PublicTransportBusStation")
-uri | URI | URI to request more details
-location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
-provider | String | (="VBBStation")
-availability | Double | Availability in percentage
-operator | String | (="VBBStation")
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
-
 
 ### Getting all stations [GET]
 @testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
 
 + Request
 
     + Headers
         
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
 
-+ Response 200 (application/json)
++ Response 200
 
-    + Body
-    
-            {
-                "metaData": [
-                    {
-                        "serviceAlias": "vmzStation",
-                        "lastUpdateTime": "2014-07-11T12:08:22+0200",
-                        "messages": []
-                    }
-                ],
-                "resources": [
-                    {
-                        "actions": [],
-                        "id": 306016,
-                        "description": "Berlin, Jüdisches Museum",
-                        "type": "PublicTransportBusStation",
-                        "uri": "Resources/PublicTransport/BusStations/306016",
-                        "location": {
-                            "latitude": 52.503543,
-                            "longitude": 13.395639,
-                            "system": "WGS_84"
-                        },
-                        "provider": "vmzStation",
-                        "availability": 100,
-                        "operator": "VBBStation",
-                        "modFlag": "Relocated"
-                    },
-                    {
-                        "actions": [],
-                        "id": 306017,
-                        "description": "Berlin, Kommandantenstr.",
-                        "type": "PublicTransportBusStation",
-                        "uri": "Resources/PublicTransport/BusStations/306017",
-                        "location": {
-                            "latitude": 52.507675,
-                            "longitude": 13.40418,
-                            "system": "WGS_84"
-                        },
-                        "provider": "vmzStation",
-                        "availability": 100,
-                        "operator": "VBBStation",
-                        "modFlag": "Relocated"
-                    }
-                ]
-            }
+    [List of Public Transport Stations with Basic Info][]
 
 # Group Car Sharing
 This is a group of all car sharing related rest resources
