@@ -102,12 +102,66 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 ## List of Bus/Tram Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/BusStations?lat={lat}&lng={lng}&radius={radius}] 
 
-This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
+This collection contains list of bus/tram stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
 
-### Getting all stations [GET]
+### Getting bus/tram stations [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+    
+    
+
+## List of Metro Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/MetroStations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of metro stations in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+
+### Getting metro stations [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+    
+    
+
+## List of City-Train/Regio Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/CityTrainStations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of city-train/regio-train stations in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+
+### Getting metro stations [GET]
 @testable
 
 + Parameters
