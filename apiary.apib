@@ -921,3 +921,78 @@ Parts of the data structure might be omitted if the information is not available
                 }
             ]
         }
+
+# Group Taxi
+This is a group of all taxirelated rest resources. TODO!!!!
+
+
+## List of available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of taxis in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+
+### Get taxis in a specific area [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+    
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                    "serviceAlias": "vattenfall",
+                    "lastUpdateTime": "2014-04-28T12:16:48+0200",
+                    "messages": []
+                }
+            ],
+        "resources":[
+            { 
+                "id": 5120, 
+                "location": {"latitude":52.5244,  "longitude":13.2541, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-TA 4820" 
+            },
+            { 
+                "id": 5393, 
+                "location": {"latitude":52.58421, "longitude":13.36627, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-GA 4518" 
+            },
+            { 
+                "id": 4911, 
+                "location": {"latitude":52.5206,  "longitude":13.38284, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-TA 4270" 
+            },
+            { 
+                "id": 5357, 
+                "location": {"latitude":52.55726, "longitude":13.52817, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-I 6606" 
+            },
+            { 
+                "id": 5006, 
+                "location": {"latitude":52.53803, "longitude":13.31234, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-T 4100" 
+            },
+            { 
+                "id": 5109, 
+                "location": {"latitude":52.54481, "longitude":13.40668, "system":"WGS_84" }, 
+                "status":"Available", 
+                "licenceId":"B-JW 448" 
+            }
+        ]
+        }
