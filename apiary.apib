@@ -38,10 +38,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
     
 + Model (application/hal+json)
 
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
-
     + Body
     
             {
@@ -92,6 +88,12 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 ### Getting all stations [GET]
 @testable
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
 
 + Response 200
 
