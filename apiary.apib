@@ -6,7 +6,7 @@ This is a test API which can be automatically tested with the Dredd Tool.
 
 
 # Group Public Transportation
-This is a group of all pablic transportation related rest resources. TODO!!!!!!!!!!!
+This is a group of all public transportation related rest resources. TODO!!!!!!!!!!!
 
 
 ## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}] 
@@ -31,21 +31,16 @@ operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
 
 
-### Getting all stations [GET]
-@testable
-
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
     + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
     + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-
-+ Request
+    
++ Model (application/hal+json)
 
     + Headers
         
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
-
-+ Response 200 (application/json)
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
 
     + Body
     
@@ -92,6 +87,15 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                     }
                 ]
             }
+
+
+
+### Getting all stations [GET]
+@testable
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
 
 
 ## List of Bus/Tram Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/BusStations?lat={lat}&lng={lng}&radius={radius}] 
