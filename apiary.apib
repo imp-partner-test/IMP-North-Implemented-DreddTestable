@@ -102,9 +102,11 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 ## List of Bus/Tram Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/BusStations?lat={lat}&lng={lng}&radius={radius}] 
 
-This collection contains list of bus/tram stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
+This collection contains list of bus/tram stations in a specific area with basic information and a URI to get more details.
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
 
 
 ### Getting bus/tram stations [GET]
@@ -133,6 +135,8 @@ This collection contains list of metro stations in a specific area with basic in
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
+
 
 ### Getting metro stations [GET]
 @testable
@@ -160,6 +164,8 @@ This collection contains list of city-train/regio-train stations in a specific a
 
 The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
+
 
 ### Getting metro stations [GET]
 @testable
@@ -179,6 +185,40 @@ The If-Modified-Since (optional) can be set to a specific date-time in order to 
 
     [List of Public Transport Stations with Basic Info][]
 
+
+# Group WMS
+This is a group of all rest resources delivered as WMS
+
+
+## WMS PNG file for road traffic. Level of Service [/imp-endpoint/api/V1/Resources?left_lower_lat={lllat}&left_lower_lng={lllng}&right_upper_lng={rulng}&right_upper_lat={rulat}&width={w}&heigth={h}&serviceNames={categories}]
+Get WMS PNG file for several service categories (e.g. PublicTransport, Parking)
+
+
+### Getting a WMS PNG file [GET] 
+@testable
+Please note: The accept-header of this request must be set to "image/png"
+
++ Parameters
+    + lllat (string, `52.482780222078205`) ... 
+    + lllng (string, `13.3154296875`) ...     
+    + rulng (string, `13.359375`) ... 
+    + rulat (string, `52.50953477032729`) ... 
+    + categories (string, `Parking,PublicTransport`) ... service names, comma-separated list of service categories (currently offered as WMS layers by VMZ), e.g. PublicTransport, Parking
+    + h (optional, string, `250`) ... height of map output in pixels (semantics according to WMS GetMap request). the default value is height=250
+    + w (optional, string, `250`) ... width of map output in pixels (semantics according to WMS GetMap request). the default value is width=250
+
++ Request
+
+    + Headers
+        
+            accept: image/png 
+
++ Response 200 (image/png)
+            
+    + Body
+             
+            {   "... this should be a PNG ..."}
+            
 
 # Group Car Sharing
 This is a group of all car sharing related rest resources
