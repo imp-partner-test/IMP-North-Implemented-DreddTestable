@@ -1260,6 +1260,11 @@ userId: user that requests a trip
 
 + Request
 
+    + Headers
+    
+            Content-Type: application/json
+            Accept: application/json
+
     + Body
         
             {
@@ -1306,6 +1311,6 @@ userId: user that requests a trip
                         ]
             }
 
-+ Response 200
++ Response 200 (application/json)
 
     [List of Trip Proposals with Basic Info][]
