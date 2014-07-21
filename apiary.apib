@@ -1145,7 +1145,7 @@ useParkAndRide | Boolean | Use parking and ride for own vehicle
     
             [
                 {
-                    "url": "TripProposals//IMR/80812",
+                    "url": "TripProposals/IMR/80812",
                     "origin": {
                         "location": {
                             "latitude": 52.39339065551758,
@@ -1300,8 +1300,25 @@ userId: user that requests a trip
                 "CityTrain",
                 "Bus"
               ],
-              "routingConstraints": [],
-              "useBikeSharing": "false",
+              "routingConstraints": [
+                {
+                  "routingConstraintType": "Distance",
+                  "trafficType": "Walk",
+                  "max": {
+                    "value": "1000",
+                    "unit": "Meter"
+                  }
+                },
+                {
+                  "routingConstraintType": "Distance",
+                  "trafficType": "Car",
+                  "max": {
+                    "value": "20000",
+                    "unit": "Meter"
+                  }
+                }
+             ],
+             "useBikeSharing": "false",
              "useCarSharing": "true", 
              "ownVehicles":[
                             {  "trafficType":"Car",
