@@ -5,15 +5,18 @@ HOST: https://as.production.imp.mobilitaetsdienste.de:8443/imp-endpoint
 This is a test API which can be automatically tested with the Dredd Tool.
 
 
-# Group Public Transportation
-This is a group of all public transportation related rest resources.
+# Group Bike Sharing
+This is a group of all bike sharing related rest resources
+    
 
+## Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/Stations?lat={lat}&lng={lng}&radius={radius}]    
+This collection contains a list of all bike sharing stations specified by query parameters
+(for station-based bike sharing)
 
-## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}] 
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time.
+Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
 
-This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+The data structure of the response contains the following attributes:
 
 attribute | json data type | comments
 --- | --- | ---
@@ -21,170 +24,117 @@ metadata | Object | List of service providers and the last update times and fail
 --- | --- | ---
 resources | Array | Array of resources within the search area
 --- | --- | ---
+actions | Array | Available actions
+id | Number | Internal bike sharing station identification number
 description | String | Approximate location
-type | String | (="PublicTransportStation")
-uri | URI | URI to request more details
+type | String | Type of bike sharing station
+uri | URI | URI to request more details.
 location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
-provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
+provider | String | service provider
 availability | Double | Availability in percentage
-operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+operator | String | resource operator
+phoneNo | String | 
+operatorURI | String |
+operatorName | String | 
+address | Object | 
+numberOfBikes | Number | 
+numberOfFreeBikes | Number | 
+services | Array | 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request  
 
+Parts of the data structure might be omitted if the information is not available. 
+    
+
+### Getting bikes [GET]
+@testable
 
 + Parameters
     + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
     + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
     + radius (string, `1000`) ... String `radius` longitude value. Has example value.
     
-+ Model (application/json)
++ Request
 
-    + Body
+    + Headers
     
-            {
-                "metaData": [
-                    {
-                        "serviceAlias": "vmzStation",
-                        "lastUpdateTime": "2014-07-11T12:08:22+0200",
-                        "messages": []
-                    }
-                ],
-                "resources": [
-                    {
-                        "actions": [],
-                        "id": 306016,
-                        "description": "Berlin, Jüdisches Museum",
-                        "type": "PublicTransportStation",
-                        "uri": "Resources/PublicTransport/Stations/306016",
-                        "location": {
-                            "latitude": 52.503543,
-                            "longitude": 13.395639,
-                            "system": "WGS_84"
-                        },
-                        "provider": "vmzStation",
-                        "availability": 100,
-                        "operator": "VBBStation",
-                        "modFlag": "Relocated"
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                    "serviceAlias": "callabike",
+                    "lastUpdateTime": "2014-07-10T14:23:11+0200",
+                    "messages": []
+                },
+                {
+                    "serviceAlias": "nextbike",
+                    "lastUpdateTime": "2014-07-10T14:11:02+0200",
+                    "messages": []
+                }
+            ],
+            "resources": [
+                {
+                    "actions": [
+                        {
+                            "name": "book",
+                            "method": "POST",
+                            "uri": "Resources/BikeSharing/Stations/270210/Process?action=book"
+                        }
+                    ],
+                    "id": 270210,
+                    "description": "S+U-Bhf. Friedrichstraße",
+                    "type": "BikeSharingStation",
+                    "uri": "Resources/BikeSharing/Stations/270210",
+                    "location": {
+                        "latitude": 52.519676208496094,
+                        "longitude": 13.385995864868164,
+                        "system": "WGS_84"
                     },
-                    {
-                        "actions": [],
-                        "id": 306017,
-                        "description": "Berlin, Kommandantenstr.",
-                        "type": "PublicTransportStation",
-                        "uri": "Resources/PublicTransport/Stations/306017",
-                        "location": {
-                            "latitude": 52.507675,
-                            "longitude": 13.40418,
-                            "system": "WGS_84"
-                        },
-                        "provider": "vmzStation",
-                        "availability": 100,
-                        "operator": "VBBStation",
-                        "modFlag": "Relocated"
-                    }
-                ]
-            }
-
-
-
-### Getting all stations [GET]
-@testable
-
-+ Request
-
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
-
-+ Response 200
-
-    [List of Public Transport Stations with Basic Info][]
-
-
-## List of Bus/Tram Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/BusStations?lat={lat}&lng={lng}&radius={radius}] 
-
-This collection contains list of bus/tram stations in a specific area with basic information and a URI to get more details.
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
-
-
-### Getting bus/tram stations [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-
-+ Request
-
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
-
-+ Response 200
-
-    [List of Public Transport Stations with Basic Info][]
-    
-    
-
-## List of Metro Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/MetroStations?lat={lat}&lng={lng}&radius={radius}] 
-
-This collection contains list of metro stations in a specific area with basic information and a URI to get more details.
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
-
-
-### Getting metro stations [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-
-+ Request
-
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
-
-+ Response 200
-
-    [List of Public Transport Stations with Basic Info][]
-    
-    
-
-## List of City-Train/Regio Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/CityTrainStations?lat={lat}&lng={lng}&radius={radius}] 
-
-This collection contains list of city-train/regio-train stations in a specific area with basic information and a URI to get more details.
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
-
-
-### Getting city train stations [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-
-+ Request
-
-    + Headers
-        
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
-
-+ Response 200
-
-    [List of Public Transport Stations with Basic Info][]
-
+                    "provider": "callabike",
+                    "availability": 100,
+                    "operator": "CallABike",
+                    "modFlag": "Modified",
+                    "phoneNo": null,
+                    "operatorURI": null,
+                    "operatorName": "CallABike",
+                    "address": null,
+                    "numberOfBikes": 16,
+                    "numberOfFreeBikes": 16,
+                    "services": null
+                },
+                {
+                    "actions": [
+                        {
+                            "name": "book",
+                            "method": "POST",
+                            "uri": "Resources/BikeSharing/Stations/270258/Process?action=book"
+                        }
+                    ],
+                    "id": 270258,
+                    "description": "Tucholskystraße / Torstraße",
+                    "type": "BikeSharingStation",
+                    "uri": "Resources/BikeSharing/Stations/270258",
+                    "location": {
+                        "latitude": 52.52822494506836,
+                        "longitude": 13.392618179321289,
+                        "system": "WGS_84"
+                    },
+                    "provider": "callabike",
+                    "availability": 43.75,
+                    "operator": "CallABike",
+                    "modFlag": "Modified",
+                    "phoneNo": null,
+                    "operatorURI": null,
+                    "operatorName": "CallABike",
+                    "address": null,
+                    "numberOfBikes": 16,
+                    "numberOfFreeBikes": 7,
+                    "services": null
+                }
+            ]
+        }
 
 # Group Car Sharing
 This is a group of all car sharing related rest resources
@@ -680,292 +630,6 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             ]
         }
 
-# Group Parking Garages
-This is a group of all parking garages related rest resources
-    
-
-## Parking Garages with Basic Info [/imp-endpoint/api/V1/Resources/Parking/Garages?lat={lat}&lng={lng}&radius={radius}]    
-This collection contains a list of all parking garages specified by query parameters (and body), 
-together with an URI to acquire more details. 
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time.
-Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-The data structure of the response contains the following attributes:
-
-attribute | json data type | comments
---- | --- | ---
-metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
---- | --- | ---
-resources | Array | Array of resources within the search area
---- | --- | ---
-actions | Array | List of available actions on this resource (book, cancel, etc.)
-id | Number | Internal parking garage identification number
-description | String | Approximate location
-type | String | (="ParkingGarage")
-uri | URI | URI to request more details
-location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  } 
-provider | String | Parking service provider (usually equals operator)
-availability | Double | Availability in percentage
-operator | String | Parking space operator (usually equals provider)
-totalnumber | Object | Number of lots for different categories { "handicappedOnly":Int, "womenOnly":Int, "others":Int }
-lottype | Enum | Type of garage {"Parkhaus", "Parkzone", "Tiefgarage", "Parkplatz"} 
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Sinceodified-Since header is passed in the request 
-
-Parts of the data structure might be omitted if the information is not available. 
-    
-
-### Getting parking garages [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-    
-+ Request
-
-    + Headers
-    
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
-        
-+ Response 200 (application/json)   
-
-        {
-            "metaData": [
-                {
-                    "serviceAlias": "vmzParking",
-                    "lastUpdateTime": "2014-07-10T11:11:04+0200",
-                    "messages": []
-                }
-            ],
-            "resources": [
-                {
-                    "actions": [
-                        {
-                            "name": "consume",
-                            "method": "POST",
-                            "uri": "Resources/Parking/Garages/270113/Process?action=consume"
-                        }
-                    ],
-                    "id": 270113,
-                    "description": "Mitte, Parkhaus Dorotheenstraße",
-                    "type": "ParkingGarage",
-                    "uri": "Resources/Parking/Garages/270113",
-                    "location": {
-                        "latitude": 52.51908,
-                        "longitude": 13.39094,
-                        "system": "WGS_84"
-                    },
-                    "provider": "vmzParking",
-                    "availability": null,
-                    "operator": "Parkinglot",
-                    "totalnumber": {
-                        "others": 495,
-                        "handicappedOnly": 0,
-                        "womenOnly": 0
-                    },
-                    "lottype": "Tiefgarage"
-                },
-                {
-                    "actions": [
-                        {
-                            "name": "consume",
-                            "method": "POST",
-                            "uri": "Resources/Parking/Garages/270134/Process?action=consume"
-                        }
-                    ],
-                    "id": 270134,
-                    "description": "Mitte, An der Friedrichswerderschen Kirche",
-                    "type": "ParkingGarage",
-                    "uri": "Resources/Parking/Garages/270134",
-                    "location": {
-                        "latitude": 52.515930000000004,
-                        "longitude": 13.39694,
-                        "system": "WGS_84"
-                    },
-                    "provider": "vmzParking",
-                    "availability": null,
-                    "operator": "Parkinglot",
-                    "totalnumber": {
-                        "others": 75,
-                        "handicappedOnly": 0,
-                        "womenOnly": 0
-                    },
-                    "lottype": "Parkplatz"
-                }
-            ]
-        }
-
-# Group Bike Sharing
-This is a group of all bike sharing related rest resources
-    
-
-## Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/Stations?lat={lat}&lng={lng}&radius={radius}]    
-This collection contains a list of all bike sharing stations specified by query parameters
-(for station-based bike sharing)
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time.
-Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-The data structure of the response contains the following attributes:
-
-attribute | json data type | comments
---- | --- | ---
-metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
---- | --- | ---
-resources | Array | Array of resources within the search area
---- | --- | ---
-actions | Array | Available actions
-id | Number | Internal bike sharing station identification number
-description | String | Approximate location
-type | String | Type of bike sharing station
-uri | URI | URI to request more details.
-location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
-provider | String | service provider
-availability | Double | Availability in percentage
-operator | String | resource operator
-phoneNo | String | 
-operatorURI | String |
-operatorName | String | 
-address | Object | 
-numberOfBikes | Number | 
-numberOfFreeBikes | Number | 
-services | Array | 
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request  
-
-Parts of the data structure might be omitted if the information is not available. 
-    
-
-### Getting bikes [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-    
-+ Request
-
-    + Headers
-    
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
-        
-+ Response 200 (application/json)
-
-        {
-            "metaData": [
-                {
-                    "serviceAlias": "callabike",
-                    "lastUpdateTime": "2014-07-10T14:23:11+0200",
-                    "messages": []
-                },
-                {
-                    "serviceAlias": "nextbike",
-                    "lastUpdateTime": "2014-07-10T14:11:02+0200",
-                    "messages": []
-                }
-            ],
-            "resources": [
-                {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/BikeSharing/Stations/270210/Process?action=book"
-                        }
-                    ],
-                    "id": 270210,
-                    "description": "S+U-Bhf. Friedrichstraße",
-                    "type": "BikeSharingStation",
-                    "uri": "Resources/BikeSharing/Stations/270210",
-                    "location": {
-                        "latitude": 52.519676208496094,
-                        "longitude": 13.385995864868164,
-                        "system": "WGS_84"
-                    },
-                    "provider": "callabike",
-                    "availability": 100,
-                    "operator": "CallABike",
-                    "modFlag": "Modified",
-                    "phoneNo": null,
-                    "operatorURI": null,
-                    "operatorName": "CallABike",
-                    "address": null,
-                    "numberOfBikes": 16,
-                    "numberOfFreeBikes": 16,
-                    "services": null
-                },
-                {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/BikeSharing/Stations/270258/Process?action=book"
-                        }
-                    ],
-                    "id": 270258,
-                    "description": "Tucholskystraße / Torstraße",
-                    "type": "BikeSharingStation",
-                    "uri": "Resources/BikeSharing/Stations/270258",
-                    "location": {
-                        "latitude": 52.52822494506836,
-                        "longitude": 13.392618179321289,
-                        "system": "WGS_84"
-                    },
-                    "provider": "callabike",
-                    "availability": 43.75,
-                    "operator": "CallABike",
-                    "modFlag": "Modified",
-                    "phoneNo": null,
-                    "operatorURI": null,
-                    "operatorName": "CallABike",
-                    "address": null,
-                    "numberOfBikes": 16,
-                    "numberOfFreeBikes": 7,
-                    "services": null
-                }
-            ]
-        }
-
-# Group Taxi
-This is a group of all taxirelated rest resources.
-
-
-## List of available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
-
-This collection contains list of taxis in a specific area with basic information and a URI to get more details.
-
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
-
-
-### Get taxis in a specific area [GET]
-@testable
-
-+ Parameters
-    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
-    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
-    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
-    
-+ Request
-
-    + Headers
-    
-            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
-
-+ Response 200 (application/json)
-
-        {
-            "metaData": [
-                {
-                  "serviceAlias": "bettertaxi",
-                  "lastUpdateTime": null,
-                  "messages": []
-                }
-            ],
-              "resources": []
-        }
-
 # Group Incidents / Traffic Info
 This is a group of all incidents related rest resources.
 
@@ -1446,5 +1110,340 @@ userId: user that requests a trip
 
 + Response 200 (application/json)
 
-    [List of Trip Proposals with Basic Info. Car Journey Planner][]            
-            
+    [List of Trip Proposals with Basic Info. Car Journey Planner][]          
+
+# Group Parking Garages
+This is a group of all parking garages related rest resources
+    
+
+## Parking Garages with Basic Info [/imp-endpoint/api/V1/Resources/Parking/Garages?lat={lat}&lng={lng}&radius={radius}]    
+This collection contains a list of all parking garages specified by query parameters (and body), 
+together with an URI to acquire more details. 
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time.
+Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+The data structure of the response contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+actions | Array | List of available actions on this resource (book, cancel, etc.)
+id | Number | Internal parking garage identification number
+description | String | Approximate location
+type | String | (="ParkingGarage")
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  } 
+provider | String | Parking service provider (usually equals operator)
+availability | Double | Availability in percentage
+operator | String | Parking space operator (usually equals provider)
+totalnumber | Object | Number of lots for different categories { "handicappedOnly":Int, "womenOnly":Int, "others":Int }
+lottype | Enum | Type of garage {"Parkhaus", "Parkzone", "Tiefgarage", "Parkplatz"} 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Sinceodified-Since header is passed in the request 
+
+Parts of the data structure might be omitted if the information is not available. 
+    
+
+### Getting parking garages [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+    
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)   
+
+        {
+            "metaData": [
+                {
+                    "serviceAlias": "vmzParking",
+                    "lastUpdateTime": "2014-07-10T11:11:04+0200",
+                    "messages": []
+                }
+            ],
+            "resources": [
+                {
+                    "actions": [
+                        {
+                            "name": "consume",
+                            "method": "POST",
+                            "uri": "Resources/Parking/Garages/270113/Process?action=consume"
+                        }
+                    ],
+                    "id": 270113,
+                    "description": "Mitte, Parkhaus Dorotheenstraße",
+                    "type": "ParkingGarage",
+                    "uri": "Resources/Parking/Garages/270113",
+                    "location": {
+                        "latitude": 52.51908,
+                        "longitude": 13.39094,
+                        "system": "WGS_84"
+                    },
+                    "provider": "vmzParking",
+                    "availability": null,
+                    "operator": "Parkinglot",
+                    "totalnumber": {
+                        "others": 495,
+                        "handicappedOnly": 0,
+                        "womenOnly": 0
+                    },
+                    "lottype": "Tiefgarage"
+                },
+                {
+                    "actions": [
+                        {
+                            "name": "consume",
+                            "method": "POST",
+                            "uri": "Resources/Parking/Garages/270134/Process?action=consume"
+                        }
+                    ],
+                    "id": 270134,
+                    "description": "Mitte, An der Friedrichswerderschen Kirche",
+                    "type": "ParkingGarage",
+                    "uri": "Resources/Parking/Garages/270134",
+                    "location": {
+                        "latitude": 52.515930000000004,
+                        "longitude": 13.39694,
+                        "system": "WGS_84"
+                    },
+                    "provider": "vmzParking",
+                    "availability": null,
+                    "operator": "Parkinglot",
+                    "totalnumber": {
+                        "others": 75,
+                        "handicappedOnly": 0,
+                        "womenOnly": 0
+                    },
+                    "lottype": "Parkplatz"
+                }
+            ]
+        }
+
+# Group Public Transportation
+This is a group of all public transportation related rest resources.
+
+
+## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+description | String | Approximate location
+type | String | (="PublicTransportStation")
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
+availability | Double | Availability in percentage
+operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+    
++ Model (application/json)
+
+    + Body
+    
+            {
+                "metaData": [
+                    {
+                        "serviceAlias": "vmzStation",
+                        "lastUpdateTime": "2014-07-11T12:08:22+0200",
+                        "messages": []
+                    }
+                ],
+                "resources": [
+                    {
+                        "actions": [],
+                        "id": 306016,
+                        "description": "Berlin, Jüdisches Museum",
+                        "type": "PublicTransportStation",
+                        "uri": "Resources/PublicTransport/Stations/306016",
+                        "location": {
+                            "latitude": 52.503543,
+                            "longitude": 13.395639,
+                            "system": "WGS_84"
+                        },
+                        "provider": "vmzStation",
+                        "availability": 100,
+                        "operator": "VBBStation",
+                        "modFlag": "Relocated"
+                    },
+                    {
+                        "actions": [],
+                        "id": 306017,
+                        "description": "Berlin, Kommandantenstr.",
+                        "type": "PublicTransportStation",
+                        "uri": "Resources/PublicTransport/Stations/306017",
+                        "location": {
+                            "latitude": 52.507675,
+                            "longitude": 13.40418,
+                            "system": "WGS_84"
+                        },
+                        "provider": "vmzStation",
+                        "availability": 100,
+                        "operator": "VBBStation",
+                        "modFlag": "Relocated"
+                    }
+                ]
+            }
+
+
+
+### Getting all stations [GET]
+@testable
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+
+
+## List of Bus/Tram Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/BusStations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of bus/tram stations in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
+
+
+### Getting bus/tram stations [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+    
+    
+
+## List of Metro Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/MetroStations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of metro stations in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
+
+
+### Getting metro stations [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+    
+    
+
+## List of City-Train/Regio Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/CityTrainStations?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of city-train/regio-train stations in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+The data structure is the same as in *[/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}]*
+
+
+### Getting city train stations [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT
+
++ Response 200
+
+    [List of Public Transport Stations with Basic Info][]
+
+
+# Group Taxi
+This is a group of all taxirelated rest resources.
+
+
+## List of available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of taxis in a specific area with basic information and a URI to get more details.
+
+The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+
+### Get taxis in a specific area [GET]
+@testable
+
++ Parameters
+    + lat (string, `52.52`) ... String `lat` latitude value. Has example value.
+    + lng (string, `13.39`) ... String `lng` longitude value. Has example value.
+    + radius (string, `1000`) ... String `radius` longitude value. Has example value.
+    
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                  "serviceAlias": "bettertaxi",
+                  "lastUpdateTime": null,
+                  "messages": []
+                }
+            ],
+              "resources": []
+        }
