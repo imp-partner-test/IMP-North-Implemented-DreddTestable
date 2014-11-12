@@ -2563,3 +2563,37 @@ requiredFeatures | Array | list of features (BOOKING, CANCELATION, etc.)
 + Response 200
     
     [Process Definitions for Service Subscription][]
+
+# Group Reporting
+
+This is a group of all rest resources related to reporting
+
+
+## Report [/imp-endpoint/api/V1/Reporting/CustomReport?reportName={reportName}] 
+
+RESPONSE:
+The response contains an image representing the report.
+
++ Model (application/json)
+    
+        iVBORw0KGgoAAAANSUhEUgAAAesAAAEjCAIAAACdKr4vAA...
+
+
+### getting all BPMN process definitions [GET]
+@testable
+
+REQUEST
+
++ Request
+
+    + Headers
+        
+            accept: text/plain 
+            
++ Parameters
+
+    + reportName (string, `sp_revenue`) ... Reportname. Has example value. (possible report types: mp_revenue, info_request, book_request, total_revenue, availability)
+
++ Response 200 
+
+    [Report][]
