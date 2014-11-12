@@ -2374,7 +2374,8 @@ TODO
 This is a group of all rest resources related to service categories available. Services offered by service provider have to be classified with one of these service categories.
 
 
-## Service Categories [/imp-endpoint/api/V1/ServiceCategories    
+## Service Categories [/imp-endpoint/api/V1/ServiceCategories] 
+
 RESPONSE:
 This collection contains a list of all currently available service categories in IMP. Each service category has the following attributes:
 
@@ -2383,10 +2384,7 @@ attribute | json data type | comments
 id | Number | internal id
 name | String | Service Category name
 
-
-+ Model (application/json)
-
-    +Body
++ Model (application/haljson)
     
         [
             {
@@ -2440,13 +2438,12 @@ name | String | Service Category name
         ]
 
 
-### Getting service categories [GET]
+
+### Show service categories [GET]
 @testable
 
-REQUEST
-
 + Response 200
-
+    
     [Service Categories][]
     
             
