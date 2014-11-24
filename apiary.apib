@@ -1336,7 +1336,7 @@ Parts of the data structure might be omitted if the information is not available
     + lat (number, `52.43`) ... latitude value. Has example value.
     + lng (number, `13.38`) ... longitude value. Has example value.
     + radius (number, `2000`) ... longitude value. Has example value.
-    + categoryJson (optional, string, `{"category":"P%2BR"}`) ... String `categoryJson` category json data. Example value `{"category":"P+R"}` or `{"category":"P"}`
+    + categoryJson (optional, string, `{"category" : ["P%2BR"]}`) ... String `categoryJson` category json data. Example value `{"category" : ["P+R"]}` or `{"category" : ["P"]}`
     
 + Request
 
@@ -1552,7 +1552,7 @@ Parts of the data structure might be omitted if the information is not available
 @testable
 
 + Parameters
-    + categoryJson (optional, string, `{"category":"P%2BR"}`) ... String `categoryJson` category json data. Example value `{"category":"P+R"}` or `{"category":"P"}`
+    + categoryJson (optional, string, `{"category" : ["P%2BR"]}`) ... String `categoryJson` category json data. Example value `{"category":["P+R"]}` or `{"category" : ["P"]}`
     
 + Request
 
@@ -1743,7 +1743,7 @@ Parts of the data structure might be omitted if the information is not available
 
 + Parameters
     + sizeJson (optional, string, `{"size":"Large"}`) ... String `sizeJson` size json data. Example value `{"size":"Large"}` or `{"size":"Medium"}`or `{"size":"Small"}
-    + categoryJson (optional, string, `{"category":"P%2BR"}`) ... String `categoryJson` category json data. Example value `{"category":"P+R"}` or `{"category":"P"}`
+    + categoryJson (optional, string, `{"category": ["P%2BR"]}`) ... String `categoryJson` category json data. Example value `{"category" : ["P%2BR"]}` or `{"category": ["P"]}`
     
 + Request
 
