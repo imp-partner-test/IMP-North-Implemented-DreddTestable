@@ -68,12 +68,12 @@ Parts of the data structure might be omitted if the information is not available
             "metaData": [
                 {
                     "serviceAlias": "callabike",
-                    "lastUpdateTime": "2014-07-10T14:23:11+0200",
+                    "lastUpdateTime": "2014-07-10T14:23:11+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "nextbike",
-                    "lastUpdateTime": "2014-07-10T14:11:02+0200",
+                    "lastUpdateTime": "2014-07-10T14:11:02+02:00",
                     "messages": []
                 }
             ],
@@ -190,14 +190,14 @@ Parts of the data structure might be omitted if the information is not available
           "metaData": [
             {
               "serviceAlias": "callabike",
-              "lastUpdateTime": "2014-08-11T13:38:33+0200",
+              "lastUpdateTime": "2014-08-11T13:38:33+02:00",
               "messages": [
                 
               ]
             },
             {
               "serviceAlias": "nextbike",
-              "lastUpdateTime": "2014-08-11T13:38:36+0200",
+              "lastUpdateTime": "2014-08-11T13:38:36+02:00",
               "messages": [
                 
               ]
@@ -291,7 +291,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 + Parameters
     + lat (optional, number, `52.52`) ... latitude value. Has example value.
     + lng (optional, number, `13.39`) ... longitude value. Has example value.
-    + radius (optional, number, `1000`) ... radius value. Has example value.
+    + radius (optional, number, `5000`) ... radius value. Has example value.
 
 + Request
 
@@ -304,74 +304,115 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
     + Body
     
             {
-            "metaData": [
+              "metaData": [
                 {
-                    "serviceAlias": "driveNow",
-                    "lastUpdateTime": "2014-07-09T12:36:24+0200",
-                    "messages": []
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-11-22T03:14:44+0100",
+                  "messages": []
                 },
                 {
-                    "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-07-09T12:36:38+0200",
-                    "messages": []
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-11-22T03:20:51+0100",
+                  "messages": []
                 },
                 {
-                    "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-07-09T12:36:46+0200",
-                    "messages": []
+                  "serviceAlias": "driveNow",
+                  "lastUpdateTime": "2014-11-22T03:20:16+0100",
+                  "messages": []
                 },
                 {
-                    "serviceAlias": "citeeCar",
-                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
-                    "messages": []
+                  "serviceAlias": "citeeCar",
+                  "lastUpdateTime": "2014-11-22T03:19:51+0100",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "multiCity",
+                  "lastUpdateTime": "2014-11-22T03:20:34+0100",
+                  "messages": []
                 }
-            ],
-            "resources": [
+              ],
+              "resources": [
                 {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/CarSharing/Cars/235787/Process?action=book"
-                        }
-                    ],
-                    "id": 235787,
-                    "description": "Philbert",
-                    "type": "Cars",
-                    "uri": "Resources/CarSharing/Cars/235787",
-                    "location": {
-                        "latitude": 52.520018,
-                        "longitude": 13.390876,
-                        "system": "WGS_84"
-                    },
-                    "provider": "driveNow",
-                    "availability": 100,
-                    "operator": "DriveNow",
-                    "modFlag": "Relocated"
+                  "actions": [],
+                  "id": 49483,
+                  "description": "B-CC 1426",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/49483",
+                  "location": {
+                    "latitude": 52.525909423828125,
+                    "longitude": 13.390524864196777,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar",
+                  "modFlag": "Relocated"
                 },
                 {
-                    "actions": [
-                        {
-                            "name": "book",
-                            "method": "POST",
-                            "uri": "Resources/CarSharing/Cars/235788/Process?action=book"
-                        }
-                    ],
-                    "id": 235788,
-                    "description": "Chico",
-                    "type": "Cars",
-                    "uri": "Resources/CarSharing/Cars/235788",
-                    "location": {
-                        "latitude": 52.513842,
-                        "longitude": 13.385001,
-                        "system": "WGS_84"
-                    },
-                    "provider": "driveNow",
-                    "availability": 100,
-                    "operator": "DriveNow",
-                    "modFlag": "Deleted"
+                  "actions": [],
+                  "id": 48831,
+                  "description": "B-CC 6109",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/48831",
+                  "location": {
+                    "latitude": 52.51978302001953,
+                    "longitude": 13.393811225891113,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar",
+                  "modFlag": "Relocated"
+                },
+                {
+                  "actions": [],
+                  "id": 56507,
+                  "description": "114071",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/56507",
+                  "location": {
+                    "latitude": 52.5156,
+                    "longitude": 13.3879333,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
+                },
+                {
+                  "actions": [],
+                  "id": 49498,
+                  "description": "151616",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/49498",
+                  "location": {
+                    "latitude": 52.5271867,
+                    "longitude": 13.3861633,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
+                },
+                {
+                  "actions": [],
+                  "id": 50280,
+                  "description": "151683",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/50280",
+                  "location": {
+                    "latitude": 52.5198967,
+                    "longitude": 13.3961867,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
                 }
-                ]
+              ]
             } 
 
 ## List of All Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All] 
@@ -417,35 +458,35 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
               "metaData": [
                 {
                   "serviceAlias": "flinkster",
-                  "lastUpdateTime": "2014-07-25T11:30:33+0530",
+                  "lastUpdateTime": "2014-07-25T11:30:33+05:30",
                   "messages": [
                     
                   ]
                 },
                 {
                   "serviceAlias": "car2Go",
-                  "lastUpdateTime": "2014-07-25T11:30:28+0530",
+                  "lastUpdateTime": "2014-07-25T11:30:28+05:30",
                   "messages": [
                     
                   ]
                 },
                 {
                   "serviceAlias": "driveNow",
-                  "lastUpdateTime": "2014-07-25T11:30:30+0530",
+                  "lastUpdateTime": "2014-07-25T11:30:30+05:30",
                   "messages": [
                     
                   ]
                 },
                 {
                   "serviceAlias": "citeeCar",
-                  "lastUpdateTime": "2014-07-25T11:30:34+0530",
+                  "lastUpdateTime": "2014-07-25T11:30:34+05:30",
                   "messages": [
                     
                   ]
                 },
                 {
                   "serviceAlias": "multiCity",
-                  "lastUpdateTime": "2014-07-25T11:30:36+0530",
+                  "lastUpdateTime": "2014-07-25T11:30:36+05:30",
                   "messages": [
                     
                   ]
@@ -765,22 +806,22 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             "metaData": [
                 {
                     "serviceAlias": "driveNow",
-                    "lastUpdateTime": "2014-07-09T12:36:24+0200",
+                    "lastUpdateTime": "2014-07-09T12:36:24+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-07-09T12:41:23+0200",
+                    "lastUpdateTime": "2014-07-09T12:41:23+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-07-09T12:41:25+0200",
+                    "lastUpdateTime": "2014-07-09T12:41:25+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "citeeCar",
-                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
+                    "lastUpdateTime": "2014-07-09T12:26:09+02:00",
                     "messages": []
                 }
             ],
@@ -905,22 +946,22 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             "metaData": [
                 {
                     "serviceAlias": "driveNow",
-                    "lastUpdateTime": "2014-07-09T12:56:21+0200",
+                    "lastUpdateTime": "2014-07-09T12:56:21+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "car2Go",
-                    "lastUpdateTime": "2014-07-09T13:01:24+0200",
+                    "lastUpdateTime": "2014-07-09T13:01:24+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "flinkster",
-                    "lastUpdateTime": "2014-07-09T12:41:25+0200",
+                    "lastUpdateTime": "2014-07-09T12:41:25+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "citeeCar",
-                    "lastUpdateTime": "2014-07-09T12:26:09+0200",
+                    "lastUpdateTime": "2014-07-09T12:26:09+02:00",
                     "messages": []
                 }
             ],
@@ -1052,7 +1093,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             "metaData": [
                 {
                     "serviceAlias": "vattenfall",
-                    "lastUpdateTime": "2014-07-10T12:06:09+0200",
+                    "lastUpdateTime": "2014-07-10T12:06:09+02:00",
                     "messages": []
                 }
             ],
@@ -1135,12 +1176,12 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             "metaData": [
                 {
                     "serviceAlias": "vattenfall",
-                    "lastUpdateTime": "2014-08-11T14:54:39+0200",
+                    "lastUpdateTime": "2014-08-11T14:54:39+02:00",
                     "messages": []
                 },
                 {
                     "serviceAlias": "hubject",
-                    "lastUpdateTime": "2014-08-11T05:17:50+0200",
+                    "lastUpdateTime": "2014-08-11T05:17:50+02:00",
                     "messages": []
                 }
             ],
@@ -1236,7 +1277,7 @@ Parts of the data structure might be omitted if the information is not available
             "metaData": [
                 {
                     "serviceAlias": "vmzParking",
-                    "lastUpdateTime": "2014-07-10T11:11:04+0200",
+                    "lastUpdateTime": "2014-07-10T11:11:04+02:00",
                     "messages": []
                 }
             ],
@@ -1336,7 +1377,7 @@ Parts of the data structure might be omitted if the information is not available
     + lat (number, `52.43`) ... latitude value. Has example value.
     + lng (number, `13.38`) ... longitude value. Has example value.
     + radius (number, `2000`) ... longitude value. Has example value.
-    + categoryJson (optional, string, `{"category" : ["P%2BR"]}`) ... String `categoryJson` category json data. Example value `{"category" : ["P+R"]}` or `{"category" : ["P"]}`
+    + categoryJson (optional, string, `{"category": ["P+R"]}`) ... String `categoryJson` category json data. Example value `{"category":["P+R"]}` or `{"category":["P"]}`
     
 + Request
 
@@ -1467,7 +1508,7 @@ Parts of the data structure might be omitted if the information is not available
             "metaData": [
                 {
                     "serviceAlias": "vmzParking",
-                    "lastUpdateTime": "2014-08-11T14:59:21+0200",
+                    "lastUpdateTime": "2014-08-11T14:59:21+02:00",
                     "messages": []
                 }
             ],
@@ -1552,7 +1593,7 @@ Parts of the data structure might be omitted if the information is not available
 @testable
 
 + Parameters
-    + categoryJson (optional, string, `{"category" : ["P%2BR"]}`) ... String `categoryJson` category json data. Example value `{"category":["P+R"]}` or `{"category" : ["P"]}`
+    + categoryJson (optional, string, `{"category":["P+R"]}`) ... String `categoryJson` category json data. Example value `{"category":["P+R"]}` or `{"category":["P"]}`
     
 + Request
 
@@ -1957,7 +1998,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 "metaData": [
                     {
                         "serviceAlias": "vmzStation",
-                        "lastUpdateTime": "2014-10-14T07:48:27+0200",
+                        "lastUpdateTime": "2014-10-14T07:48:27+02:00",
                         "messages": []
                     }
                 ],
@@ -2014,7 +2055,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                         "metaData": [
                             {
                                 "serviceAlias": "vmzStation",
-                                "lastUpdateTime": "2014-10-14T07:48:27+0200",
+                                "lastUpdateTime": "2014-10-14T07:48:27+02:00",
                                 "messages": []
                             }
                         ],
@@ -2160,7 +2201,7 @@ costs | Array | list of costs for the proposed trip including distance, duration
                             "system": "WGS_84"
                         },
                         "address": "Humboldtring 10, 14473 Potsdam, Germany",
-                        "time": "2014-08-27T11:23:06+0200"
+                        "time": "2014-08-27T11:23:06+02:00"
                     },
                     "destination": {
                         "location": {
@@ -2169,7 +2210,7 @@ costs | Array | list of costs for the proposed trip including distance, duration
                             "system": "WGS_84"
                         },
                         "address": "Europa Square 1, 10557 Berlin, Germany",
-                        "time": "2014-08-27T13:03:07+0200"
+                        "time": "2014-08-27T13:03:07+02:00"
                     },
                     "trafficTypes": [
                         "Walk",
@@ -2206,7 +2247,7 @@ costs | Array | list of costs for the proposed trip including distance, duration
                             "system": "WGS_84"
                         },
                         "address": "Humboldtring 10, 14473 Potsdam, Germany",
-                        "time": "2014-08-27T11:23:06+0200"
+                        "time": "2014-08-27T11:23:06+02:00"
                     },
                     "destination": {
                         "location": {
@@ -2215,7 +2256,7 @@ costs | Array | list of costs for the proposed trip including distance, duration
                             "system": "WGS_84"
                         },
                         "address": "Europa Square 1, 10557 Berlin, Germany",
-                        "time": "2014-08-27T13:11:13+0200"
+                        "time": "2014-08-27T13:11:13+02:00"
                     },
                     "trafficTypes": [
                         "Walk",
@@ -2289,7 +2330,7 @@ Notes:
                   "longitude": 13.074760101735592,
                   "latitude": 52.3933000574258
                 },
-                "time": "2014-08-27T14:53:06+0530"
+                "time": "2014-08-27T14:53:06+05:30"
               },
               "destination": {
                 "location": {
@@ -2389,7 +2430,7 @@ useParkAndRide | Boolean | Use parking and ride for own vehicle
                             "system": "WGS_84"
                         },
                         "address": null,
-                        "time": "2014-03-27T13:04:40+0100"
+                        "time": "2014-03-27T13:04:40+01:00"
                     },
                     "destination": {
                         "location": {
@@ -2398,7 +2439,7 @@ useParkAndRide | Boolean | Use parking and ride for own vehicle
                             "system": "WGS_84"
                         },
                         "address": null,
-                        "time": "2014-03-27T14:48:09+0100"
+                        "time": "2014-03-27T14:48:09+01:00"
                     },
                     "trafficTypes": [
                         "Car"
@@ -2516,8 +2557,8 @@ provider | Enum | {"News", etc.}
                     "category": "Blockade",
                     "message": "Closed Road",
                     "timePeriod": {
-                        "from": "2012-11-09T12:00:00+0100",
-                        "to": "2014-08-31T17:00:59+0200"
+                        "from": "2012-11-09T12:00:00+01:00",
+                        "to": "2014-08-31T17:00:59+02:00"
                     },
                     "reason": null,
                     "reasonShort": null,
@@ -2542,8 +2583,8 @@ provider | Enum | {"News", etc.}
                     "category": "Roadworks",
                     "message": "Road Work",
                     "timePeriod": {
-                        "from": "2012-04-11T09:00:00+0200",
-                        "to": "2016-05-15T17:00:59+0200"
+                        "from": "2012-04-11T09:00:00+02:00",
+                        "to": "2016-05-15T17:00:59+02:00"
                     },
                     "reason": null,
                     "reasonShort": null,
@@ -2635,8 +2676,8 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
                 "category": "Blockade",
                 "message": "Closed Road",
                 "timePeriod": {
-                    "from": "2014-01-06T11:03:00+0100",
-                    "to": "2014-12-31T23:59:00+0100"
+                    "from": "2014-01-06T11:03:00+01:00",
+                    "to": "2014-12-31T23:59:00+01:00"
                 },
                 "reason": null,
                 "reasonShort": null,
@@ -2662,8 +2703,8 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
                 "category": "Roadworks",
                 "message": "Road Work",
                 "timePeriod": {
-                    "from": "2012-04-11T09:00:00+0200",
-                    "to": "2016-05-15T17:00:59+0200"
+                    "from": "2012-04-11T09:00:00+02:00",
+                    "to": "2016-05-15T17:00:59+02:00"
                 },
                 "reason": null,
                 "reasonShort": null,
@@ -2720,7 +2761,7 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
                     "category": "ConstructionProject",
                     "message": "Disruption",
                     "timePeriod": {
-                        "from": "2013-08-26T01:00:00+0200",
+                        "from": "2013-08-26T01:00:00+02:00",
                         "to": null
                     },
                     "reason": "Sperrung wegen Bauarbeiten der BVG",
@@ -2753,7 +2794,7 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
                     "category": "Diversion",
                     "message": "Disruption",
                     "timePeriod": {
-                        "from": "2014-07-02T04:00:00+0200",
+                        "from": "2014-07-02T04:00:00+02:00",
                         "to": null
                     },
                     "reason": "Sperrung wegen Bauarbeiten",
