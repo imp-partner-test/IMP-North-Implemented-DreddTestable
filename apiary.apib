@@ -512,7 +512,7 @@ origin | Object | Start point of the proposed trip
 destination | Object | Endpoint of the proposed trip
 trafficTypes | Array | List of traffic types used in the proposed trip. Possible values: Bike, Bus, Car, CityTrain, Ferry, Metro, Other, RegioTrain, Unknown, Train, Tram, Walk, UBahn. The trafficType Other is used in the segments for the start/stop procedures of car rental/parking.
 description | String | Description of the trip proposal
-costs | Array | List of costs for the proposed trip including distance, duration, price, etc.
+costs | Array | List of costs for the proposed trip including distance, duration, price, CO2 emmision and ticket price for public transport.
 
     
 + Model (application/json)
@@ -638,16 +638,24 @@ Selection criteria for trip proposals is specified in the request body as descri
 
 attribute | json data type | comments
 --- | --- | ---
-origin | Object | Start point specified by a geo location (optionally can also include starttime). Addresses can be converted into geo locations by means of "GET /Resources/GeoLocations".
-destination | Object | End point specified by a geo location (optional can also include endtime). Note if time in the origin is specified, time in the destination is discarded! If no time is specified current time is taken.
+origin | Object | Start point specified by a geo location. Addresses can be converted into geo locations by means of "GET /Resources/GeoLocations".
+destination | Object | End point specified by a geo location.
+time | String | Date and time of the trip. If no time is specified, the current time is used as departure time.
+departureTime | Boolean | Specifies whether the time is used as departure or arrival time
 viapoints | Array of Objects | List of geolocations the route should pass in the given sequence
-costfunctions | Array of Objects | List of cost factors, (such as Distance, Duration, Price, Emission), each with a percentaged weight. Sample cost function: {"costType":"Duration","percentage":"100"}
-ownVehicles | Array of Objects | List of own vehicles which may be included in trip proposal calculation. Sample object value {"trafficType":"Car", "useParking":true,"useParkAndRide":false, "location":{"type": "Point", "coordinates": [13.064472900000055, 52.3905689]}}
-userId | String | Traveller id that requests a trip. Note: Currently it is not used by IMP and can be any string.
+costFunctions | Array of Objects | List of cost factors, (such as Distance, Duration, Price, Emission), each with a percentaged weight. Sample cost function: {"costType":"Duration","percentage":"100"}
+userId | String | Traveler id that requests a trip. Note: Currently it is not used by IMP and can be any string.
 trafficTypes | Array | List of traffic types which should be included into trip proposal calculation. Currently possible: Bike, Bus, Car, CityTrain, Ferry, Metro, RegioTrain, Unknown, Train, Tram, Walk, UBahn. 
 routingConstraints | Array of Objects | List of constraints to be taken into account for various traffic types, specified by min/max values. E.g. maximal distance in meters the traveler agrees to walk: {"routingConstraintType": "Distance", "trafficType": "Walk", "min": { "value": 0,"unit": "meter" }, "max":{"value":600, "unit":"meter"}}
+ownVehicles | Array of Objects | List of own vehicles which may be included in trip proposal calculation. Sample object value {"trafficType":"Car", "useParking":true,"useParkAndRide":false, "location":{"type": "Point", "coordinates": [13.064472900000055, 52.3905689]}}
 useBikeSharing | Boolean | Use bike sharing services for routing [default: false]
 useCarSharing | Boolean | Use car sharing services for routing [default: false]
+maxRoutingResponses | Number | Number of to be provided route alternatives
+numOfTravelers | Number | Number of fellow travelers
+numOfLuggage | Number | Number of luggage pieces
+useTrafficSituation | Boolean | If set to true, the current traffic situation will be considered in the route calculation
+
+Usually a subscribed route planning service does not support all of the above parameters. In many cases that is indicated by warnings in the metaData section of the response.
 
 Notes:
 - IMR also provides routes in the past, but not for public transport
@@ -709,20 +717,20 @@ Notes:
 
 
 # Group Public Transport
-This is a group of all public transportation related rest resources.
+This is a group of all public transportation related REST resources.
 
 
 ## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V2/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}&f_stations={f_stations}] 
 
-This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
-Note: The area of interest can be defined as:
+This collection contains a list of stations (U-Bahn/S-Bahn/train/bus/tram) in a specified area with basic information and a URI to get more details.
+The area of interest can be defined as:
 
-* a bounding circle (lat={lat}&lng={lng}&radius={radius})
-* a bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
 
-The optional filter `f_stations` can be used to get the stations with a particular   `stationType`
+The optional filter `f_stations` can be used to get the stations with a particular `stationType`.
 
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
 
 attribute | json data type | comments
 --- | --- | ---
@@ -734,14 +742,14 @@ description | String | Approximate location
 type | String | (="PublicTransportStation")
 uri | URI | URI to request more details
 location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
-provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
+provider | String | Service provider
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
 stationType | String | BusTramStation, MetroStation, CityTrainStation
-platforms | String | Platforms at station
-wheelChair | Boolean | Wheel chair availability
+platforms | String | Platforms of the station
+wheelChair | Boolean | Wheel chair accessibility
 lines | Array of Objects | Array of lines departing at the station
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.
 
 
 + Parameters
@@ -854,24 +862,24 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 ## List of All Public Transport Stations with Basic Info [/imp-endpoint/api/V2/Resources/PublicTransport/Stations/All] 
 
-This collection contains list stations (U-Bahn/S-Bahn/train/bus/tram)
+This collection contains a list of stations (U-Bahn/S-Bahn/train/bus/tram).
 
-The If-Modified-Since (optional) can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
 
 attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
-resources | Array | Array of resources within the search area
+resources | Array | Array of resources within the business area
 --- | --- | ---
 description | String | Approximate location
 type | String | (="PublicTransportStation")
 uri | URI | URI to request more details
 location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
-provider | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
+provider | String | Service provider
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request. 
 
 + Model (application/json)
 
@@ -942,54 +950,5 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 + Response 200
 
-            {
-                "metaData": [
-                    {
-                      "serviceAlias": "vmzStation",
-                      "lastUpdateTime": "2015-01-07T07:14:23+00:00",
-                      "messages": [ ]
-                    }
-                ],
-                "resources": [
-                    {
-                      "actions": [
-                        
-                      ],
-                      "id": 4498,
-                      "description": "HÃ¶now, Erikastr.",
-                      "type": "PublicTransportStation",
-                      "uri": "Resources/PublicTransport/Stations/PublicTransportStation/4498",
-                      "location": {
-                        "type": "Point",
-                        "coordinates": [
-                          13.627082,
-                          52.530892
-                        ]
-                      },
-                      "provider": "vmzStation",
-                      "availability": 100.0,
-                      "operator": "VBBStation",
-                      "modFlag": "Modified"  
-                    },
-                    {
-                      "actions": [
-                        
-                      ],
-                      "id": 1306,
-                      "description": "S+U Karl-Bonhoeffer-Nervenklinik (Berlin)",
-                      "type": "PublicTransportStation",
-                      "uri": "Resources/PublicTransport/Stations/PublicTransportStation/1306",
-                      "location": {
-                        "type": "Point",
-                        "coordinates": [
-                          13.332921,
-                          52.578169
-                        ]
-                      },
-                      "provider": "vmzStation",
-                      "availability": 100.0,
-                      "operator": "VBBStation",
-                      "modFlag": "Modified"
-                    }
-                ]    
-            }
+    [List of All Public Transport Stations with Basic Info][]
+    
