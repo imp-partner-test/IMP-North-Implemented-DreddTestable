@@ -2,28 +2,22 @@ FORMAT: 1A
 HOST: https://cluster.production.imp.mobilitaetsdienste.de:8443
 
 # IMP North. Implemented & Dredd testable
-This apiary project describes the API version V2 of SiMobility Connect. 
-
-Host V2: https://muc-staging-v2.jelastic.dogado.eu
-
-Host V1: https://muc-staging-imp.jelastic.dogado.eu
-
-cml host: http://cml-staging.jelastic.dogado.eu (only IMR is working)
+This is the API specified in new apiary format 1A.
 
 
 # Group Bike Sharing
-This is a group of all bike sharing related REST resources.
+This is a group of all bike sharing related rest resources.
     
 
-## Bike Sharing Stations [/imp-endpoint/api/V2/Resources/BikeSharing/Stations?lat={lat}&lng={lng}&radius={radius}]    
-This collection contains a list of all bike sharing stations in an area of interest specified by query parameters.
+## Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/Stations?lat={lat}&lng={lng}&radius={radius}]    
+This collection contains a list of all bike sharing stations in an area of interest as specified in the query parameters. 
 The area of interest can be defined as:
 
 * an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
 * an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
-Date-time is in HTTP date format for, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
 
 The data structure of the response contains the following attributes: 
 
@@ -31,14 +25,14 @@ attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
-resources | Array | Array of resources within the search area
+resources | Array | Array of resources within the area of interest
 --- | --- | ---
 actions | Array | Available actions
 id | Number | Internal bike sharing station identification number
-description | String | Approximate location
+description | String | Textual description of location
 type | String | Type of bike sharing station
 uri | URI | URI to request more details.
-location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
 provider | String | Service provider
 availability | Double | Availability in percentage
 operator | String | Resource operator
@@ -49,7 +43,7 @@ address | Object |
 numberOfBikes | Number | Number of bikes or storing positions
 numberOfFreeBikes | Number | Number of currently available bikes
 services | Array | 
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.  
 
 Parts of the data structure might be omitted if the information is not available. 
     
@@ -60,7 +54,7 @@ Parts of the data structure might be omitted if the information is not available
 + Parameters
     + lat (number, `52.52`) ... latitude value. Has example value.
     + lng (number, `13.39`) ... longitude value. Has example value.
-    + radius (number, `500`) ... radius in meter. Has example value.
+    + radius (number, `1000`) ... radius in meter. Has example value.
     
 + Request
 
@@ -89,37 +83,28 @@ Parts of the data structure might be omitted if the information is not available
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/BikeSharing/Stations/220/Process?action=book"
+                            "uri": "Resources/BikeSharing/Stations/270210/Process?action=book"
                         }
                     ],
-                    "id": 220,
-                    "description": "S. + U.-Bahnhof/ Friedrichstr.",
+                    "id": 270210,
+                    "description": "S+U-Bhf. Friedrichstraße",
                     "type": "BikeSharingStation",
-                    "uri": "Resources/BikeSharing/Stations/220",
+                    "uri": "Resources/BikeSharing/Stations/270210",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.3881497383118,
-                            52.5203730427629
-                        ]
+                        "latitude": 52.519676208496094,
+                        "longitude": 13.385995864868164,
+                        "system": "WGS_84"
                     },
-                    "provider": "nextbike",
-                    "availability": 0,
-                    "operator": "NextBike",
+                    "provider": "callabike",
+                    "availability": 100,
+                    "operator": "CallABike",
+                    "modFlag": "Modified",
                     "phoneNo": null,
                     "operatorURI": null,
-                    "operatorName": "NextBike",
-                    "address": {
-                        "citycode": null,
-                        "city": "Berlin",
-                        "street": null,
-                        "houseno": null,
-                        "district": null,
-                        "region": null,
-                        "country": null
-                    },
-                    "numberOfBikes": null,
-                    "numberOfFreeBikes": 0,
+                    "operatorName": "CallABike",
+                    "address": null,
+                    "numberOfBikes": 16,
+                    "numberOfFreeBikes": 16,
                     "services": null
                 },
                 {
@@ -127,39 +112,1082 @@ Parts of the data structure might be omitted if the information is not available
                         {
                             "name": "book",
                             "method": "POST",
-                            "uri": "Resources/BikeSharing/Stations/210/Process?action=book"
+                            "uri": "Resources/BikeSharing/Stations/270258/Process?action=book"
                         }
                     ],
-                    "id": 210,
-                    "description": "S+U-Bhf. Friedrichstraße",
+                    "id": 270258,
+                    "description": "Tucholskystraße / Torstraße",
                     "type": "BikeSharingStation",
-                    "uri": "Resources/BikeSharing/Stations/210",
+                    "uri": "Resources/BikeSharing/Stations/270258",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.385995864868164,
-                            52.519676208496094
-                        ]
+                        "latitude": 52.52822494506836,
+                        "longitude": 13.392618179321289,
+                        "system": "WGS_84"
                     },
                     "provider": "callabike",
-                    "availability": 81,
+                    "availability": 43.75,
                     "operator": "CallABike",
+                    "modFlag": "Modified",
                     "phoneNo": null,
                     "operatorURI": null,
                     "operatorName": "CallABike",
                     "address": null,
                     "numberOfBikes": 16,
-                    "numberOfFreeBikes": 13,
+                    "numberOfFreeBikes": 7,
                     "services": null
+                }
+            ]
+        }
+        
+
+## All Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/All]    
+This collection contains a list of all bike sharing stations.
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
+Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+The data structure of the response contains the following attributes: 
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the defined business area
+--- | --- | ---
+actions | Array | Available actions
+id | Number | Internal bike sharing station identification number
+description | String | Textual description of location
+type | String | Type of bike sharing station
+uri | URI | URI to request more details.
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+phoneNo | String | 
+operatorURI | String |
+operatorName | String | Resource operator
+address | Object | 
+numberOfBikes | Number | Number of bikes or storing positions
+numberOfFreeBikes | Number | Number of currently available bikes
+services | Array | 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.  
+
+Parts of the data structure might be omitted if the information is not available. 
+    
+
+### Getting bikes [GET]
+@testable
+
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)
+
+        {
+          "metaData": [
+            {
+              "serviceAlias": "callabike",
+              "lastUpdateTime": "2014-08-11T13:38:33+02:00",
+              "messages": [
+                
+              ]
+            },
+            {
+              "serviceAlias": "nextbike",
+              "lastUpdateTime": "2014-08-11T13:38:36+02:00",
+              "messages": [
+                
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/BikeSharing/BikeSharingStation/47059/Process?action=book"
+                }
+              ],
+              "id": 47059,
+              "description": "Ernst-Reuter-Platz / Marchstraße",
+              "type": "BikeSharingStation",
+              "uri": "Resources/BikeSharing/BikeSharingStation/47059",
+              "location": {
+                "latitude": 52.51343536376953,
+                "longitude": 13.32278823852539,
+                "system": "WGS_84"
+              },
+              "provider": "callabike",
+              "availability": 62.5,
+              "operator": "CallABike"
+            },
+            {
+              "actions": [
+                {
+                  "name": "book",
+                  "method": "POST",
+                  "uri": "Resources/BikeSharing/BikeSharingStation/47072/Process?action=book"
+                }
+              ],
+              "id": 47072,
+              "description": "Wilmersdorfer Straße / Goethestraße",
+              "type": "BikeSharingStation",
+              "uri": "Resources/BikeSharing/BikeSharingStation/47072",
+              "location": {
+                "latitude": 52.5088996887207,
+                "longitude": 13.306029319763184,
+                "system": "WGS_84"
+              },
+              "provider": "callabike",
+              "availability": 68.75,
+              "operator": "CallABike"
+            }
+          ]
+        }
+        
+
+# Group Car Sharing
+This is a group of all car sharing related rest resources.
+
+
+## List of Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains a list of available car sharing locations in an area of interest specified by the query parameters (both free-floating cars and/or car sharing stations) 
+with basic information and an URI to acquire more details.
+In case of station-based cars, only the URI of the Car Sharing station is returned; in case of free-floating cars, the URI to the car itself is returned.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date time in HTTP date format for e.g. Wed, 09 Apr 2008 23:55:38 GMT
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the area of interest
+--- | --- | ---
+actions | Array | 
+id | Number | 
+description | String | License ID or approximate location
+type | String | Type of resource
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
+
+
+### Getting all car sharing locations [GET]
+@testable
+
++ Parameters
+    + lat (optional, number, `52.52`) ... latitude value. Has example value.
+    + lng (optional, number, `13.39`) ... longitude value. Has example value.
+    + radius (optional, number, `5000`) ... radius in meter. Has example value.
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+              "metaData": [
+                {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-11-22T03:14:44+0100",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-11-22T03:20:51+0100",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "driveNow",
+                  "lastUpdateTime": "2014-11-22T03:20:16+0100",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "citeeCar",
+                  "lastUpdateTime": "2014-11-22T03:19:51+0100",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "multiCity",
+                  "lastUpdateTime": "2014-11-22T03:20:34+0100",
+                  "messages": []
+                }
+              ],
+              "resources": [
+                {
+                  "actions": [],
+                  "id": 49483,
+                  "description": "B-CC 1426",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/49483",
+                  "location": {
+                    "latitude": 52.525909423828125,
+                    "longitude": 13.390524864196777,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar",
+                  "modFlag": "Relocated"
+                },
+                {
+                  "actions": [],
+                  "id": 48831,
+                  "description": "B-CC 6109",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/48831",
+                  "location": {
+                    "latitude": 52.51978302001953,
+                    "longitude": 13.393811225891113,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar",
+                  "modFlag": "Relocated"
+                },
+                {
+                  "actions": [],
+                  "id": 56507,
+                  "description": "114071",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/56507",
+                  "location": {
+                    "latitude": 52.5156,
+                    "longitude": 13.3879333,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
+                },
+                {
+                  "actions": [],
+                  "id": 49498,
+                  "description": "151616",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/49498",
+                  "location": {
+                    "latitude": 52.5271867,
+                    "longitude": 13.3861633,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
+                },
+                {
+                  "actions": [],
+                  "id": 50280,
+                  "description": "151683",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/50280",
+                  "location": {
+                    "latitude": 52.5198967,
+                    "longitude": 13.3961867,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity",
+                  "modFlag": "Modified"
+                }
+              ]
+            } 
+
+## List of All Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All] 
+
+This collection contains a list of all available car sharing locations (both free-floating cars and/or car sharing stations) 
+with basic information and an URI to acquire more details.
+In case of station-based cars, only the URI of the Car Sharing station is returned; in case of free-floating cars, the URI to the car itself is returned.
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within defined business area
+--- | --- | ---
+actions | Array | 
+id | Number | 
+description | String | License ID or approximate location
+type | String | Type of resource
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request
+
+
+### Getting all car sharing locations [GET]
+@testable
+
++ Request
+
+    + Headers
+        
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+    
+    + Body
+    
+            {
+              "metaData": [
+                {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-07-25T11:30:33+05:30",
+                  "messages": [
+                    
+                  ]
+                },
+                {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-07-25T11:30:28+05:30",
+                  "messages": [
+                    
+                  ]
+                },
+                {
+                  "serviceAlias": "driveNow",
+                  "lastUpdateTime": "2014-07-25T11:30:30+05:30",
+                  "messages": [
+                    
+                  ]
+                },
+                {
+                  "serviceAlias": "citeeCar",
+                  "lastUpdateTime": "2014-07-25T11:30:34+05:30",
+                  "messages": [
+                    
+                  ]
+                },
+                {
+                  "serviceAlias": "multiCity",
+                  "lastUpdateTime": "2014-07-25T11:30:36+05:30",
+                  "messages": [
+                    
+                  ]
+                }
+              ],
+              "resources": [
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/7695/Process?action=book"
+                    }
+                  ],
+                  "id": 7695,
+                  "description": "U-Bahnhof Senefelder Platz",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/7695",
+                  "location": {
+                    "latitude": 52.53166159018624,
+                    "longitude": 13.412632271647453,
+                    "system": "WGS_84"
+                  },
+                  "provider": "flinkster",
+                  "availability": 0,
+                  "operator": "FlinksterDB"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/7683/Process?action=book"
+                    }
+                  ],
+                  "id": 7683,
+                  "description": "U-Bahnhof Hermannplatz",
+                  "type": "Stations",
+                  "uri": "Resources/CarSharing/Stations/7683",
+                  "location": {
+                    "latitude": 52.48663380523992,
+                    "longitude": 13.422980234026909,
+                    "system": "WGS_84"
+                  },
+                  "provider": "flinkster",
+                  "availability": 0,
+                  "operator": "FlinksterDB"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Cars/7884/Process?action=book"
+                    }
+                  ],
+                  "id": 7884,
+                  "description": "B-GO2879",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/7884",
+                  "location": {
+                    "latitude": 52.4701,
+                    "longitude": 13.42044,
+                    "system": "WGS_84"
+                  },
+                  "provider": "car2Go",
+                  "availability": 100,
+                  "operator": "Car2Go_Berlin"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Cars/7885/Process?action=book"
+                    }
+                  ],
+                  "id": 7885,
+                  "description": "B-GO2653",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/7885",
+                  "location": {
+                    "latitude": 52.52848,
+                    "longitude": 13.19156,
+                    "system": "WGS_84"
+                  },
+                  "provider": "car2Go",
+                  "availability": 100,
+                  "operator": "Car2Go_Berlin"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Cars/8816/Process?action=book"
+                    }
+                  ],
+                  "id": 8816,
+                  "description": "Romeo",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/8816",
+                  "location": {
+                    "latitude": 52.513024,
+                    "longitude": 13.327073,
+                    "system": "WGS_84"
+                  },
+                  "provider": "driveNow",
+                  "availability": 100,
+                  "operator": "DriveNow"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Cars/8817/Process?action=book"
+                    }
+                  ],
+                  "id": 8817,
+                  "description": "Kingsley",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/8817",
+                  "location": {
+                    "latitude": 52.500411,
+                    "longitude": 13.374263,
+                    "system": "WGS_84"
+                  },
+                  "provider": "driveNow",
+                  "availability": 100,
+                  "operator": "DriveNow"
+                },
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Cars/8818/Process?action=book"
+                    }
+                  ],
+                  "id": 8818,
+                  "description": "Inness",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/8818",
+                  "location": {
+                    "latitude": 52.502916,
+                    "longitude": 13.479554,
+                    "system": "WGS_84"
+                  },
+                  "provider": "driveNow",
+                  "availability": 100,
+                  "operator": "DriveNow"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9323,
+                  "description": "B-CC 4162",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9323",
+                  "location": {
+                    "latitude": 52.50404000000001,
+                    "longitude": 13.47005,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9324,
+                  "description": "B-CC 1541",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9324",
+                  "location": {
+                    "latitude": 52.565338134765625,
+                    "longitude": 13.420881271362305,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9325,
+                  "description": "B-CC 3392",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9325",
+                  "location": {
+                    "latitude": 52.521278381347656,
+                    "longitude": 13.419211387634277,
+                    "system": "WGS_84"
+                  },
+                  "provider": "citeeCar",
+                  "availability": null,
+                  "operator": "CiteeCar"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9467,
+                  "description": "151601",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9467",
+                  "location": {
+                    "latitude": 52.5275867,
+                    "longitude": 13.4586233,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9468,
+                  "description": "150554",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9468",
+                  "location": {
+                    "latitude": 52.5312183,
+                    "longitude": 13.3188283,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity"
+                },
+                {
+                  "actions": [
+                    
+                  ],
+                  "id": 9469,
+                  "description": "114075",
+                  "type": "Cars",
+                  "uri": "Resources/CarSharing/Cars/9469",
+                  "location": {
+                    "latitude": 52.4811767,
+                    "longitude": 13.3154033,
+                    "system": "WGS_84"
+                  },
+                  "provider": "multiCity",
+                  "availability": 100,
+                  "operator": "Multicity"
+                }
+              ]
+            }
+
+## List of free-floating Cars with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
+
+This collection contains a list of available free-floating cars in a specific area specified by query parameters.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The optional filter `f_cars` can be used to get cars with a specific `fuelType`
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources
+--- | --- | ---
+actions | Array | 
+id | Number | car id
+description | String | License ID or approximate location
+type | String | "CarSharingCarDetails"
+uri | URI | URI
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+model | String | Car model
+address | String | Street, city, etc.
+licenseId | String | License ID
+category | String | ENUM{"Fullsize", "Compact", "Smallsize", ... }
+fuelType | String | electric vehicle ("ELECTRICITY") or petrol car ("PETROL")
+fuelLevel | Double | Fuel level in percentage
+imageLink | Link | link to the car image
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.
+
+
+### Getting free-floating Cars [GET] 
+@testable
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `3000`) ... radius in meter. Has example value.
+    + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
+
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT     
+        
+        
++ Response 200 (application/json)
+
+    + Body
+    
+            {
+                "metaData": [
+                    {
+                        "serviceAlias": "flinkster",
+                        "lastUpdateTime": "2014-12-16T10:25:02+01:00",
+                        "messages": []
+                    },
+                    {
+                        "serviceAlias": "car2Go",
+                        "lastUpdateTime": "2014-12-16T10:24:59+01:00",
+                        "messages": []
+                    },
+                    {
+                        "serviceAlias": "citeeCar",
+                        "lastUpdateTime": "2014-12-16T10:25:03+01:00",
+                        "messages": []
+                    },
+                    {
+                        "serviceAlias": "multiCity",
+                        "lastUpdateTime": "2014-12-16T10:25:04+01:00",
+                        "messages": []
+                    },
+                    {
+                        "serviceAlias": "driveNow",
+                        "lastUpdateTime": "2014-12-16T10:24:57+01:00",
+                        "messages": []
+                    }
+                ],
+                "resources": [
+                    {
+                        "actions": [],
+                        "id": 50781,
+                        "description": "B-MC 2463",
+                        "type": "CarSharingCar",
+                        "uri": "Resources/CarSharing/Cars/50781",
+                        "location": {
+                            "latitude": 52.526275,
+                            "longitude": 13.3706283,
+                            "system": "WGS_84"
+                        },
+                        "provider": "multiCity",
+                        "availability": 100,
+                        "operator": "Multicity",
+                        "model": "Citroën C-Zero ",
+                        "address": null,
+                        "licenseId": "B-MC 2463",
+                        "category": null,
+                        "fuelType": "ELECTRICITY",
+                        "fuelLevel": null,
+                        "imageLink": "www.flinkster.de/common/gethashdata.php?uniquebid=dbc653cac35df2a7f854457e6c2d6339"
+                    },
+                    {
+                        "actions": [],
+                        "id": 50324,
+                        "description": "B-MC 2594",
+                        "type": "CarSharingCar",
+                        "uri": "Resources/CarSharing/Cars/50324",
+                        "location": {
+                            "latitude": 52.5327567,
+                            "longitude": 13.39542,
+                            "system": "WGS_84"
+                        },
+                        "provider": "multiCity",
+                        "availability": 100,
+                        "operator": "Multicity",
+                        "model": "Citroën C-Zero ",
+                        "address": null,
+                        "licenseId": "B-MC 2594",
+                        "category": null,
+                        "fuelType": "ELECTRICITY",
+                        "fuelLevel": null,
+                        "imageLink": "www.flinkster.de/common/gethashdata.php?uniquebid=eb6c05d7352c1ee9bf38ce2e6a1eada4"
+                    }
+                ]
+            }
+        
+
+## List of Stations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}&operatorId={operatorId}]
+
+This collection contains a list of car sharing stations in an area of interest specified by the query parameters,
+together with basic information and an URI to acquire more details.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The optional filter `f_cars` can be used to get only car sharing stations providing cars with a specific `fuelType`.
+
+The optional filter `operatorID` can be used to get only car sharing stations provided by a specific service provider.
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+actions | Array | 
+id | Number | Internal car sharing station identification number
+description | String | Approximate location
+type | String | 
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+operatorURI | String | 
+operatorName | String | Resource operator
+address | Object | {"cityCode": String, "city": String, "street": String, "houseNo": String, "district": String, "region": String, "country": String}
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request. 
+
+
+### Getting car sharing station list [GET] 
+@testable
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `3000`) ... radius in meter. Has example value.
+    + fuelTypeJson (optional, string, `{"fuelType":"ELECTRICITY"}`) ... String `fuelTypeJson` fuel type json data. Example value `{"fuelType":"ELECTRICITY"}` or `{"fuelType":"PETROL"}`
+    + operatorId (optional, string, `FlinksterDB`) ... String `operatorId` operator id data. Has example value.
+
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)
+            
+    + Body
+    
+            {
+                "metaData": [
+                {
+                  "serviceAlias": "flinkster",
+                  "lastUpdateTime": "2014-12-12T14:24:04+01:00",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "car2Go",
+                  "lastUpdateTime": "2014-12-12T14:23:58+01:00",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "driveNow",
+                  "lastUpdateTime": "2014-12-12T14:23:51+01:00",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "citeeCar",
+                  "lastUpdateTime": "2014-12-12T14:24:14+01:00",
+                  "messages": []
+                },
+                {
+                  "serviceAlias": "multiCity",
+                  "lastUpdateTime": "2014-12-12T14:24:11+01:00",
+                  "messages": []
+                }
+              ],
+              "resources": [
+                {
+                  "actions": [
+                    {
+                      "name": "book",
+                      "method": "POST",
+                      "uri": "Resources/CarSharing/Stations/46874/Process?action=book"
+                    }
+                  ],
+                  "id": 46874,
+                  "description": "Caroline-Michaelis-Straße",
+                  "type": "CarSharingStation",
+                  "uri": "Resources/CarSharing/Stations/46874",
+                  "location": {
+                    "latitude": 52.533559809882156,
+                    "longitude": 13.382519781589508,
+                    "system": "WGS_84"
+                  },
+                  "provider": "flinkster",
+                  "availability": 100,
+                  "operator": "FlinksterDB",
+                  "modFlag": "Modified",
+                  "phoneNo": null,
+                  "operatorURI": null,
+                  "operatorName": "FlinksterDB",
+                  "address": {
+                    "citycode": "10115",
+                    "city": "Berlin",
+                    "street": "Caroline-Michaelis-Straße",
+                    "houseno": "5-11",
+                    "district": "Mitte",
+                    "region": null,
+                    "country": null
+                  }
+                }
+              ]
+            }  
+
+# Group EV Charging
+This is a group of all EV Charging related rest resources.
+    
+
+## List of EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
+This collection contains a list of all electric vehicle (EV) charging stations in an area of interest specified by query parameters, 
+together with geo location, name, and a URI to acquire more details.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
+Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+actions | Array | List of available actions on this resource
+id | Number | Internal charging station identification number
+description | String | Approximate location or parking garage operator
+type | String | ="EVChargingStation" 
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider |  String| Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+address | Object | 
+plugTypes | Enum value | Types of plugs
+power | Object | Unit and value 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request  
+
+
+### Getting EV charging stations [GET]
+@testable
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `1000`) ... radius in meter. Has example value.
+    
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)
+    
+        {
+            "metaData": [
+                {
+                    "serviceAlias": "vattenfall",
+                    "lastUpdateTime": "2014-07-10T12:06:09+02:00",
+                    "messages": []
+                }
+            ],
+            "resources": [
+                {
+                    "actions": [],
+                    "id": 268355,
+                    "description": "Conti",
+                    "type": "EVChargingStation",
+                    "uri": "Resources/EVCharging/Stations/268355",
+                    "location": {
+                        "latitude": 52.51474,
+                        "longitude": 13.38639,
+                        "system": "WGS_84"
+                    },
+                    "provider": "vattenfall",
+                    "availability": 0,
+                    "operator": "Vattenfall",
+                    "modFlag": "Relocated",
+                    "address": {
+                        "citycode": "10117",
+                        "city": "Berlin",
+                        "street": "Glinkastr.",
+                        "houseno": "38",
+                        "district": null,
+                        "region": null,
+                        "country": null
+                    },
+                    "plugTypes": [
+                        "Type2Outlet",
+                        "TypeFSchuko"
+                    ],
+                    "power": {
+                        "unit": "KiloWatt",
+                        "value": 11040
+                    }
+                }
+            ]
+        }
+
+## List of All EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations/All]
+This collection contains a list of all electric vehicle (EV) charging stations.
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
+Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+actions | Array | List of available actions on this resource
+id | Number | Internal charging station identification number
+description | String | Approximate location or parking garage operator
+type | String | ="EVChargingStation" 
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider |  String| Service provider
+availability | Double | Availability in percentage
+operator | String | Resource operator
+address | Object | 
+plugTypes | Enum value | Types of plugs
+power | Object | Unit and value
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request  
+
+
+### Getting EV charging stations [GET]
+@testable
+
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+        
++ Response 200 (application/json)
+    
+        {
+            "metaData": [
+                {
+                    "serviceAlias": "vattenfall",
+                    "lastUpdateTime": "2014-08-11T14:54:39+02:00",
+                    "messages": []
+                },
+                {
+                    "serviceAlias": "hubject",
+                    "lastUpdateTime": "2014-08-11T05:17:50+02:00",
+                    "messages": []
+                }
+            ],
+            "resources": [
+                {
+                    "actions": [],
+                    "id": 53009,
+                    "description": "",
+                    "type": "EVChargingStationDetails",
+                    "uri": "Resources/EVCharging/Stations/EVChargingStationDetails/53009",
+                    "location": {
+                        "latitude": 52.43498,
+                        "longitude": 13.43448,
+                        "system": "WGS_84"
+                    },
+                    "provider": "vattenfall",
+                    "availability": 100,
+                    "operator": "Vattenfall"
+                },
+                {
+                    "actions": [],
+                    "id": 49313,
+                    "description": "TOTAL-Tankstelle",
+                    "type": "EVChargingStationDetails",
+                    "uri": "Resources/EVCharging/Stations/EVChargingStationDetails/49313",
+                    "location": {
+                        "latitude": 52.5481579,
+                        "longitude": 13.4675685,
+                        "system": "WGS_84"
+                    },
+                    "provider": "vattenfall",
+                    "availability": 100,
+                    "operator": "Vattenfall"
                 }
             ]
         }
 
 # Group Parking
-This is a group of all parking related REST resources including Parking Garages and On-street Parking Vacancies.
+This is a group of all parking related rest resources including Parking Garages and On-street Parking Vacancies.
     
 
-## Parking Garages with Basic Info [/imp-endpoint/api/V2/Resources/Parking/Garages?lat={lat}&lng={lng}&radius={radius}&f_garages={categoryJson}]  
+## Parking Garages with Basic Info [/imp-endpoint/api/V1/Resources/Parking/Garages?lat={lat}&lng={lng}&radius={radius}&f_garages={categoryJson}]  
 This collection contains a list of all parking garages in an area of interest specified by query parameters together with an URI to acquire more details. Parking garages can be filtered by category.
 The area of interest can be defined as:
 
@@ -182,12 +1210,12 @@ id | Number | Internal parking garage identification number
 description | String | Approximate location
 type | String | (="ParkingGarage")
 uri | URI | URI to request more details
-location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  } 
 provider | String | Service provider (usually equals operator)
 availability | Double | Availability in percentage
 operator | String | Parking space operator (usually equals provider)
 totalnumber | Object | Number of lots for different categories { "handicappedOnly":Int, "womenOnly":Int, "others":Int }
-lottype | Enum | Type of garage {"Parking garage", "Parking zone", "Underground car park", "Parking lot"} 
+lottype | Enum | Type of garage {"Parkhaus", "Parkzone", "Tiefgarage", "Parkplatz"} 
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request. 
 
 Parts of the data structure might be omitted if the information is not available. 
@@ -243,11 +1271,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "ParkingGarage",
                     "uri": "Resources/Parking/Garages/50368",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.3900337219238,
-                            52.439266204834
-                        ]
+                        "latitude": 52.439266204834,
+                        "longitude": 13.3900337219238,
+                        "system": "WGS_84"
                     },
                     "provider": "vmzParking",
                     "availability": null,
@@ -272,11 +1298,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "ParkingGarage",
                     "uri": "Resources/Parking/Garages/50050",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.3851003646851,
-                            52.4693984985352
-                        ]
+                        "latitude": 52.4693984985352,
+                        "longitude": 13.3851003646851,
+                        "system": "WGS_84"
                     },
                     "provider": "vmzParking",
                     "availability": null,
@@ -301,11 +1325,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "ParkingGarage",
                     "uri": "Resources/Parking/Garages/50399",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.3121109008789,
-                            52.4807777404785
-                        ]
+                        "latitude": 52.4807777404785,
+                        "longitude": 13.3121109008789,
+                        "system": "WGS_84"
                     },
                     "provider": "vmzParking",
                     "availability": null,
@@ -321,12 +1343,8 @@ Parts of the data structure might be omitted if the information is not available
         }
 
 
-## OnStreet Parking Spaces [/imp-endpoint/api/V2/Resources/Parking/OnStreetSpaces?lat={lat}&lng={lng}&radius={radius}&f_onStreetSpaces={sizeJson}]
-This collection contains a list of OnStreet parking spaces for specified size in an area of interest specified by query parameters together with an URI to acquire more details. OnStreet parking spaces can be filtered by the space size (Small, Medium or Large).
-The area of interest can be defined as:
-
-* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
-* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+## OnStreet Parking Spaces [/imp-endpoint/api/V1/Resources/Parking/OnStreetSpaces?lat={lat}&lng={lng}&radius={radius}&f_onStreetSpaces={sizeJson}]
+This collection contains a list of OnStreet parking spaces for specified size in an area of interest specified by query parameters together with an URI to acquire more details. OnStreet spaces can be filtered by the space size.
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
 Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
@@ -344,7 +1362,7 @@ id | Number | Internal OnStreet parking space identification number
 description | String | Approximate location
 type | String | (="ParkingOnStreetSpace")
 uri | URI | URI to request more details
-location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  } 
 provider | String | Parking service provider (usually equals operator)
 availability | Double | Availability in percentage
 operator | String | Parking space operator (usually equals provider)
@@ -359,10 +1377,10 @@ Parts of the data structure might be omitted if the information is not available
 @testable
 
 + Parameters
-    + lat (optional, number, `48.13`) ... latitude value. Has example value.
-    + lng (optional, number, `11.59`) ... longitude value. Has example value.
+    + lat (optional, number, `52.50`) ... latitude value. Has example value.
+    + lng (optional, number, `13.35`) ... longitude value. Has example value.
     + radius (optional, number, `5000`) ... radius in meter. Has example value.
-    + sizeJson (optional, string, `{"size":"Medium"}`) ... String `sizeJson` size json data. Example value `{"size":"Large"}` or `{"size":"Medium"}`
+    + sizeJson (optional, string, `{"size":"Large"}`) ... String `sizeJson` size json data. Example value `{"size":"Large"}` or `{"size":"Medium"}`
 
 + Request
 
@@ -398,11 +1416,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "ParkingOnStreetSpace",
                     "uri": "Resources/Parking/OnStreetSpaces/239",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.352953,
-                            52.502795
-                        ]
+                        "latitude": 52.502795,
+                        "longitude": 13.352953,
+                        "system": "WGS_84"
                     },
                     "provider": "parkUParking",
                     "availability": 100,
@@ -413,7 +1429,7 @@ Parts of the data structure might be omitted if the information is not available
             ]
         }
 
-## All Parking Garages or OnStreet parking spaces or both [/imp-endpoint/api/V2/Resources/Parking/All?f_onStreetSpaces={sizeJson}&f_garages={categoryJson}]    
+## All Parking Garages or OnStreet parking spaces or both [/imp-endpoint/api/V1/Resources/Parking/All?f_onStreetSpaces={sizeJson}&f_garages={categoryJson}]    
 This collection contains a list of all parking garages or OnStreet parking spaces or both in an area of interest. The parking possibilities can be filtered by garage category (viz. P+R or P) or space size (Small, Medium or Large).
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
@@ -465,11 +1481,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "OnStreetSpaces",
                     "uri": "Resources/Parking/OnStreetSpaces/2838",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.301087,
-                            52.517519
-                        ]
+                        "latitude": 52.517519,
+                        "longitude": 13.301087,
+                        "system": "WGS_84"
                     },
                     "provider": "parkUParking",
                     "availability": 100,
@@ -482,11 +1496,9 @@ Parts of the data structure might be omitted if the information is not available
                     "type": "OnStreetSpaces",
                     "uri": "Resources/Parking/OnStreetSpaces/239",
                     "location": {
-                        "type": "Point",
-                        "coordinates": [
-                            13.352953,
-                            52.502795
-                        ]
+                        "latitude": 52.502795,
+                        "longitude": 13.352953,
+                        "system": "WGS_84"
                     },
                     "provider": "parkUParking",
                     "availability": 100,
@@ -495,240 +1507,23 @@ Parts of the data structure might be omitted if the information is not available
             ]
         }
 
-# Group Journey Planner. IMR
-This is a group of all IMR journey planner related REST resources.
 
-
-## List of Trip Proposals with Basic Info. Intermodal Router [/imp-endpoint/api/V2/TripProposals/IMR] 
-
-This collection contains a list of trip proposals with basic information for specified trip criteria. Note: The trip proposals can be multimodal or intermodal, depending on which routing service the mobility provider of the user is subscribed to.
-
-The data structure of collection contains a list of trip proposals. Each trip proposal contains the following attributes:
-
-attribute | json data type | comments
---- | --- | ---
-url | URI | URI to request more details
-origin | Object | Start point of the proposed trip
-destination | Object | Endpoint of the proposed trip
-trafficTypes | Array | List of traffic types used in the proposed trip. Possible values: Bike, Bus, Car, CityTrain, Ferry, Metro, Other, RegioTrain, Unknown, Train, Tram, Walk, UBahn. The trafficType Other is used in the segments for the start/stop procedures of car rental/parking.
-description | String | Description of the trip proposal
-costs | Array | List of costs for the proposed trip including distance, duration, price, CO2 emmision and ticket price for public transport.
-
-    
-+ Model (application/json)
-
-    + Body
-    
-            {
-                  "metaData": [
-                    {
-                      "serviceAlias": "vmzImrRouting",
-                      "lastUpdateTime": "2014-12-23T12:35:43+00:00",
-                      "messages": []
-                    }
-                  ],
-                  "tripProposals": [
-                    {
-                      "url": "TripProposals/IMR/11873",
-                      "origin": {
-                        "location": {
-                          "type": "Point",
-                          "coordinates": [
-                            13.4113422,
-                            52.5218455
-                          ]
-                        },
-                        "address": "Dircksenstraße, 10178 Berlin, Germany",
-                        "time": "2013-07-23T13:10:00+00:00"
-                      },
-                      "destination": {
-                        "location": {
-                          "type": "Point",
-                          "coordinates": [
-                            13.3194514,
-                            52.5635387
-                          ]
-                        },
-                        "address": "Meteorstraße 40, 13405 Berlin, Germany",
-                        "time": "2013-07-23T13:43:26+00:00"
-                      },
-                      "trafficTypes": [
-                        "OwnBike"
-                      ],
-                      "description": null,
-                      "costs": {
-                        "distance": {
-                          "unit": "meter",
-                          "value": 8929
-                        },
-                        "duration": {
-                          "unit": "minute",
-                          "value": 33.43333333333333
-                        },
-                        "price": {
-                          "unit": "Euro",
-                          "value": 0
-                        },
-                        "emission": {
-                          "unit": "gram",
-                          "value": 0
-                        },
-                        "ticketPrice": null
-                      }
-                    },
-                    {
-                      "url": "TripProposals/IMR/11874",
-                      "origin": {
-                        "location": {
-                          "type": "Point",
-                          "coordinates": [
-                            13.4113422,
-                            52.5218455
-                          ]
-                        },
-                        "address": "Dircksenstraße, 10178 Berlin, Germany",
-                        "time": "2013-07-23T13:10:00+00:00"
-                      },
-                      "destination": {
-                        "location": {
-                          "type": "Point",
-                          "coordinates": [
-                            13.3194514,
-                            52.5635387
-                          ]
-                        },
-                        "address": "Meteorstraße 40, 13405 Berlin, Germany",
-                        "time": "2013-07-23T15:17:54+00:00"
-                      },
-                      "trafficTypes": [
-                        "Other",
-                        "BikeSharing",
-                        "Walk"
-                      ],
-                      "description": null,
-                      "costs": {
-                        "distance": {
-                          "unit": "meter",
-                          "value": 10264
-                        },
-                        "duration": {
-                          "unit": "minute",
-                          "value": 127.9
-                        },
-                        "price": {
-                          "unit": "Euro",
-                          "value": 0.024444444444444442
-                        },
-                        "emission": {
-                          "unit": "gram",
-                          "value": 0
-                        },
-                        "ticketPrice": null
-                      }
-                    }
-                ]
-            }
-
-
-
-### Getting Trip Proposals by IMR Planner  [POST]
-@testable
-
-Selection criteria for trip proposals is specified in the request body as described in the sample request with the following attributes:
-
-attribute | json data type | comments
---- | --- | ---
-origin | Object | Start point specified by a geo location. Addresses can be converted into geo locations by means of "GET /Resources/GeoLocations".
-destination | Object | End point specified by a geo location.
-time | String | Date and time of the trip. If no time is specified, the current time is used as departure time.
-departureTime | Boolean | Specifies whether the time is used as departure or arrival time
-viapoints | Array of Objects | List of geolocations the route should pass in the given sequence
-costFunctions | Array of Objects | List of cost factors, (such as Distance, Duration, Price, Emission), each with a percentaged weight. Sample cost function: {"costType":"Duration","percentage":"100"}
-userId | String | Traveler id that requests a trip. Note: Currently it is not used by IMP and can be any string.
-trafficTypes | Array | List of traffic types which should be included into trip proposal calculation. Currently possible: Bike, Bus, Car, CityTrain, Ferry, Metro, RegioTrain, Unknown, Train, Tram, Walk, UBahn. 
-routingConstraints | Array of Objects | List of constraints to be taken into account for various traffic types, specified by min/max values. E.g. maximal distance in meters the traveler agrees to walk: {"routingConstraintType": "Distance", "trafficType": "Walk", "min": { "value": 0,"unit": "meter" }, "max":{"value":600, "unit":"meter"}}
-ownVehicles | Array of Objects | List of own vehicles which may be included in trip proposal calculation. Sample object value {"trafficType":"Car", "useParking":true,"useParkAndRide":false, "location":{"type": "Point", "coordinates": [13.064472900000055, 52.3905689]}}
-useBikeSharing | Boolean | Use bike sharing services for routing [default: false]
-useCarSharing | Boolean | Use car sharing services for routing [default: false]
-maxRoutingResponses | Number | Number of to be provided route alternatives
-numOfTravelers | Number | Number of fellow travelers
-numOfLuggage | Number | Number of luggage pieces
-useTrafficSituation | Boolean | If set to true, the current traffic situation will be considered in the route calculation
-
-Usually a subscribed route planning service does not support all of the above parameters. In many cases that is indicated by warnings in the metaData section of the response.
-
-Notes:
-- IMR also provides routes in the past, but not for public transport
-- The IMR takes into account information about current traffic situation (traffic jams/road works/...) for route calculation.
-- Traveling time costs for proposed journeys include the following extra times: 2 minutes set-up time and 1 minute return time for free-floating car sharing and bike sharing; 2 minutes set-up time and 0 minutes return time for station-based car and bike sharing, 5 minutes parking time for free-floating car sharing and own car.
-
-
-
-
-+ Request
-
-    + Headers
-    
-            Content-Type: application/json
-            Accept: application/json
-
-    + Body
-        
-            {
-              "origin": {
-                "location": {"type": "Point", "coordinates": [ 13.41100700000004, 52.521642 ]}
-              },
-              "destination": {
-                "location": {"type": "Point", "coordinates": [ 13.319420000000036, 52.56347100000001 ]}
-              },
-              "time": "2013-07-23T15:10:00+02:00",
-              "departureTime":"true",
-              "costFunctions": [
-                {
-                  "costType": "Price",
-                  "percentage": 100
-                }
-              ],
-              "userId": "4711/10",
-              "trafficTypes": ["Walk","Bike","Car","Metro","CityTrain","Bus"],
-              "routingConstraints": [],
-              "ownVehicles": [
-                {
-                    "trafficType": "Car",
-                    "location": {"type": "Point", "coordinates": [ 13.41100700000004, 52.521642 ]},
-                    "useParking": "false",
-                    "useParkAndRide": "true",
-                    "cost":{"price":{"price":{"value": 2, "currency":"Euro"},"distance":{"value":1, "unit":"kilometer"}}, "emission":{"mass":{"value": 2, "unit":"gram"},"distance":{"value":1, "unit":"kilometer"}}}
-                },
-                {
-                    "trafficType": "Bike",
-                    "location": {"type": "Point", "coordinates": [ 13.41100700000004, 52.521642 ]}
-                } 
-              ],
-              "maxRoutingResponses": 4,
-              "numOfTravelers" : 2,
-              "numOfLuggage" : 2,
-              "useTrafficSituation" : true
-            }
-
-+ Response 200
-
-    [List of Trip Proposals with Basic Info. Intermodal Router][]
-
+            
+            
 
 # Group Public Transport
 This is a group of all public transportation related REST resources.
 
 
-## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V2/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}&f_stations={f_stations}] 
+## List of Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations?lat={lat}&lng={lng}&radius={radius}&f_stations={f_stations}] 
 
-This collection contains a list of stations (U-Bahn/S-Bahn/train/bus/tram) in a specified area with basic information and a URI to get more details.
+This collection contains a list of public transport stations (U-Bahn/S-Bahn/train/bus/tram) in a specific area with basic information and a URI to get more details.
 The area of interest can be defined as:
 
 * an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
 * an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
 
-The optional filter `f_stations` can be used to get the stations with a particular `stationType`.
+The optional filter `f_stations` can be used to get stations with a particular `stationType`.
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
 
@@ -741,21 +1536,18 @@ resources | Array | Array of resources within the search area
 description | String | Approximate location
 type | String | (="PublicTransportStation")
 uri | URI | URI to request more details
-location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
-provider | String | Service provider
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+provider | String | Service Provider
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
 stationType | String | BusTramStation, MetroStation, CityTrainStation
-platforms | String | Platforms of the station
-wheelChair | Boolean | Wheel chair accessibility
-lines | Array of Objects | Array of lines departing at the station
 modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.
 
 
 + Parameters
-    + lat (number, `48.13`) ... latitude value. Has example value.
-    + lng (number, `11.59`) ... longitude value. Has example value.
-    + radius (number, `500`) ... radius in meter. Has example value.
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `1000`) ... radius in meter. Has example value.
     + f_stations (optional, string, `{"stationType":"BusTramStation"}`) ... String `f_stations` filter value. Has example value.
 + Model (application/json)
 
@@ -765,82 +1557,46 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                 "metaData": [
                     {
                         "serviceAlias": "vmzStation",
-                        "lastUpdateTime": "2015-01-07T07:14:23+00:00",
-                        "messages": []
-                    },
-                    {
-                        "serviceAlias": "osmBerlinStation",
-                        "lastUpdateTime": "2015-01-07T07:10:41+00:00",
-                        "messages": []
-                    },
-                    {
-                        "serviceAlias": "osmMunichStation",
-                        "lastUpdateTime": "2015-01-07T07:12:46+00:00",
+                        "lastUpdateTime": "2014-07-11T12:08:22+0200",
                         "messages": []
                     }
                 ],
                 "resources": [
                     {
                         "actions": [],
-                        "id": 10573,
-                        "description": "Peter-Auzinger-StraÃe",
+                        "id": 306016,
+                        "description": "Berlin, Jüdisches Museum",
                         "type": "PublicTransportStation",
-                        "uri": null,
+                        "uri": "Resources/PublicTransport/Stations/306016",
                         "location": {
-                            "type": "Point",
-                            "coordinates": [
-                                11.58288,
-                                48.098793
-                            ]
+                            "latitude": 52.503543,
+                            "longitude": 13.395639,
+                            "system": "WGS_84"
                         },
-                        "provider": "osmMunichStation",
+                        "provider": "vmzStation",
                         "availability": 100,
-                        "operator": null,
-                        "stationType": "BusTramStation",
-                        "platforms": null,
-                        "wheelChair": null,
-                        "lines": [
-                            {
-                                "name": "139",
-                                "trafficType": "Bus"
-                            },
-                            {
-                                "name": "220",
-                                "trafficType": "Bus"
-                            }
-                        ]
+                        "operator": "VBBStation",
+                        "stationType":"BusTramStation",
+                        "modFlag": "Relocated"
                     },
                     {
                         "actions": [],
-                        "id": 10634,
-                        "description": "LincolnstraÃe",
+                        "id": 306017,
+                        "description": "Berlin, Kommandantenstr.",
                         "type": "PublicTransportStation",
-                        "uri": null,
+                        "uri": "Resources/PublicTransport/Stations/306017",
                         "location": {
-                            "type": "Point",
-                            "coordinates": [
-                                11.5904131,
-                                48.094374
-                            ]
+                            "latitude": 52.507675,
+                            "longitude": 13.40418,
+                            "system": "WGS_84"
                         },
-                        "provider": "osmMunichStation",
+                        "provider": "vmzStation",
                         "availability": 100,
-                        "operator": null,
-                        "stationType": "BusTramStation",
-                        "platforms": null,
-                        "wheelChair": null,
-                        "lines": [
-                            {
-                                "name": "220",
-                                "trafficType": "Bus"
-                            },
-                            {
-                                "name": "220",
-                                "trafficType": "Bus"
-                            }
-                        ]
+                        "operator": "VBBStation",
+                        "stationType":"BusTramStation",
+                        "modFlag": "Relocated"
                     }
-                ]    
+                ]
             }
 
 
@@ -860,9 +1616,9 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
     
     
 
-## List of All Public Transport Stations with Basic Info [/imp-endpoint/api/V2/Resources/PublicTransport/Stations/All] 
+## List of All Public Transport Stations with Basic Info [/imp-endpoint/api/V1/Resources/PublicTransport/Stations/All] 
 
-This collection contains a list of stations (U-Bahn/S-Bahn/train/bus/tram).
+This collection contains a list of public transport stations (U-Bahn/S-Bahn/train/bus/tram).
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
 
@@ -870,16 +1626,16 @@ attribute | json data type | comments
 --- | --- | ---
 metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
 --- | --- | ---
-resources | Array | Array of resources within the business area
+resources | Array | Array of resources within the search area
 --- | --- | ---
 description | String | Approximate location
 type | String | (="PublicTransportStation")
 uri | URI | URI to request more details
-location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
 provider | String | Service provider
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
-modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request. 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request.
 
 + Model (application/json)
 
@@ -888,53 +1644,45 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             {
                 "metaData": [
                     {
-                      "serviceAlias": "vmzStation",
-                      "lastUpdateTime": "2015-01-07T07:14:23+00:00",
-                      "messages": [ ]
+                        "serviceAlias": "vmzStation",
+                        "lastUpdateTime": "2014-10-14T07:48:27+02:00",
+                        "messages": []
                     }
                 ],
                 "resources": [
                     {
-                      "actions": [
-                        
-                      ],
-                      "id": 4498,
-                      "description": "HÃ¶now, Erikastr.",
-                      "type": "PublicTransportStation",
-                      "uri": "Resources/PublicTransport/Stations/PublicTransportStation/4498",
-                      "location": {
-                        "type": "Point",
-                        "coordinates": [
-                          13.627082,
-                          52.530892
-                        ]
-                      },
-                      "provider": "vmzStation",
-                      "availability": 100.0,
-                      "operator": "VBBStation",
-                      "modFlag": "Modified"  
+                        "actions": [],
+                        "id": 52696,
+                        "description": "Berlin, Wiebestr./Huttenstr.",
+                        "type": "PublicTransportStation",
+                        "uri": "Resources/PublicTransport/Stations/PublicTransportStation/52696",
+                        "location": {
+                            "latitude": 52.528315,
+                            "longitude": 13.320255,
+                            "system": "WGS_84"
+                        },
+                        "provider": "vmzStation",
+                        "availability": 100,
+                        "operator": "VBBStation",
+                        "modFlag": "Modified"
                     },
                     {
-                      "actions": [
-                        
-                      ],
-                      "id": 1306,
-                      "description": "S+U Karl-Bonhoeffer-Nervenklinik (Berlin)",
-                      "type": "PublicTransportStation",
-                      "uri": "Resources/PublicTransport/Stations/PublicTransportStation/1306",
-                      "location": {
-                        "type": "Point",
-                        "coordinates": [
-                          13.332921,
-                          52.578169
-                        ]
-                      },
-                      "provider": "vmzStation",
-                      "availability": 100.0,
-                      "operator": "VBBStation",
-                      "modFlag": "Modified"
+                        "actions": [],
+                        "id": 51655,
+                        "description": "Berlin, Waltersdorfer Str./Krumme Str.",
+                        "type": "PublicTransportStation",
+                        "uri": "Resources/PublicTransport/Stations/PublicTransportStation/51655",
+                        "location": {
+                            "latitude": 52.398914,
+                            "longitude": 13.574981,
+                            "system": "WGS_84"
+                        },
+                        "provider": "vmzStation",
+                        "availability": 100,
+                        "operator": "VBBStation",
+                        "modFlag": "Modified"
                     }
-                ]    
+                ]
             }
 
 
@@ -950,5 +1698,999 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 
 + Response 200
 
-    [List of All Public Transport Stations with Basic Info][]
+            {
+                        "metaData": [
+                            {
+                                "serviceAlias": "vmzStation",
+                                "lastUpdateTime": "2014-10-14T07:48:27+02:00",
+                                "messages": []
+                            }
+                        ],
+                        "resources": [
+                            {
+                                "actions": [],
+                                "id": 52696,
+                                "description": "Berlin, Wiebestr./Huttenstr.",
+                                "type": "PublicTransportStation",
+                                "uri": "Resources/PublicTransport/Stations/PublicTransportStation/52696",
+                                "location": {
+                                    "latitude": 52.528315,
+                                    "longitude": 13.320255,
+                                    "system": "WGS_84"
+                                },
+                                "provider": "vmzStation",
+                                "availability": 100,
+                                "operator": "VBBStation",
+                                "modFlag": "Modified"
+                            },
+                            {
+                                "actions": [],
+                                "id": 51655,
+                                "description": "Berlin, Waltersdorfer Str./Krumme Str.",
+                                "type": "PublicTransportStation",
+                                "uri": "Resources/PublicTransport/Stations/PublicTransportStation/51655",
+                                "location": {
+                                    "latitude": 52.398914,
+                                    "longitude": 13.574981,
+                                    "system": "WGS_84"
+                                },
+                                "provider": "vmzStation",
+                                "availability": 100,
+                                "operator": "VBBStation",
+                                "modFlag": "Modified"
+                            }
+                        ]
+                    }
+
+# Group Taxi Service
+This is a group of all taxi related REST resources.
+
+
+## List of available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains a list of taxis in a specified area with basic information and a URI to get more details.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+
+### Get taxis in a specified area [GET]
+@testable
+
+attribute | json data type | comments
+--- | --- | ---
+metadata | Object | List of service providers and the last update times and failures if any [{serviceAlias:"XXX",lastUpdateTime:dd-mm-yyyyThhmmssZ,messages:[]}]
+--- | --- | ---
+resources | Array | Array of resources within the search area
+--- | --- | ---
+id | Number | Internal taxi identification number
+description | String | Approximate location
+type | String | Type of taxi
+uri | URI | URI to request more details
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  } 
+provider | String | Service provider 
+availability | Double | Availability in percentage
+operator | String | Resource operator 
+size | Enum | Size of car 
+modFlag | Enum | Type of modification to resource [New / Modified / Relocated / Deleted]. This attribute is present only when the If-Modified-Since header is passed in the request. 
+
+Parts of the data structure might be omitted if the information is not available. 
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `1000`) ... radius in meter. Has example value.
     
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                  "serviceAlias": "bettertaxi",
+                  "lastUpdateTime": null,
+                  "messages": []
+                }
+            ],
+              "resources": []
+        }
+
+## List of All available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis/All] 
+
+This collection contains a list of taxis.
+
+The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time. Date-time is in HTTP date format, e.g. Wed, 09 Apr 2008 23:55:38 GMT.
+
+
+### Get taxis in a specific area [GET]
+@testable
+
++ Request
+
+    + Headers
+    
+            If-Modified-Since: Wed, 09 Apr 2008 23:55:38 GMT 
+
++ Response 200 (application/json)
+
+        {
+            "metaData": [
+                {
+                  "serviceAlias": "bettertaxi",
+                  "lastUpdateTime": null,
+                  "messages": []
+                }
+            ],
+              "resources": []
+        }        
+        
+
+# Group Journey Planner. IMR
+This is a group of all IMR journey planner related rest resources.
+
+
+## List of Trip Proposals with Basic Info. Intermodal Router [/imp-endpoint/api/V1/TripProposals/IMR] 
+
+This collection contains a list of trip proposals with basic information for specified trip criteria. Note: The trip proposals can be multimodal or intermodal, depending on which routing service the user is subscribed to.
+
+The data structure of collection contains a list of trip proposals. Each trip proposal contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+url | URI | URI containing proposalId to request more details
+origin | Object | Start point of the proposed trip
+destination | Object | Endpoint of the proposed trip
+trafficTypes | Array | List of traffic types used in the proposed trip. Possible values: Bike, Bus, Car, CityTrain, Ferry, Metro, Other, RegioTrain, Unknown, Train, Tram, Walk, UBahn. The trafficType Other is used in the segments for the start/stop procedures of car rental/parking.
+description | String | Description of the trip proposal
+costs | Array | List of costs for the proposed trip including distance, duration, price, CO2 emission and if applicable public transport ticket price.
+
+    
++ Model (application/json)
+
+    + Body
+    
+            [
+                {
+                    "url": "TripProposals/IMR/82940",
+                    "origin": {
+                        "location": {
+                            "latitude": 52.3934913,
+                            "longitude": 13.0744278,
+                            "system": "WGS_84"
+                        },
+                        "address": "Humboldtring 10, 14473 Potsdam, Germany",
+                        "time": "2014-08-27T11:23:06+02:00"
+                    },
+                    "destination": {
+                        "location": {
+                            "latitude": 52.5258182,
+                            "longitude": 13.369545,
+                            "system": "WGS_84"
+                        },
+                        "address": "Europaplatz, 10557 Berlin, Germany",
+                        "time": "2014-08-27T13:08:13+02:00"
+                    },
+                    "trafficTypes": [
+                        "Walk",
+                        "Other",
+                        "Bike"
+                    ],
+                    "description": null,
+                    "costs": {
+                        "distance": {
+                            "unit": "Meter",
+                            "value": 29183
+                        },
+                        "duration": {
+                            "unit": "Minute",
+                            "value": 105.11666666666666
+                        },
+                        "price": {
+                            "unit": "Euro",
+                            "value": 3.3005555555555555
+                        },
+                        "emission": {
+                            "unit": "Gram",
+                            "value": 0
+                        },
+                        "ticketPrice": null
+                    }
+                },
+                {
+                    "url": "TripProposals/IMR/82941",
+                    "origin": {
+                        "location": {
+                            "latitude": 52.3934913,
+                            "longitude": 13.0744278,
+                            "system": "WGS_84"
+                        },
+                        "address": "Humboldtring 10, 14473 Potsdam, Germany",
+                        "time": "2014-08-27T11:23:06+02:00"
+                    },
+                    "destination": {
+                        "location": {
+                            "latitude": 52.5258182,
+                            "longitude": 13.369545,
+                            "system": "WGS_84"
+                        },
+                        "address": "Europaplatz, 10557 Berlin, Germany",
+                        "time": "2014-08-27T13:10:16+02:00"
+                    },
+                    "trafficTypes": [
+                        "Walk",
+                        "Other",
+                        "Bike"
+                    ],
+                    "description": null,
+                    "costs": {
+                        "distance": {
+                            "unit": "Meter",
+                            "value": 29165
+                        },
+                        "duration": {
+                            "unit": "Minute",
+                            "value": 107.16666666666667
+                        },
+                        "price": {
+                            "unit": "Euro",
+                            "value": 3.276111111111111
+                        },
+                        "emission": {
+                            "unit": "Gram",
+                            "value": 0
+                        },
+                        "ticketPrice": null
+                    }
+                }
+            ]
+
+
+
+### Getting Trip Proposals by IMR Planner  [POST]
+@testable
+
+Selection criteria for trip proposals is specified in the request body as described in the sample request with the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+origin | Object | Start point specified by a geo location (optionally the start time can be set). (Addresses can be converted into geo locations by means of "GET /Resources/GeoLocations".)
+destination | Object | End point specified by a geo location (optionally the end time can be set). Tf time in the origin is specified, the time in the destination is ignored. If neither start nor end time is specified, current time is used as start time.
+viapoints | Array of Objects | List of geolocations the route should pass in the given sequence
+costFunctions | Array of Objects | List of cost factors, (such as Distance, Duration, Price, Emission), each with a percentaged weight. Sample cost function: {"costType":"Duration","percentage":100}
+ownVehicles | Array of Objects | List of own vehicles which should be included into trip proposal calculation. Sample object value {"trafficType":"Car", "useParking":true,"useParkAndRide":false, "location":{"longitude":13.064472900000055,"latitude":52.3905689,"system":"WGS84"}}
+userId | String | Traveler id that requests a trip. Note: Currently not used by IMP and can be any string
+trafficTypes | Array | List of traffic types wich may be considered in the trip proposal calculation. Currently possible: Bike, Bus, Car, CityTrain, Ferry, Metro, Other, RegioTrain, Unknown, Train, Tram, Walk, UBahn.
+routingConstraints | Array of Objects | List of constraints to be taken into account for various traffic types, specified by min/max values. E.q. maximal distance in meters the traveller agrees to walk: {"routingConstraintType": "Distance", "trafficType": "Walk", "min": { "value": 0,"unit": "Meter" }, "max":{"value":600, "unit":"Meter"}}
+useBikeSharing | Boolean | Use bike sharing services for routing [default: false]
+useCarSharing | Boolean | Use car sharing services for routing [default: false]
+
+Notes:
+- The IMR also provides routes in the past, but not for public transport.
+- The IMR takes into account information about current traffic situation (traffic jams/road works/...) for route calculation.
+- Traveling time costs for proposed journeys include the following extra times: 2 minutes set-up time and 1 minute return time for free-floating car sharing and bike sharing; 2 minutes set-up time and 0 minutes return time for station-based car and bike sharing, 5 minutes parking time for free-floating car sharing and own car.
+
+
+
+
++ Request
+
+    + Headers
+    
+            Content-Type: application/json
+            Accept: application/json
+
+    + Body
+        
+            {
+              "origin": {
+                "location": {
+                  "system": "WGS84",
+                  "longitude": 13.074760101735592,
+                  "latitude": 52.3933000574258
+                },
+                "time": "2014-08-27T14:53:06+05:30"
+              },
+              "destination": {
+                "location": {
+                  "system": "WGS84",
+                  "longitude": 13.369544930756092,
+                  "latitude": 52.52559208824942
+                },
+                "time": null
+              },
+              "viaPoints": [],
+              "costFunctions": [
+                {
+                  "percentage": 100,
+                  "costType": "Duration"
+                }
+              ],
+              "userId": "4711/10",
+              "trafficTypes": [
+                "Walk",
+                "Bike",
+                "Car",
+                "Metro",
+                "CityTrain",
+                "Bus"
+              ],
+              "routingConstraints": [
+                {
+                  "routingConstraintType": "Distance",
+                  "trafficType": "Walk",
+                  "max": {
+                    "value": "1000",
+                    "unit": "Meter"
+                  }
+                },
+                {
+                  "routingConstraintType": "Distance",
+                  "trafficType": "Car",
+                  "max": {
+                    "value": "20000",
+                    "unit": "Meter"
+                  }
+                }
+             ],
+             "useBikeSharing": "true",
+             "useCarSharing": "true", 
+             "ownVehicles":[
+                            {  "trafficType":"Car",
+                                "useParking":"true",
+                                "useParkAndRide":"true"
+                            }
+                        ]
+            }
+
++ Response 200
+
+    [List of Trip Proposals with Basic Info. Intermodal Router][]
+
+
+# Group Journey Planner. Car Router
+This is a group of all journey planner Car Router related REST resources.
+            
+
+## List of Trip Proposals with Basic Info. Car Journey Planner [/imp-endpoint/api/V1/TripProposals/CarRouter] 
+
+This collection contains trip proposals with basic information for specified trip criteria.
+The data structure of the response contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+url | URI | URI to request more details
+origin | Object | Start point of the proposed trip
+destination | Object | Endpoint of the proposed trip
+trafficTypes | Array | List of traffic types used in the proposed trip. Currently: Bike, Bus, Car, CityTrain, Ferry, Metro, Other, RegioTrain, Unknown, Train, Tram, Walk, UBahn. trafficType Other is used in the segments for car rental/parking  
+description | String | 
+costs | Array | List of costs for the proposed trip
+    
++ Model (application/json)
+
+    + Body
+    
+            [
+                {
+                    "url": "TripProposals/CarRouter/80844",
+                    "origin": {
+                        "location": {
+                            "latitude": 52.39419937133789,
+                            "longitude": 13.07367992401123,
+                            "system": "WGS_84"
+                        },
+                        "address": null,
+                        "time": "2014-03-27T13:04:40+01:00"
+                    },
+                    "destination": {
+                        "location": {
+                            "latitude": 52.563589,
+                            "longitude": 13.319065,
+                            "system": "WGS_84"
+                        },
+                        "address": null,
+                        "time": "2014-03-27T14:48:09+01:00"
+                    },
+                    "trafficTypes": [
+                        "Car"
+                    ],
+                    "description": null,
+                    "costs": {
+                        "distance": null,
+                        "duration": {
+                            "unit": "Second",
+                            "value": 5947.563361271776
+                        },
+                        "price": null,
+                        "emission": null,
+                        "ticketPrice": null
+                    }
+                }
+            ]
+
+
+
+### Getting Trip Proposals by Car Journey Planner [POST]
+@testable
+
+Selection criteria is specified in the request body as described in the sample request:
+
+origin: Start point specified by a geo location (addresses can be converted into geo locations by means of "GET /Resources/GeoLocations")
+
+destination: Start point specified by a geo location. Either orgin or destination might specify a time.
+
+viaPoints: List of geo locations that the route should pass in the given sequence
+
+costFunctions: List of cost factors (such as Distance, Duration, Price, Emission), each with a percentual weight 
+
+routingConstraints: List of constraints to be taken into account for various traffic types, specified by min/max values
+
+userId: User that requests a trip
+
++ Request
+
+    + Headers
+    
+            Content-Type: application/json
+            Accept: application/json
+
+    + Body
+        
+            {
+                  "origin": {
+                    "location": {
+                      "longitude": 13.072690999999963,
+                      "latitude": 52.3941887,
+                      "system": "WGS84"
+                    },
+                    "time": "2014-03-27T12:04:02UTC+05:30"
+                  },
+                  "destination": {
+                    "location": {
+                      "longitude": 13.319420000000036,
+                      "latitude": 52.56347100000001,
+                      "system": "WGS84"
+                    },
+                    "time": null
+                  },
+                  "viaPoints": [],
+                  "costFunctions": [],
+                  "userId": "4711/10",
+                  "routingConstraints": []
+            }
+
++ Response 200 
+
+    [List of Trip Proposals with Basic Info. Car Journey Planner][]          
+
+# Group Incidents / Traffic Info
+This is a group of all incidents related REST resources.
+
+
+## List of Incidents [/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains a list of recent general incidents (incidents that affect public AND individual transport) in a specified area of interest with an URI to get more details.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The data structure of the response contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+category | Enum | {"Roadworks", "Blockade", "Indefinition"} are the categories for the incidents with type "IncidentIndividualTransport", {"ConstructionProject", "Imbalance", "Diversion", "RailReplacement", "ShuttleService"} are the categories for incidents with type "IncidentPublicTransport"
+message | String | 
+timePeriod | Object | Time period of the incident
+reason | String | Full description of reason
+reasonShort | String | Short description of reason
+consequence | String | Full description of consequence
+consequenceShort | String | Short description of consequence
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+source | String | {= "PT", "INKO", etc.}
+affectedTrips | Array | List of affected trips
+net | NetType  | 
+description | String | Description of an incident information
+type | String | There are 2 types of incidents: Incidents with the type "IncidentIndividualTransport" affect individual transport (car, bicycle), incidents with the type "IncidentPublicTransport" affect public transport (bus, tram, etc.).
+uri | URI | URI
+provider | String | Service provider
+operator | Enum | {"News", etc.}
+externalResourceId | String | ID in external provider system
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `2000`) ... radius in meter. Has example value.
+    
++ Model (application/json)
+
+    + Body
+    
+            [
+                {
+                    "category": "Blockade",
+                    "message": "Closed Road",
+                    "timePeriod": {
+                        "from": "2012-11-09T12:00:00+01:00",
+                        "to": "2014-08-31T17:00:59+02:00"
+                    },
+                    "reason": null,
+                    "reasonShort": null,
+                    "consequence": null,
+                    "consequenceShort": null,
+                    "location": {
+                        "latitude": 52.51774,
+                        "longitude": 13.38868,
+                        "system": "WGS_84"
+                    },
+                    "source": "INKO",
+                    "affectedTrips": null,
+                    "net": [],
+                    "description": "Roadworks carriageway reduced from 2 to 1 lane traffic, congestion has to be expected road closed direction closed",
+                    "type": "IndividualTransport",
+                    "uri": null,
+                    "provider": "vmz_trafficinfo",
+                    "operator": "News",
+                    "externalResourceId": "INKO_113388"
+                },
+                {
+                    "category": "Roadworks",
+                    "message": "Road Work",
+                    "timePeriod": {
+                        "from": "2012-04-11T09:00:00+02:00",
+                        "to": "2016-05-15T17:00:59+02:00"
+                    },
+                    "reason": null,
+                    "reasonShort": null,
+                    "consequence": null,
+                    "consequenceShort": null,
+                    "location": {
+                        "latitude": 52.51753,
+                        "longitude": 13.39682,
+                        "system": "WGS_84"
+                    },
+                    "source": "INKO",
+                    "affectedTrips": null,
+                    "net": [],
+                    "description": "Roadworks, new road layout, carriageway reduced to one lane",
+                    "type": "IndividualTransport",
+                    "uri": null,
+                    "provider": "vmz_trafficinfo",
+                    "operator": "News",
+                    "externalResourceId": "INKO_113041"
+                }
+            ]
+
+
+
+### Getting all incidents [GET]
+@testable
+
++ Response 200
+
+    [List of Incidents][]
+    
+
+## List of All Incidents [/imp-endpoint/api/V1/Info/Incidents/All] 
+
+This collection contains a list of recent general incidents (incidents that affect public AND individual transport). 
+The data structure of the response contains the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+category | Enum | {"Roadworks", "Blockade", "Indefinition", "Congestion"} are the categories for the incidents with type "IncidentIndividualTransport", {"Construction", "Imbalance", "Diversion", "RailReplacement"} are the categories for incidents with type "IncidentPublicTransport"
+message | String | 
+timePeriod | Object | Time period of the incident
+reason | String | Full description of reason
+reasonShort | String |  Short description of reason
+consequence | String |  Full description of consequence
+consequenceShort | String | Short description of consequence
+location | Object | Standard WGS 84 for polar coordinates { "latitude":Number, "longitude":Number, "system": ENUM{"WGS_84","GK4","ETRS89",...}  }
+source | String | {= "PT", "INKO", etc.}
+affectedTrips | Array | List of affected trips
+net | NetType  | 
+description | String | Description of an incident information
+type | String | There are 2 types of incidents: Incidents with the type "IncidentIndividualTransport" affect individual transport (car, bicycle), incidents with the type "IncidentPublicTransport" affect public transport (bus, tram, etc.).
+uri | URI | URI
+provider | String | Service provider
+operator | Enum | {"News", etc.}
+externalResourceId | String | ID in external provider system
+
+
+
+
+### Getting all incidents [GET]
+@testable
+
++ Response 200
+
+    [List of Incidents][]
+    
+    
+    
+
+## List of individual transport Incidents [/imp-endpoint/api/V1/Info/Incidents/IndividualTransport?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains list of recent incidents that affect individual transport only in a specified area of interest.
+The area of interest can be defined as:
+
+* an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
+* an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally the roadName attribute.
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `2000`) ... radius in meter. Has example value.
+    
++ Model
+
+        [
+            {
+                "category": "Blockade",
+                "message": "Closed Road",
+                "timePeriod": {
+                    "from": "2014-01-06T11:03:00+01:00",
+                    "to": "2014-12-31T23:59:00+01:00"
+                },
+                "reason": null,
+                "reasonShort": null,
+                "consequence": null,
+                "consequenceShort": null,
+                "location": {
+                    "latitude": 52.51680860970485,
+                    "longitude": 13.385821218640254,
+                    "system": "WGS_84"
+                },
+                "source": "Concert",
+                "affectedTrips": null,
+                "net": [],
+                "description": "Roadworks, direction closed",
+                "type": "IndividualTransport",
+                "uri": null,
+                "provider": "vmz_trafficinfo",
+                "operator": "News",
+                "externalResourceId": "2147338066",
+                "roadName": "Unter den Linden (Mitte)"
+            },
+            {
+                "category": "Roadworks",
+                "message": "Road Work",
+                "timePeriod": {
+                    "from": "2012-04-11T09:00:00+02:00",
+                    "to": "2016-05-15T17:00:59+02:00"
+                },
+                "reason": null,
+                "reasonShort": null,
+                "consequence": null,
+                "consequenceShort": null,
+                "location": {
+                    "latitude": 52.51753,
+                    "longitude": 13.39682,
+                    "system": "WGS_84"
+                },
+                "source": "INKO",
+                "affectedTrips": null,
+                "net": [],
+                "description": "Roadworks, new road layout, carriageway reduced to one lane",
+                "type": "IndividualTransport",
+                "uri": null,
+                "provider": "vmz_trafficinfo",
+                "operator": "News",
+                "externalResourceId": "INKO_113041",
+                "roadName": "Unter den Linden (Mitte)"
+            }
+        ]
+
+
+### Getting recent general incidents that affect individual transport only in a specific area. [GET]
+@testable
+
++ Response 200
+
+    [List of individual transport Incidents][]
+
+
+## List of public transport Incidents [/imp-endpoint/api/V1/Info/Incidents/PublicTransport?lat={lat}&lng={lng}&radius={radius}] 
+
+This collection contains a list of recent incidents that affect public transport only in a specified area.
+The area of interest can be defined as:
+
+* a bounding circle (lat={lat}&lng={lng}&radius={radius})
+* a bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
+
+The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally information about line name, first and last stop and line direction.
+
++ Parameters
+    + lat (number, `52.52`) ... latitude value. Has example value.
+    + lng (number, `13.39`) ... longitude value. Has example value.
+    + radius (number, `2000`) ... radius in meter. Has example value.
+
++ Model (application/json)
+
+    + Body
+    
+            [
+                {
+                    "category": "ConstructionProject",
+                    "message": "Disruption",
+                    "timePeriod": {
+                        "from": "2013-08-26T01:00:00+02:00",
+                        "to": null
+                    },
+                    "reason": "Sperrung wegen Bauarbeiten der BVG",
+                    "reasonShort": "Sperrung wegen Bauarbeiten der BVG",
+                    "consequence": "Die Linie verkehrt nur zwischen Riesaer Str. und S Hackescher Markt. Die Haltestellen zwischen S Hackescher Markt und U Schwartzkopffstr. werden nicht bedient. Ein Ersatzverkehr mit Bussen ist nicht eingerichtet. Fahrempfehlung: Fahrgäste in Richtung U Schwartzkopffstr. nutzen zur Weiterfahrt bitte die Linien M1 bzw. 12 von der Haltestelle S Hackescher Markt in der Rosenthaler Str. bis U Oranienburger Tor bzw. die S-Bahn bis S+U Friedrichstr. und von dort die U6 in Richtung Alt-Tegel.",
+                    "consequenceShort": "Bauarbeiten, Sperrung Streckenabschnitt lnvalidenstr./Chausseestr. &lt;&gt; U Schwartzkopffstr.",
+                    "location": {
+                        "latitude": 52.52165861111111,
+                        "longitude": 13.40267888888889,
+                        "system": "WGS_84"
+                    },
+                    "source": "PT",
+                    "affectedTrips": null,
+                    "net": [],
+                    "description": "Baumaßnahme",
+                    "type": "PublicTransport",
+                    "uri": null,
+                    "provider": "vmz_trafficinfo",
+                    "operator": "News",
+                    "externalResourceId": "BVG50554",
+                    "direction": "Beide",
+                    "firstStop": "S Hackescher Markt",
+                    "lastStop": "S Hackescher Markt",
+                    "lineName": {
+                        "name": "M6",
+                        "trafficType": "Tram"
+                    }
+                },
+                {
+                    "category": "Diversion",
+                    "message": "Disruption",
+                    "timePeriod": {
+                        "from": "2014-07-02T04:00:00+02:00",
+                        "to": null
+                    },
+                    "reason": "Sperrung wegen Bauarbeiten",
+                    "reasonShort": "Sperrung wegen Bauarbeiten",
+                    "consequence": "Die Linie muss in Fahrtrichtung S+U Zoologischer Garten über Caroline-Michaelis-Str., Julie-Wolfthorn-Str., Zinnowitzer Str., Chausseestr., Habersaathstr. und Schwarzer Weg umgeleitet werden.",
+                    "consequenceShort": "Bauarbeiten, Umleitung",
+                    "location": {
+                        "latitude": 52.53041916666667,
+                        "longitude": 13.382412777777777,
+                        "system": "WGS_84"
+                    },
+                    "source": "PT",
+                    "affectedTrips": null,
+                    "net": [],
+                    "description": "Umleitung / geänderte Haltestellenbedienung",
+                    "type": "PublicTransport",
+                    "uri": null,
+                    "provider": "vmz_trafficinfo",
+                    "operator": "News",
+                    "externalResourceId": "BVG54186",
+                    "direction": "Beide",
+                    "firstStop": "S Nordbahnhof/Gartenstr.",
+                    "lastStop": "Invalidenpark",
+                    "lineName": {
+                        "name": "245",
+                        "trafficType": "Bus"
+                    }
+                }
+            ]
+
+
+
+### Getting recent general incidents that affect public transport only in a specific area. [GET]
+@testable
+
++ Response 200
+
+    [List of public transport Incidents][]
+
+
+# Group Service Categories
+
+This is a group of all REST resources related to available service categories. Services offered by service providers have to be classified with one of these service categories.
+
+
+## Service Categories [/imp-endpoint/api/V1/ServiceCategories] 
+
+RESPONSE:
+This collection contains a list of all currently available service categories in IMP. Each service category has the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+id | Number | internal id
+name | String | Service Category name
+
++ Model (application/json)
+    
+        [
+            {
+                "id": 33,
+                "name": "BikeSharing"
+            },
+            {
+                "id": 126351,
+                "name": "CarJourneyPlanner"
+            },
+            {
+                "id": 32,
+                "name": "CarSharing"
+            },
+            {
+                "id": 34,
+                "name": "EVCharging"
+            },
+            {
+                "id": 38,
+                "name": "GeoCoding"
+            },
+            {
+                "id": 36,
+                "name": "JourneyPlanner"
+            },
+            {
+                "id": 28,
+                "name": "Parking"
+            },
+            {
+                "id": 29,
+                "name": "PublicTransport"
+            },
+            {
+                "id": 37,
+                "name": "TaxiService"
+            },
+            {
+                "id": 31,
+                "name": "Ticketing"
+            },
+            {
+                "id": 30,
+                "name": "TrafficInfo"
+            },
+            {
+                "id": 35,
+                "name": "WMS"
+            }
+        ]
+
+
+
+### Show service categories [GET]
+@testable
+
++ Response 200
+    
+    [Service Categories][]
+    
+            
+
+# Group Process Definitions
+
+Some of IMP resources are linked to BPMN processes. These resources contain actions in the URL, similar to "Resources/Parking/Garages/270113/Process?action=consume"
+This group describes REST resources which can be used to list possible BPMN process definitions.
+
+
+## Process Definitions for Service Usage [/imp-endpoint/api/V1/ProcessDefinitions/ServiceUsage] 
+
+RESPONSE:
+This collection contains a list of process definitions of the type service usage. Each process has the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+id | String | Process id
+name | String | Process name
+description | String | 
+processCategory | String | Category of the process (ServiceUsage, ...)
+requiredFeatures | Array | List of features (BOOKING, CANCELATION, etc.)
+
++ Model (application/json)
+    
+        [
+            {
+                "id": "bookingWithCancelation",
+                "name": "Booking / Cancelation",
+                "description": null,
+                "processCategory": "ServiceUsage",
+                "requiredFeatures": [
+                    "BOOKING",
+                    "CANCELATION"
+                ]
+            },
+            {
+                "id": "bookingWithoutCancelation",
+                "name": "Booking",
+                "description": null,
+                "processCategory": "ServiceUsage",
+                "requiredFeatures": [
+                    "BOOKING"
+                ]
+            },
+            {
+                "id": "handyticketBookingProcess",
+                "name": "HandyTicket Booking",
+                "description": null,
+                "processCategory": "ServiceUsage",
+                "requiredFeatures": [
+                    "BUY",
+                    "CONFIRM"
+                ]
+            },
+            {
+                "id": "vmzParkingGarage",
+                "name": "Parking Garage",
+                "description": null,
+                "processCategory": "ServiceUsage",
+                "requiredFeatures": [
+                    "CONSUME",
+                    "RELEASE"
+                ]
+            }
+        ]
+
+
+
+### getting service usage BPMN process definitions [GET]
+@testable
+
++ Response 200
+    
+    [Process Definitions for Service Usage][]
+
+## Process Definitions for Service Subscription [/imp-endpoint/api/V1/ProcessDefinitions/ServiceSubscription] 
+
+RESPONSE:
+This collection contains a list of process definitions of the type service subscription. Each process has the following attributes:
+
+attribute | json data type | comments
+--- | --- | ---
+id | String | Process id
+name | String | Process name
+description | String | 
+processCategory | String | Category of the process (ServiceUsage, ...)
+requiredFeatures | Array | List of features (BOOKING, CANCELATION, etc.)
+
++ Model (application/json)
+    
+        [
+            {
+                "id": "subscribePublicFree",
+                "name": "Public & free",
+                "description": null,
+                "processCategory": "ServiceSubscription",
+                "requiredFeatures": []
+            },
+            {
+                "id": "subscribeWithAcceptance",
+                "name": "Acceptance process",
+                "description": null,
+                "processCategory": "ServiceSubscription",
+                "requiredFeatures": []
+            },
+            {
+                "id": "subscribeWithAutomaticAcceptance",
+                "name": "Automatic acceptance",
+                "description": null,
+                "processCategory": "ServiceSubscription",
+                "requiredFeatures": []
+            }
+        ]
+
+
+### getting service subscription BPMN process definitions [GET]
+@testable
+
++ Response 200
+    
+    [Process Definitions for Service Subscription][]
