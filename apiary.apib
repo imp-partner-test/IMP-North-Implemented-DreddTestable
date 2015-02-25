@@ -121,7 +121,7 @@ Parts of the data structure might be omitted if the information is not available
             ]
         }
 
-## All Bike Sharing Stations [/imp-endpoint/api/V1/Resources/BikeSharing/All]    
+## All Bike Sharing Stations [/imp-endpoint/api/V2/Resources/BikeSharing/All]    
 This collection contains a list of all bike sharing stations.
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
@@ -235,7 +235,7 @@ Parts of the data structure might be omitted if the information is not available
 This is a group of all car sharing related rest resources.
 
 
-## List of Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}&f_cars={f_carsJson}] 
+## List of Car Sharing Locations with Basic Info [/imp-endpoint/api/V2/Resources/CarSharing/All?lat={lat}&lng={lng}&radius={radius}&f_cars={f_carsJson}] 
 
 This collection contains a list of available car sharing locations in an area of interest specified by the query parameters (both free-floating cars and/or car sharing stations) 
 with basic information and an URI to acquire more details.
@@ -350,7 +350,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
               ]
             } 
 
-## List of All Car Sharing Locations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/All] 
+## List of All Car Sharing Locations with Basic Info [/imp-endpoint/api/V2/Resources/CarSharing/All] 
 
 This collection contains a list of all available car sharing locations (both free-floating cars and/or car sharing stations) 
 with basic information and an URI to acquire more details.
@@ -473,7 +473,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
               ]
             }
 
-## List of free-floating Cars with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
+## List of free-floating Cars with Basic Info [/imp-endpoint/api/V2/Resources/CarSharing/Cars?lat={lat}&lng={lng}&radius={radius}&f_cars={fuelTypeJson}]
 
 This collection contains a list of available free-floating cars in a specific area specified by query parameters.
 The area of interest can be defined as:
@@ -607,7 +607,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             }
         
 
-## List of Stations with Basic Info [/imp-endpoint/api/V1/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={f_carsJson}]
+## List of Stations with Basic Info [/imp-endpoint/api/V2/Resources/CarSharing/Stations?lat={lat}&lng={lng}&radius={radius}&f_cars={f_carsJson}]
 
 This collection contains a list of car sharing stations in an area of interest specified by the query parameters,
 together with basic information and an URI to acquire more details.
@@ -730,7 +730,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 This is a group of all EV Charging related rest resources.
     
 
-## List of EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
+## List of EV Charging Stations with Basic Info [/imp-endpoint/api/V2/Resources/EVCharging/Stations?lat={lat}&lng={lng}&radius={radius}]
 This collection contains a list of all electric vehicle (EV) charging stations in an area of interest specified by query parameters, 
 together with geo location, name, and a URI to acquire more details.
 The area of interest can be defined as:
@@ -823,7 +823,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
             ]
         }
 
-## List of All EV Charging Stations with Basic Info [/imp-endpoint/api/V1/Resources/EVCharging/Stations/All]
+## List of All EV Charging Stations with Basic Info [/imp-endpoint/api/V2/Resources/EVCharging/Stations/All]
 This collection contains a list of all electric vehicle (EV) charging stations.
 
 The (optional) If-Modified-Since can be set to a specific date-time in order to request only resources modified after a particular date-time.
@@ -1492,7 +1492,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
 This is a group of all taxi related REST resources.
 
 
-## List of available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
+## List of available Taxis with Basic Info [/imp-endpoint/api/V2/Resources/TaxiService/Taxis?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains a list of taxis in a specified area with basic information and a URI to get more details.
 The area of interest can be defined as:
@@ -1549,7 +1549,7 @@ Parts of the data structure might be omitted if the information is not available
               "resources": []
         }
 
-## List of All available Taxis with Basic Info [/imp-endpoint/api/V1/Resources/TaxiService/Taxis/All] 
+## List of All available Taxis with Basic Info [/imp-endpoint/api/V2/Resources/TaxiService/Taxis/All] 
 
 This collection contains a list of taxis.
 
@@ -1804,7 +1804,7 @@ Notes:
 This is a group of all journey planner Car Router related REST resources.
             
 
-## List of Trip Proposals with Basic Info. Car Journey Planner [/imp-endpoint/api/V1/TripProposals/CarRouter] 
+## List of Trip Proposals with Basic Info. Car Journey Planner [/imp-endpoint/api/V2/TripProposals/CarRouter] 
 
 This collection contains trip proposals with basic information for specified trip criteria.
 The data structure of the response contains the following attributes:
@@ -1919,7 +1919,7 @@ userId: User that requests a trip
 This is a group of all incidents related REST resources.
 
 
-## List of Incidents [/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius}] 
+## List of Incidents [/imp-endpoint/api/V2/Info/Incidents?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains a list of recent general incidents (incidents that affect public AND individual transport) in a specified area of interest with an URI to get more details.
 The area of interest can be defined as:
@@ -2023,7 +2023,7 @@ externalResourceId | String | ID in external provider system
     [List of Incidents][]
     
 
-## List of All Incidents [/imp-endpoint/api/V1/Info/Incidents/All] 
+## List of All Incidents [/imp-endpoint/api/V2/Info/Incidents/All] 
 
 This collection contains a list of recent general incidents (incidents that affect public AND individual transport). 
 The data structure of the response contains the following attributes:
@@ -2061,7 +2061,7 @@ externalResourceId | String | ID in external provider system
     
     
 
-## List of individual transport Incidents [/imp-endpoint/api/V1/Info/Incidents/IndividualTransport?lat={lat}&lng={lng}&radius={radius}] 
+## List of individual transport Incidents [/imp-endpoint/api/V2/Info/Incidents/IndividualTransport?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains list of recent incidents that affect individual transport only in a specified area of interest.
 The area of interest can be defined as:
@@ -2069,7 +2069,7 @@ The area of interest can be defined as:
 * an (optional) bounding circle (lat={lat}&lng={lng}&radius={radius})
 * an (optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
 
-The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally the roadName attribute.
+The data structure contains the attributes as in *[/imp-endpoint/api/V2/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally the roadName attribute.
 
 + Parameters
     + lat (number, `52.52`) ... latitude value. Has example value.
@@ -2144,7 +2144,7 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
     [List of individual transport Incidents][]
 
 
-## List of public transport Incidents [/imp-endpoint/api/V1/Info/Incidents/PublicTransport?lat={lat}&lng={lng}&radius={radius}] 
+## List of public transport Incidents [/imp-endpoint/api/V2/Info/Incidents/PublicTransport?lat={lat}&lng={lng}&radius={radius}] 
 
 This collection contains a list of recent incidents that affect public transport only in a specified area.
 The area of interest can be defined as:
@@ -2152,7 +2152,7 @@ The area of interest can be defined as:
 * an (optinal) bounding circle (lat={lat}&lng={lng}&radius={radius})
 * an (Optional) bounding box (left_lower_lat={min_lat}&left_lower_lng={min_lng}&right_upper_lat={max_lat}&right_upper_lng={max_lng})
 
-The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally information about line name, first and last stop and line direction.
+The data structure contains the attributes as in *[/imp-endpoint/api/V2/Info/Incidents?lat={lat}&lng={lng}&radius={radius]* and additionally information about line name, first and last stop and line direction.
 
 + Parameters
     + lat (number, `52.52`) ... latitude value. Has example value.
@@ -2247,7 +2247,7 @@ The data structure contains the attributes as in *[/imp-endpoint/api/V1/Info/Inc
 This is a group of all REST resources related to available service categories. Services offered by service providers have to be classified with one of these service categories.
 
 
-## Service Categories [/imp-endpoint/api/V1/ServiceCategories] 
+## Service Categories [/imp-endpoint/api/V2/ServiceCategories] 
 
 RESPONSE:
 This collection contains a list of all currently available service categories in IMP. Each service category has the following attributes:
@@ -2327,7 +2327,7 @@ Some of IMP resources are linked to BPMN processes. These resources contain acti
 This group describes REST resources which can be used to list possible BPMN process definitions.
 
 
-## Process Definitions for Service Usage [/imp-endpoint/api/V1/ProcessDefinitions/ServiceUsage] 
+## Process Definitions for Service Usage [/imp-endpoint/api/V2/ProcessDefinitions/ServiceUsage] 
 
 RESPONSE:
 This collection contains a list of process definitions of the type service usage. Each process has the following attributes:
@@ -2393,7 +2393,7 @@ requiredFeatures | Array | List of features (BOOKING, CANCELATION, etc.)
     
     [Process Definitions for Service Usage][]
 
-## Process Definitions for Service Subscription [/imp-endpoint/api/V1/ProcessDefinitions/ServiceSubscription] 
+## Process Definitions for Service Subscription [/imp-endpoint/api/V2/ProcessDefinitions/ServiceSubscription] 
 
 RESPONSE:
 This collection contains a list of process definitions of the type service subscription. Each process has the following attributes:
