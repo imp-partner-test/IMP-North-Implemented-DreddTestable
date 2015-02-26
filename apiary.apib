@@ -812,9 +812,11 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                     "type": "EVChargingStation",
                     "uri": "Resources/EVCharging/Stations/268355",
                     "location": {
-                        "latitude": 52.51474,
-                        "longitude": 13.38639,
-                        "system": "WGS_84"
+                        "type": "Point",
+                        "coordinates": [
+                            13.38639,
+                            52.51474
+                        ]
                     },
                     "provider": "vattenfall",
                     "availability": 0,
@@ -1926,7 +1928,7 @@ userId: User that requests a trip
                             13.072690999999963,
                             52.3941887
                         ]
-                    },
+                    }
                 },
                 "destination": {
                     "location": {
@@ -1935,7 +1937,7 @@ userId: User that requests a trip
                             13.319420000000036,
                             52.56347100000001
                         ]
-                    },
+                    }
                 },
                 "time": "2014-03-27T12:04:02+02:00",
                 "departureTime":"true",
