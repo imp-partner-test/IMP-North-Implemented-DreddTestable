@@ -1539,8 +1539,10 @@ resources | Array | Array of resources within the search area
 id | Number | Internal taxi identification number
 description | String | Approximate location
 type | String | Type of taxi
+model | String | Model of taxi, e.g. MB W212
 uri | URI | URI to request more details
 location | Object | Standard GeoJSON with 'Point' geometry type. { "type": "Point", "coordinates": ["longitude":Number, "latitude":Number] }
+remainingTime | Object | Required time the taxi would need to reach the center of the requested region. The way the time is calculated may depend on the service provider. { "value": Number, "unit": String }
 provider | String | Service provider 
 availability | Double | Availability in percentage
 operator | String | Resource operator 
