@@ -1340,6 +1340,7 @@ provider | String | Service provider
 availability | Double | Availability in percentage
 operator | String | Bus/tram (="VBBStation"), metro (="VBBStationU"), S-Bahn (="VBBStationS")
 stationType | String | BusTramStation, MetroStation, CityTrainStation
+stationTypes | List of Enum(PublicTransportStationType) | MetroStation, CityTrainStation, TrainStation, BusStation, TramStation, RegioTrainStation, FerryStation, PublicTransportStation
 platforms | String | Platforms of the station
 wheelChair | Boolean | Wheel chair accessibility
 lines | Array of Objects | Array of lines departing at the station
@@ -1395,6 +1396,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                         "availability": 100,
                         "operator": null,
                         "stationType": "BusTramStation",
+                        "stationTypes": ["BusStation","TramStation"],
                         "platforms": null,
                         "wheelChair": null,
                         "lines": null
@@ -1416,6 +1418,7 @@ modFlag | Enum | Type of modification to resource [New / Modified / Relocated / 
                         "availability": 100,
                         "operator": null,
                         "stationType": "BusTramStation",
+                        "stationTypes": ["BusStation","TramStation"],
                         "platforms": null,
                         "wheelChair": null,
                         "lines": [
